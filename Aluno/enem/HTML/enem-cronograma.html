@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudeX | Cronograma ENEM</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../CSS/enem-cronograma.css">
+    <link rel="stylesheet" href="../CSS/enem.css">
+    <link rel="stylesheet" href="../CSS/themes.css">
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+ <section class="user-dashboard">
+        <!-- SIDEBAR (Menu Lateral) -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+                <span class="logo-text">EstudeX</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="../../../Home/HTML/home-Estudex.html" class="nav-item"><i class="fas fa-home"></i> <span>Home</span></a></li>
+                    <li><a href="../../../Aluno/perfil/HTML/perfil-Estudex.html" class="nav-item"><i class="fas fa-user"></i> <span>Perfil</span></a></li>
+                    <li><a href="../../../Aluno/duvidas/HTML/duvidas-Estudex.html" class="nav-item"><i class="fas fa-question-circle"></i> <span>Dúvidas</span></a></li>
+                    <li><a href="../../../Aluno/atividade/HTML/atividades-Estudex.html" class="nav-item"><i class="fas fa-tasks"></i> <span>Atividades</span></a></li>
+                       <li><a href="../../comunicados_aluno/HTML/alunoComunicados.html" class="nav-item"><i class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                    <li><a href="../../../Aluno/desempenho/HTML/desempenho-Estudex.html" class="nav-item"><i class="fas fa-chart-line"></i> <span>Desempenho</span></a></li>
+                    <li><a href="../../../Aluno/enem/HTML/enem.html" class="nav-item"><i class="fas fa-book"></i> <span>Enem</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+            <a href="../../../Login/HTML/login.html" class="nav-item" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sair</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="enem-container">
+
+            <!-- Cabeçalho da página -->
+            <div class="enem-card header-card">
+                <h1 class="page-title">
+                    <i class="fas fa-calendar-alt"></i> Cronograma ENEM 2026
+                </h1>
+                <p class="page-subtitle">
+                    Fique por dentro de todas as datas importantes do Exame Nacional do Ensino Médio
+                </p>
+            </div>
+
+            <!-- CARD 1: PRÓXIMOS EVENTOS (Dinâmico vindo da API) -->
+            <div class="enem-card cronograma-card" id="proximos-eventos">
+                <div class="card-header-with-number">
+                    <div class="card-number">⏰</div>
+                    <h2 class="card-title-light">Próximos Eventos</h2>
+                </div>
+                
+                <div class="filtros-evento">
+                    <button class="filtro-btn ativo" data-filtro="todos">Todos</button>
+                    <button class="filtro-btn" data-filtro="inscricao">Inscrições</button>
+                    <button class="filtro-btn" data-filtro="prova">Provas</button>
+                    <button class="filtro-btn" data-filtro="resultado">Resultados</button>
+                    <button class="filtro-btn" data-filtro="sisu">SISU</button>
+                    <button class="filtro-btn" data-filtro="prouni">ProUni</button>
+                    <button class="filtro-btn" data-filtro="fies">FIES</button>
+                </div>
+
+                <div class="eventos-grid" id="eventos-lista">
+                    <!-- Eventos serão carregados via JavaScript -->
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i> Carregando cronograma...
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 2: LINHA DO TEMPO ANUAL -->
+            <div class="enem-card timeline-card">
+                <div class="card-header-with-number">
+                    <div class="card-number">📊</div>
+                    <h2 class="card-title-light">Linha do Tempo ENEM 2026</h2>
+                </div>
+
+                <div class="timeline-container">
+                    <div class="timeline-meses">
+                        <span class="mes">JAN</span>
+                        <span class="mes">FEV</span>
+                        <span class="mes">MAR</span>
+                        <span class="mes">ABR</span>
+                        <span class="mes">MAI</span>
+                        <span class="mes">JUN</span>
+                        <span class="mes">JUL</span>
+                        <span class="mes">AGO</span>
+                        <span class="mes">SET</span>
+                        <span class="mes">OUT</span>
+                        <span class="mes">NOV</span>
+                        <span class="mes">DEZ</span>
+                        <span class="mes">JAN/27</span>
+                    </div>
+                    
+                    <div class="timeline-eventos">
+                        <!-- Inscrições -->
+                        <div class="timeline-evento" style="left: 12%; width: 10%; background-color: #4CAF50">
+                            <span class="timeline-tooltip">Inscrições ENEM</span>
+                        </div>
+                        
+                        <!-- Provas -->
+                        <div class="timeline-evento" style="left: 75%; width: 6%; background-color: #2196F3">
+                            <span class="timeline-tooltip">1º dia de prova</span>
+                        </div>
+                        <div class="timeline-evento" style="left: 82%; width: 6%; background-color: #2196F3">
+                            <span class="timeline-tooltip">2º dia de prova</span>
+                        </div>
+                        
+                        <!-- Resultado -->
+                        <div class="timeline-evento" style="left: 98%; width: 5%; background-color: #FF9800">
+                            <span class="timeline-tooltip">Resultado</span>
+                        </div>
+                        
+                        <!-- SISU -->
+                        <div class="timeline-evento" style="left: 103%; width: 5%; background-color: #9C27B0">
+                            <span class="timeline-tooltip">SISU</span>
+                        </div>
+                        
+                        <!-- ProUni/FIES -->
+                        <div class="timeline-evento" style="left: 108%; width: 5%; background-color: #E91E63">
+                            <span class="timeline-tooltip">ProUni/FIES</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-legend">
+                    <div class="legend-item">
+                        <span class="legend-cor" style="background-color: #4CAF50"></span>
+                        <span>Inscrições</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-cor" style="background-color: #2196F3"></span>
+                        <span>Provas</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-cor" style="background-color: #FF9800"></span>
+                        <span>Resultado</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-cor" style="background-color: #9C27B0"></span>
+                        <span>SISU</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-cor" style="background-color: #E91E63"></span>
+                        <span>ProUni/FIES</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 3: CALENDÁRIO COMPLETO -->
+            <div class="enem-card calendario-card">
+                <div class="card-header-with-number">
+                    <div class="card-number">📋</div>
+                    <h2 class="card-title-light">Calendário Completo 2026/2027</h2>
+                </div>
+
+                <div class="calendario-tabela">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Evento</th>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><i class="fas fa-pen-to-square"></i> Inscrições ENEM</td>
+                                <td>15/02 a 15/03/2026</td>
+                                <td>Período de inscrição</td>
+                                <td><span class="status-badge aberto">Em breve</span></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-pencil"></i> 1º dia de prova</td>
+                                <td>01/11/2026</td>
+                                <td>Linguagens, Redação e Humanas</td>
+                                <td><span class="status-badge agendado">Agendado</span></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-calculator"></i> 2º dia de prova</td>
+                                <td>08/11/2026</td>
+                                <td>Matemática e Natureza</td>
+                                <td><span class="status-badge agendado">Agendado</span></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-star"></i> Resultado</td>
+                                <td>15/01/2027</td>
+                                <td>Divulgação das notas</td>
+                                <td><span class="status-badge agendado">Agendado</span></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-university"></i> SISU</td>
+                                <td>19 a 22/01/2027</td>
+                                <td>Inscrições SISU</td>
+                                <td><span class="status-badge agendado">Agendado</span></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-percent"></i> ProUni</td>
+                                <td>03 a 07/02/2027</td>
+                                <td>Inscrições ProUni</td>
+                                <td><span class="status-badge agendado">Agendado</span></td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-credit-card"></i> FIES</td>
+                                <td>03 a 07/02/2027</td>
+                                <td>Inscrições FIES</td>
+                                <td><span class="status-badge agendado">Agendado</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CARD 4: LEMBRETES E NOTIFICAÇÕES -->
+            <div class="enem-card lembretes-card">
+                <div class="card-header-with-number">
+                    <div class="card-number">🔔</div>
+                    <h2 class="card-title-light">Lembretes Ativos</h2>
+                </div>
+
+                <div class="lembretes-grid" id="lembretes-lista">
+                    <!-- Lembretes serão carregados via JavaScript -->
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i> Carregando lembretes...
+                    </div>
+                </div>
+
+                <div class="lembrete-config">
+                    <h3><i class="fas fa-bell"></i> Configurar Lembretes</h3>
+                    <div class="config-opcoes">
+                        <label class="config-item">
+                            <input type="checkbox" checked> Receber lembretes por email
+                        </label>
+                        <label class="config-item">
+                            <input type="checkbox" checked> Notificações no navegador
+                        </label>
+                        <label class="config-item">
+                            <input type="checkbox"> Lembrar 7 dias antes
+                        </label>
+                        <label class="config-item">
+                            <input type="checkbox" checked> Lembrar 1 dia antes
+                        </label>
+                    </div>
+                    <button class="btn-salvar-config">Salvar preferências</button>
+                </div>
+            </div>
+
+            <!-- CARD 5: DICAS BASEADAS NO CRONOGRAMA -->
+            <div class="enem-card dicas-cronograma-card">
+                <div class="card-header-with-number">
+                    <div class="card-number">💡</div>
+                    <h2 class="card-title-light">Dicas para cada etapa</h2>
+                </div>
+
+                <div class="dicas-accordion">
+                    <div class="dica-item">
+                        <div class="dica-header" data-dica="inscricao">
+                            <i class="fas fa-pen-to-square"></i>
+                            <h3>Período de Inscrições</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dica-conteudo" id="inscricao">
+                            <ul>
+                                <li>✅ Tenha em mãos RG, CPF e comprovante de residência</li>
+                                <li>✅ Separe uma foto recente (formato exigido)</li>
+                                <li>✅ Escolha o idioma da prova de língua estrangeira (Inglês ou Espanhol)</li>
+                                <li>✅ Verifique se precisa de atendimento especializado</li>
+                                <li>✅ Guarde o comprovante de inscrição</li>
+                                <li>💰 A taxa de inscrição pode ser paga até o prazo final</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="dica-item">
+                        <div class="dica-header" data-dica="preparacao">
+                            <i class="fas fa-book-open"></i>
+                            <h3>Preparação para as provas</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dica-conteudo" id="preparacao">
+                            <ul>
+                                <li>📚 Estude por áreas de conhecimento</li>
+                                <li>✍️ Pratique redações com temas atuais</li>
+                                <li>⏰ Faça simulados cronometrados</li>
+                                <li>📊 Analise seu desempenho por disciplina</li>
+                                <li>🔄 Revise os conteúdos com mais dificuldade</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="dica-item">
+                        <div class="dica-header" data-dica="provas">
+                            <i class="fas fa-pencil"></i>
+                            <h3>Dias de prova</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dica-conteudo" id="provas">
+                            <ul>
+                                <li>📍 Confira o local da prova com antecedência</li>
+                                <li>⏰ Chegue antes do fechamento dos portões (13h)</li>
+                                <li>🖊️ Leve caneta preta de material transparente</li>
+                                <li>🥪 Leve lanches leves e água</li>
+                                <li>📱 Deixe celular e eletrônicos em casa</li>
+                                <li>😌 Mantenha a calma e administre o tempo</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="dica-item">
+                        <div class="dica-header" data-dica="resultados">
+                            <i class="fas fa-star"></i>
+                            <h3>Após o resultado</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dica-conteudo" id="resultados">
+                            <ul>
+                                <li>📊 Calcule sua média e peso por curso</li>
+                                <li>🏛️ Pesquise as notas de corte dos cursos desejados</li>
+                                <li>📅 Fique atento aos prazos do SISU, ProUni e FIES</li>
+                                <li>📝 Prepare a documentação necessária</li>
+                                <li>🔄 Tenha opções de curso como plano B</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JavaScript -->
+<script src="../JS/enem-cronograma.js"></script>
+<script src="../JS/menuSideBar.js"></script>
+</body>
+</html>

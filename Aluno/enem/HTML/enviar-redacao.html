@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudeX | Enviar Redação</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../CSS/enviar.redacao.css">
+</head>
+<body>
+
+<section class="user-dashboard">
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+            <span class="logo-text">EstudeX</span>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="../../../Home/HTML/home-Estudex.html" class="nav-item"><i class="fas fa-home"></i> <span>Home</span></a></li>
+                <li><a href="../../../Aluno/perfil/HTML/perfil-Estudex.html" class="nav-item"><i class="fas fa-user"></i> <span>Perfil</span></a></li>
+                <li><a href="../../../Aluno/duvidas/HTML/duvidas-Estudex.html" class="nav-item"><i class="fas fa-question-circle"></i> <span>Dúvidas</span></a></li>
+                <li><a href="../../../Aluno/atividade/HTML/atividades-Estudex.html" class="nav-item"><i class="fas fa-tasks"></i> <span>Atividades</span></a></li>
+                <li><a href="../../../Aluno/comunicados/HTML/comunicados.html" class="nav-item"><i class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                <li><a href="../../../Aluno/desempenho/HTML/desempenho-Estudex.html" class="nav-item"><i class="fas fa-chart-line"></i> <span>Desempenho</span></a></li>
+                <li><a href="../../../Aluno/enem/HTML/enem.html" class="nav-item"><i class="fas fa-book"></i> <span>Enem</span></a></li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sair</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="dashboard-content">
+        <!-- CABEÇALHO -->
+        <div class="header-top">
+            <h1 class="page-title"><i class="fas fa-pen-fancy"></i> Enviar Redação</h1>
+            <div class="notifications-icon" id="notificationsIcon">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">2</span>
+            </div>
+        </div>
+
+        <!-- Botão Voltar -->
+        <a href="enem.html" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Voltar para Central do ENEM
+        </a>
+
+        <!-- SELEÇÃO DE TIPO DE REDAÇÃO -->
+        <div class="tipo-redacao-card">
+            <div class="tipo-redacao-header">
+                <h3><i class="fas fa-cog"></i> Escolha o tipo de redação</h3>
+            </div>
+            <div class="tipo-redacao-options">
+                <div class="tipo-option" id="optionProfessor" onclick="selecionarTipo('professor')">
+                    <i class="fas fa-chalkboard-user"></i>
+                    <div class="tipo-info">
+                        <strong>Redação do Professor</strong>
+                        <span>Responda ao tema proposto pelo seu professor</span>
+                    </div>
+                    <div class="radio-custom"></div>
+                </div>
+                <div class="tipo-option" id="optionIA" onclick="selecionarTipo('ia')">
+                    <i class="fas fa-robot"></i>
+                    <div class="tipo-info">
+                        <strong>Redação com IA</strong>
+                        <span>Gere um tema aleatório e pratique!</span>
+                    </div>
+                    <div class="radio-custom"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRID PRINCIPAL -->
+        <div class="redacao-grid">
+            <!-- CARD: ENVIAR REDAÇÃO -->
+            <div class="card redacao-form-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-upload"></i> Enviar Nova Redação</h3>
+                </div>
+                
+                <div class="tema-container" id="temaContainer">
+                    <!-- Tema Professor (Cards de propostas) -->
+                    <div id="temaProfessorArea" style="display: none;">
+                        <div class="tema-semana">
+                            <div class="tema-titulo">
+                                <i class="fas fa-chalkboard-user"></i> Redações Propostas pelo Professor
+                                <span class="professor-badge">Professor</span>
+                            </div>
+                            <div id="propostasList" class="propostas-container">
+                                <div class="propostas-loading">
+                                    <i class="fas fa-spinner fa-pulse"></i>
+                                    <p>Carregando propostas...</p>
+                                </div>
+                            </div>
+                            <div id="temaSelecionadoArea" class="tema-selecionado-area" style="display: none;">
+                                <div class="tema-selecionado-titulo">
+                                    <i class="fas fa-check-circle"></i> Tema Selecionado
+                                </div>
+                                <div class="tema-selecionado-texto" id="temaSelecionadoTexto"></div>
+                                <div class="tema-selecionado-info">
+                                    <span><i class="fas fa-calendar"></i> Data de entrega: <span id="propostaDataEntrega">--</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tema IA -->
+                    <div id="temaIArea" style="display: none;">
+                        <div class="tema-semana" id="temaSemana">
+                            <div class="tema-titulo">
+                                <i class="fas fa-spinner fa-pulse"></i> Gerando tema com IA...
+                            </div>
+                            <div class="tema-conteudo" style="text-align: center;">
+                                Aguarde, estamos criando um tema exclusivo para você!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="redacaoForm" class="redacao-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-tag"></i> Título da Redação</label>
+                        <input type="text" id="titulo" placeholder="Ex: Redação sobre o tema" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-align-left"></i> Sua Redação</label>
+                        <textarea id="conteudo" rows="15" placeholder="Escreva sua redação aqui..." required></textarea>
+                        <small><i class="fas fa-info-circle"></i> Mínimo de 100 caracteres</small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i> Enviar Redação
+                        </button>
+                        <button type="button" class="btn-clear" id="clearBtn">
+                            <i class="fas fa-eraser"></i> Limpar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- CARD: DICAS PARA REDAÇÃO -->
+            <div class="card dicas-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-lightbulb"></i> Dicas para uma Redação Nota 1000</h3>
+                </div>
+                <div class="dicas-list">
+                    <div class="dica-item"><i class="fas fa-check-circle"></i><span>Leia atentamente o tema proposto</span></div>
+                    <div class="dica-item"><i class="fas fa-check-circle"></i><span>Estruture seu texto em introdução, desenvolvimento e conclusão</span></div>
+                    <div class="dica-item"><i class="fas fa-check-circle"></i><span>Utilize repertório sociocultural (citações, fatos históricos)</span></div>
+                    <div class="dica-item"><i class="fas fa-check-circle"></i><span>Apresente uma proposta de intervenção para o problema</span></div>
+                    <div class="dica-item"><i class="fas fa-check-circle"></i><span>Respeite os direitos humanos na sua proposta</span></div>
+                    <div class="dica-item"><i class="fas fa-check-circle"></i><span>Revise seu texto para evitar erros de português</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD: HISTÓRICO DE REDAÇÕES -->
+        <div class="card historico-card">
+            <div class="card-header">
+                <h3><i class="fas fa-history"></i> Histórico de Redações</h3>
+                <button class="btn-refresh" id="refreshHistorico"><i class="fas fa-sync-alt"></i></button>
+            </div>
+            <div id="historicoList" class="historico-list">
+                <div class="loading-state"><i class="fas fa-spinner fa-pulse"></i><p>Carregando suas redações...</p></div>
+            </div>
+        </div>
+    </main>
+</section>
+
+<!-- Modal de Notificações -->
+<div id="notificationsModal" class="modal">
+    <div class="modal-content modal-notifications">
+        <div class="modal-header">
+            <h2><i class="fas fa-bell"></i> Notificações</h2>
+            <span class="close-modal">&times;</span>
+        </div>
+        <div class="notifications-list">
+            <div class="notification-item unread">
+                <i class="fas fa-pen-fancy"></i>
+                <div class="notification-text">
+                    <strong>Redação corrigida!</strong>
+                    <p>Verifique sua nota e comentários</p>
+                    <small>Há 2 horas</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../JS/enviar-redacao.js"></script>
+<script src="../JS/menuSideBar.js"></script>
+
+</body>
+</html>

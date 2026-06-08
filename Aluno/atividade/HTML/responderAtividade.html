@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudeX | Responder Atividade</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/responderAtividade.css">
+     <link rel="stylesheet" href="../../../global/CSS/theme.css">
+</head>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+    <button class="btn-voltar" onclick="window.history.back()">
+        <i class="fas fa-arrow-left"></i> Voltar
+    </button>
+    <div class="header-info">
+        <div class="header-titulo" id="headerTitulo">Carregando...</div>
+        <div class="header-subtitulo" id="headerSubtitulo"></div>
+    </div>
+    <div class="progresso-header" id="progressoHeader" style="display:none">
+        <span id="progressoTexto">0 / 0</span>
+        <div class="progresso-bar-wrap">
+            <div class="progresso-bar-fill" id="progressoFill" style="width:0%"></div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- LOADING -->
+    <div id="telaLoading">
+        <i class="fas fa-spinner fa-pulse"></i>
+        <p>Carregando atividade...</p>
+    </div>
+
+    <!-- PERGUNTAS -->
+    <div id="telaPerguntas" style="display:none">
+        <div id="perguntasContainer"></div>
+        <div class="submit-area">
+            <button class="btn-enviar" id="btnEnviar" onclick="enviarRespostas()">
+                <i class="fas fa-paper-plane"></i> Enviar Respostas
+            </button>
+        </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div id="telaResultado" style="display:none">
+        <div class="resultado-card">
+            <div class="resultado-emoji" id="resultadoEmoji">🎉</div>
+            <div class="resultado-titulo" id="resultadoTitulo">Atividade Concluída!</div>
+            <div class="resultado-subtitulo" id="resultadoSubtitulo"></div>
+            <div class="nota-display" id="notaDisplay">0</div>
+            <div class="nota-label">pontos</div>
+            <div class="stats-resultado">
+                <div class="stat-r acertos">
+                    <div class="stat-r-valor" id="totalAcertos">0</div>
+                    <div class="stat-r-label">Acertos</div>
+                </div>
+                <div class="stat-r erros">
+                    <div class="stat-r-valor" id="totalErros">0</div>
+                    <div class="stat-r-label">Erros</div>
+                </div>
+                <div class="stat-r total">
+                    <div class="stat-r-valor" id="totalQuestoes">0</div>
+                    <div class="stat-r-label">Questões</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gabarito -->
+        <div id="gabaritoContainer"></div>
+
+        <div style="text-align:center">
+            <button class="btn-voltar-lista" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i> Voltar para Atividades
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast">
+    <i class="fas fa-circle-check" id="toast-icon"></i>
+    <span id="toast-msg"></span>
+</div>
+<script src="../JS/responderAtividade.js"></script>
+<script src="../../../global/JS/theme.js"></script>
+</body>
+</html>

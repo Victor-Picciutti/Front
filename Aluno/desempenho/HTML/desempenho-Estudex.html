@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudeX | Desempenho</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../CSS/desempenho.css">
+       <link rel="stylesheet" href="../../../global/CSS/theme.css">
+</head>
+
+<body>
+
+    <section class="user-dashboard">
+        <!-- SIDEBAR (Menu Lateral) - MESMO PADRÃO DAS ATIVIDADES -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+                <span class="logo-text">EstudeX</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="../../../Home/HTML/home-Estudex.html" class="nav-item" id="nav-home"><i
+                                class="fas fa-home"></i> <span>Home</span></a></li>
+                    <li><a href="../../../Aluno/perfil/HTML/perfil-Estudex.html" class="nav-item" id="nav-perfil"><i
+                                class="fas fa-user"></i> <span>Perfil</span></a></li>
+                    <li><a href="../../../Aluno/duvidas/HTML/duvidas-Estudex.html" class="nav-item" id="nav-duvidas"><i
+                                class="fas fa-question-circle"></i> <span>Dúvidas</span></a></li>
+                    <li><a href="../../../Aluno/atividade/HTML/atividades-Estudex.html" class="nav-item"
+                            id="nav-atividades"><i class="fas fa-tasks"></i> <span>Atividades</span></a></li>
+                    <li><a href="../../comunicados_aluno/HTML/alunoComunicados.html" class="nav-item"><i
+                                class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                    <li><a href="../../../Aluno/desempenho/HTML/desempenho-Estudex.html" class="nav-item active"
+                            id="nav-desempenho"><i class="fas fa-chart-line"></i> <span>Desempenho</span></a></li>
+                    <li><a href="../../../Aluno/enem/HTML/enem.html" class="nav-item" id="nav-enem"><i
+                                class="fas fa-book"></i> <span>Enem</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../../Login/HTML/login.html" class="nav-item" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="dashboard-content">
+            <h1 class="page-title"><i class="fas fa-chart-line"></i> Meu Desempenho</h1>
+
+            <!-- CARDS DE ESTATÍSTICAS RÁPIDAS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Atividades Respondidas</span>
+                        <strong class="stat-value" id="totalRespondidas">0</strong>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Nota Média Geral</span>
+                        <strong class="stat-value" id="mediaGeral">0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD DE DESEMPENHO GERAL COM GRÁFICO CIRCULAR -->
+            <div class="data-card performance-card">
+                <h2 class="card-title"><i class="fas fa-chart-pie"></i> Desempenho Geral</h2>
+                <div class="performance-container">
+                    <div class="performance-circle">
+                        <svg viewBox="0 0 100 100" class="performance-svg">
+                            <defs>
+                                <linearGradient id="performanceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#BB86FC" />
+                                    <stop offset="100%" style="stop-color:#a21fa2" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="50" cy="50" r="45" class="performance-bg"></circle>
+                            <circle cx="50" cy="50" r="45" class="performance-fill" id="performanceCircle"></circle>
+                        </svg>
+                        <div class="performance-text">
+                            <span class="performance-value" id="percentualAcerto">0%</span>
+                            <span class="performance-label">Taxa de Acerto</span>
+                        </div>
+                    </div>
+                    <div class="performance-stats">
+                        <div class="stat-row">
+                            <span class="stat-label">Classificação</span>
+                            <span class="stat-value" id="classificacao">Iniciante</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Total de Pontos</span>
+                            <span class="stat-value" id="totalPontos">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Média por Atividade</span>
+                            <span class="stat-value" id="mediaPorAtividade">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Atividades com Nota Máxima</span>
+                            <span class="stat-value" id="notasMaximas">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FILTROS DOS GRÁFICOS -->
+            <div style="display:flex; gap:15px; align-items:center; margin-bottom:20px; flex-wrap:wrap;">
+                <div class="custom-select" id="customSelectPeriodo" style="width:160px;">
+                    <div class="custom-select-trigger">
+                        <span id="customSelectPeriodoText">Últimos 30 dias</span>
+                        <span class="custom-select-arrow">▼</span>
+                    </div>
+                    <div class="custom-select-options" id="customSelectPeriodoOptions"></div>
+                </div>
+                <div class="custom-select" id="customSelectDisciplinaGrafico" style="width:200px;">
+                    <div class="custom-select-trigger">
+                        <span id="customSelectDisciplinaGraficoText">Todas as disciplinas</span>
+                        <span class="custom-select-arrow">▼</span>
+                    </div>
+                    <div class="custom-select-options" id="customSelectDisciplinaGraficoOptions"></div>
+                </div>
+            </div>
+
+            <!-- GRÁFICOS DE EVOLUÇÃO -->
+            <div class="charts-grid">
+                <div class="data-card chart-card">
+                    <h2 class="card-title"><i class="fas fa-chart-line"></i> Progresso das Notas</h2>
+                    <canvas id="lineChart" class="chart-canvas"></canvas>
+                </div>
+                <div class="data-card chart-card">
+                    <h2 class="card-title"><i class="fas fa-chart-bar"></i> Distribuição das Notas</h2>
+                    <canvas id="barChart" class="chart-canvas"></canvas>
+                </div>
+            </div>
+
+            <!-- LISTA DETALHADA DE ATIVIDADES RESPONDIDAS -->
+            <div class="data-card">
+                <h2 class="card-title"><i class="fas fa-list-check"></i> Histórico de Atividades</h2>
+                <div class="table-container">
+                    <table class="atividades-table" id="atividadesTable">
+                        <thead>
+                            <tr>
+                                <th>Atividade</th>
+                                <th>Data</th>
+                                <th>Nota Obtida</th>
+                                <th>Nota Máxima</th>
+                                <th>Aproveitamento</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="atividadesTableBody">
+                            <tr>
+                                <td colspan="6" class="loading-state">
+                                    <i class="fas fa-spinner fa-pulse"></i> Carregando atividades...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    <!-- JavaScript -->
+    <script src="../JS/desepenho.js"></script>
+    <script src="../JS/menuSideBar.js"></script>
+        <script src="../../../global/JS/theme.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudeX | Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/homeEstudeX.css">
+</head>
+
+<body>
+
+    <section class="user-dashboard">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+                <span class="logo-text">EstudeX</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="../HTML/home-Estudex.html" class="nav-item active" id="nav-home"><i
+                                class="fas fa-home"></i> <span>Home</span></a></li>
+                    <li><a href="../../Aluno/perfil/HTML/perfil-Estudex.html" class="nav-item" id="nav-perfil"><i
+                                class="fas fa-user"></i> <span>Perfil</span></a></li>
+                    <li><a href="../../Aluno/duvidas/HTML/duvidas-Estudex.html" class="nav-item" id="nav-duvidas"><i
+                                class="fas fa-question-circle"></i> <span>Dúvidas</span></a></li>
+                    <li><a href="../../Aluno/atividade/HTML/atividades-Estudex.html" class="nav-item"
+                            id="nav-atividades"><i class="fas fa-tasks"></i> <span>Atividades</span></a></li>
+                    <li><a href="../../Aluno/comunicados_aluno/HTML/alunoComunicados.html" class="nav-item"><i
+                                class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                    <li><a href="../../Aluno/desempenho/HTML/desempenho-Estudex.html" class="nav-item"
+                            id="nav-desempenho"><i class="fas fa-chart-line"></i> <span>Desempenho</span></a></li>
+                    <li><a href="../../Aluno/enem/HTML/enem.html" class="nav-item" id="nav-enem"><i
+                                class="fas fa-book"></i> <span>Enem</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="../../Login/HTML/login.html" class="nav-item" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </div>
+
+        <main class="dashboard-content">
+            <div class="header-top">
+                <h1 class="page-title"><i class="fas fa-home"></i> Home</h1>
+
+                <!-- SINO COM DROPDOWN -->
+                <div class="notifications-icon" id="notificationsIcon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationBadge">0</span>
+
+                    <!-- DROPDOWN -->
+                    <div id="notificationsDropdown">
+                        <div class="notif-dropdown-header">
+                            <span><i class="fas fa-bell"></i> Notificações</span>
+                        </div>
+                        <div id="notificationsList" class="notif-dropdown-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="welcome-card">
+                <div class="welcome-content">
+                    <h2 class="welcome-title">Bem-vindo(a), <span id="nomeAluno">Estudante</span>!</h2>
+                    <p class="welcome-description">
+                        Aqui você encontra um resumo completo do seu progresso, informações gerais sobre seus estudos,
+                        atalhos rápidos para as principais funcionalidades e um planejamento personalizado para otimizar
+                        seu aprendizado.
+                    </p>
+                    <button class="btn-primary-large" id="planoEstudoBtn">
+                        <i class="fas fa-book"></i> Acessar Plano de Estudo
+                    </button>
+                </div>
+                <div class="welcome-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+            </div>
+
+            <div class="home-grid">
+                <div class="next-actions-card">
+                    <h3 class="card-title-light"><i class="fas fa-list-check"></i> Próximas Ações</h3>
+                    <ul class="actions-list">
+                        <li class="action-item" data-action="plano"><i class="fas fa-book"></i><span>Consultar plano de
+                                estudo</span></li>
+                        <li class="action-item" data-action="mensagens"><i class="fas fa-comments"></i><span>Mensagens
+                                dos professores</span></li>
+                        <li class="action-item" data-action="desempenho"><i class="fas fa-chart-bar"></i><span>Consultar
+                                desempenho</span></li>
+                        <li class="action-item" data-action="cronograma"><i class="fas fa-calendar"></i><span>Ver
+                                cronograma</span></li>
+                    </ul>
+                </div>
+
+                <div class="recent-activities-card">
+                    <h3 class="card-title-light"><i class="fas fa-history"></i> Atividades Recentes</h3>
+                    <div class="activity-summary" id="activitySummary">
+                        <div class="activity-item completed">
+                            <span class="activity-label">Última Concluída:</span>
+                            <span class="activity-name">Quiz - História Geral</span>
+                            <span class="activity-date">Há 2 dias</span>
+                        </div>
+                        <div class="activity-item pending">
+                            <span class="activity-label">Próxima Pendente:</span>
+                            <span class="activity-name">Exercício 01 - Matemática</span>
+                            <span class="activity-date">Prazo: 25 de Nov</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-summary-card">
+                <h3 class="card-title-light"><i class="fas fa-chart-pie"></i> Resumo do Meu Progresso</h3>
+                <div class="progress-indicators">
+                    <div class="indicator">
+                        <div class="indicator-circle">
+                            <span class="indicator-value" id="progressoSemanal">68%</span>
+                        </div>
+                        <span class="indicator-label">Progresso Semanal</span>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-circle">
+                            <span class="indicator-value" id="horasEstudo">12.5h</span>
+                        </div>
+                        <span class="indicator-label">Horas de Estudo</span>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-circle">
+                            <span class="indicator-value" id="taxaAcerto">82%</span>
+                        </div>
+                        <span class="indicator-label">Taxa de Acerto</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    <script src="../JS/homeEstudeX.js"></script>
+    <script src="../JS/menuSideBar.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Comunicados - EstudeX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/home.css">
+    <link rel="stylesheet" href="../CSS/professorComunicados.css">
+    <link rel="stylesheet" href="../../perfil/CSS/professorSidebar.css">
+     <link rel="stylesheet" href="../../../global/CSS/theme.css">
+
+</head>
+
+<body>
+    <div class="user-dashboard">
+        <!-- SIDEBAR (Menu Lateral) - VERSÃO PROFESSOR -->
+        <div class="sidebar professor-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+                <span class="logo-text">EstudeX <span class="professor-badge">Prof</span></span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="../../perfil/HTML/professorPerfil.html" class="nav-item"><i class="fas fa-user"></i>
+                            <span>Perfil</span></a></li>
+                    <li><a href="../../atividades/HTML/atividades.html" class="nav-item"><i class="fas fa-tasks"></i>
+                            <span>Atividades</span></a></li>
+                     <li><a href="../../redacao/HTML/criarRedacao.html" class="nav-item"><i class="fas fa-pen-fancy"></i> 
+                        <span>Redações</span></a></li>
+                    <li><a href="../../comunicados_professor/HTML/meusComunicados.html" class="nav-item active"><i
+                                class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                    <li><a href="../../atividades/HTML/duvidas.html" class="nav-item"><i
+                                class="fas fa-question-circle"></i> <span>Dúvidas</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../../Login/HTML/login.html" class="nav-item" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+
+
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="dashboard-content">
+            <!-- HEADER -->
+            <div class="header-top">
+                <div class="page-title">
+                    <i class="fas fa-bullhorn"></i>
+                    <h1>Meus Comunicados</h1>
+                </div>
+                <a href="professorComunicados.html" class="btn btn-primary-neon btn-sm">
+                    <i class="fas fa-plus"></i> Novo Comunicado
+                </a>
+            </div>
+
+            <!-- LISTAGEM -->
+            <div class="comunicados-container-wide">
+                <div class="filtros-lista" style="display:flex; gap:15px; align-items:center; flex-wrap:wrap;">
+                    <div class="search-box" style="flex:1;">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" placeholder="Buscar em meus comunicados...">
+                    </div>
+                    <div class="custom-select" id="customSelectFiltroSerie" style="width:200px; flex-shrink:0;">
+                        <div class="custom-select-trigger">
+                            <span id="customSelectFiltroSerieText">Todas as Séries</span>
+                            <span class="custom-select-arrow">▼</span>
+                        </div>
+                        <div class="custom-select-options" id="customSelectFiltroSerieOptions"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comunicados-grid" id="meus-comunicados-list">
+                <!-- Preenchido via JS -->
+            </div>
+
+            <div class="empty-state" id="empty-state" style="display: none;">
+                <i class="fas fa-bullhorn"></i>
+                <h2>Nenhum comunicado enviado</h2>
+                <p>Você ainda não enviou nenhum comunicado para suas turmas.</p>
+                <a href="professorComunicados.html" class="btn btn-primary-neon" style="margin-top: 20px;">
+                    Enviar Primeiro Comunicado
+                </a>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- MODAL DE EDIÇÃO -->
+    <div class="modal" id="modal-edit">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Comunicado</h2>
+                <button class="close-modal" onclick="fecharModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-edit">
+                    <input type="hidden" id="edit-id">
+                    <div class="form-group">
+                        <label class="field-label">Título</label>
+                        <input type="text" id="edit-titulo" class="input-field" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="field-label">Série / Turma</label>
+                        <select id="edit-turma" class="input-field select-field" required>
+                            <!-- Preenchido via JS -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="field-label">Conteúdo</label>
+                        <textarea id="edit-conteudo" class="input-field textarea-large" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+                        <button type="submit" class="btn btn-primary-neon">Salvar Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalConfirmDelete" class="modal" style="display:none; align-items:center; justify-content:center;">
+        <div class="modal-content" style="max-width:400px;">
+            <div class="modal-header">
+                <h2><i class="fas fa-exclamation-triangle"></i> Confirmar exclusão</h2>
+            </div>
+            <div style="padding: 25px;">
+                <p style="color: var(--text-muted); margin-bottom: 25px;">
+                    Tem certeza que deseja excluir este comunicado? Esta ação não pode ser desfeita.
+                </p>
+                <div style="display:flex; gap:15px; justify-content:flex-end;">
+                    <button class="btn btn-secondary-outline" onclick="fecharConfirmDelete()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button id="btnConfirmarDelete" class="btn"
+                        style="background:#dc2626; color:#fff; border:none; padding:10px 20px; border-radius:12px; cursor:pointer; font-weight:700;"
+                        onclick="confirmarDelete()">
+                        <i class="fas fa-trash"></i> Sim, excluir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-leitura">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2 id="leitura-titulo" style="font-family: var(--font-futuristic); color: var(--primary-color);"></h2>
+                <button class="close-modal" onclick="fecharModalLeitura()">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 25px;">
+                <div style="display:flex; gap:20px; margin-bottom:20px; flex-wrap:wrap;">
+                    <span style="color:var(--text-muted); font-size:0.85rem;">
+                        <i class="fas fa-calendar-alt" style="color:var(--primary-color);"></i>
+                        <span id="leitura-data"></span>
+                    </span>
+                    <span style="color:var(--text-muted); font-size:0.85rem;">
+                        <i class="fas fa-book" style="color:var(--primary-color);"></i>
+                        <span id="leitura-disciplina"></span>
+                    </span>
+                    <span style="color:var(--text-muted); font-size:0.85rem;">
+                        <i class="fas fa-users" style="color:var(--primary-color);"></i>
+                        <span id="leitura-serie"></span>
+                    </span>
+                </div>
+                <div style="
+                background: rgba(0,0,0,0.3);
+                border: 1px solid var(--border-color);
+                border-left: 4px solid var(--primary-color);
+                border-radius: 8px;
+                padding: 20px;
+                color: var(--text-light);
+                font-size: 0.95rem;
+                line-height: 1.8;
+                white-space: pre-wrap;
+            " id="leitura-descricao"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../JS/meusComunicados.js"></script>
+    <script src="../../perfil/JS/menuSideBar.js"></script>
+    <script src="../../../global/JS/theme.js"></script>
+</body>
+
+</html>

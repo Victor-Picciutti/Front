@@ -1,0 +1,516 @@
+:root {
+    --color-dark-bg: #0D0D0F; /* Fundo principal */
+    --color-dark-card: #101013; /* Fundo dos cards */
+    --color-dark-border: #2c2c2c; /* Borda sutil */
+    --color-purple-neon: #A020F0; /* Roxo neon principal */
+    --color-purple-light: #9B4DFF; /* Roxo neon mais claro */
+    --color-text-light: #e0e0e0; /* Texto principal */
+    --color-text-muted: #999999; /* Texto secundário */
+    --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-neon: 0 0 8px var(--color-purple-neon);
+    --border-radius: 12px;
+}
+/* Estilos Globais */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--color-dark-bg);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+a {
+    color: var(--color-purple-light);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-purple-neon);
+}
+
+h1, h2, h3 {
+    color: var(--color-text-light);
+    margin-bottom: 0.5em;
+}
+
+h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--color-purple-light);
+    text-shadow: var(--shadow-neon);
+}
+
+/* Layout Principal */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 0;
+    flex-grow: 1;
+}
+
+section {
+    margin-bottom: 60px;
+}
+
+/* Cards Base (Consistente com o Dashboard) */
+.card {
+    background-color: var(--color-dark-card);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--color-dark-border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    border-color: var(--color-purple-neon);
+    box-shadow: var(--shadow-neon), var(--shadow-card);
+}
+
+/* Cabeçalho Fixo (Simples) */
+.simple-header {
+    background-color: #111;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--color-purple-neon);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.simple-header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-purple-neon);
+    text-shadow: var(--shadow-neon);
+}
+
+.simple-header nav a {
+    margin-left: 20px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+}
+
+.simple-header nav a.active {
+    color: var(--color-purple-light);
+    border-bottom: 2px solid var(--color-purple-neon);
+    padding-bottom: 3px;
+}
+
+/* 1. Cabeçalho da Página (Hero Section) */
+.hero-section {
+    text-align: left;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--color-dark-border);
+    margin-bottom: 40px;
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.icon-hero {
+    font-size: 3rem;
+    color: var(--color-purple-neon);
+    margin-bottom: 15px;
+    text-shadow: var(--shadow-neon);
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 10px;
+}
+
+.hero-section .subtitle {
+    font-size: 1.2rem;
+    color: var(--color-text-muted);
+}
+
+/* 2. Seção de Benefícios / O que oferecemos */
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.benefit-card {
+    text-align: center;
+    cursor: default;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+}
+
+.benefit-card .icon-large {
+    font-size: 2.5rem;
+    color: var(--color-purple-neon);
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px rgba(160, 32, 240, 0.5);
+}
+
+.benefit-card h3 {
+    font-size: 1.2rem;
+    color: var(--color-purple-light);
+}
+
+.benefit-card p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin-top: 5px;
+}
+
+/* 3. Seção “Planos e Valores” */
+.plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.plan-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.plan-card h3 {
+    font-size: 1.5rem;
+    color: var(--color-purple-light);
+    margin-bottom: 10px;
+}
+
+.plan-card .plan-description {
+    color: var(--color-text-muted);
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.plan-card .plan-benefits {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.plan-card .plan-benefits li {
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--color-dark-border);
+    color: var(--color-text-light);
+    font-size: 0.95rem;
+}
+
+.plan-card .plan-benefits li i {
+    margin-right: 10px;
+    color: var(--color-purple-neon);
+}
+
+.plan-card .plan-benefits li.disabled {
+    color: var(--color-text-muted);
+    opacity: 0.6;
+}
+
+.plan-card .plan-benefits li.disabled i {
+    color: var(--color-text-muted);
+}
+
+.featured-plan {
+    border: 2px solid var(--color-purple-neon);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(160, 32, 240, 0.5), var(--shadow-card);
+}
+
+.featured-plan:hover {
+    transform: scale(1.05) translateY(-5px);
+}
+
+/* Botão CTA */
+.cta-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: var(--color-purple-neon);
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: auto; /* Alinha o botão na parte inferior */
+}
+
+.cta-button:hover {
+    background-color: var(--color-purple-light);
+    box-shadow: var(--shadow-neon);
+}
+
+.featured-cta {
+    background-color: var(--color-purple-light);
+    box-shadow: var(--shadow-neon);
+}
+
+.featured-cta:hover {
+    background-color: var(--color-purple-neon);
+}
+
+/* 4. Seção “Por que escolher o EstudeX?” (Estilo Bloco Próximas Ações) */
+.why-choose-section {
+    padding: 35px;
+}
+
+.why-choose-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.reason-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    border-left: 3px solid var(--color-purple-neon);
+}
+
+.reason-item i {
+    font-size: 1.5rem;
+    color: var(--color-purple-neon);
+    margin-right: 15px;
+    margin-top: 3px;
+}
+
+.reason-item p {
+    font-size: 0.95rem;
+}
+
+.reason-item strong {
+    color: var(--color-purple-light);
+}
+
+/* 5. Seção de Formulário de Contato e 6. Contato Corporativo */
+.contact-section {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+.contact-form-card {
+    padding: 35px;
+}
+
+.contact-form h2 {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--color-purple-light);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="number"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a1a1a;
+    border: 1px solid var(--color-dark-border);
+    border-radius: 6px;
+    color: var(--color-text-light);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-purple-neon);
+    box-shadow: 0 0 5px rgba(160, 32, 240, 0.5);
+}
+
+/* Contato Corporativo */
+.corporate-contact-card {
+    padding: 35px;
+}
+
+.corporate-contact-card h2 {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.contact-item i {
+    font-size: 1.5rem;
+    color: var(--color-purple-neon);
+    margin-bottom: 5px;
+}
+
+.contact-item p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+.contact-item a, .contact-item span {
+    font-weight: 500;
+    color: var(--color-text-light);
+}
+
+/* 7. Rodapé Moderno (Consistente com o Dashboard) */
+.main-footer {
+    background-color: #111;
+    padding: 20px 30px;
+    text-align: center;
+    border-top: 2px solid var(--color-purple-neon);
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+}
+
+.footer-links a {
+    margin: 0 10px;
+    color: var(--color-text-muted);
+}
+
+.footer-links a:hover {
+    color: var(--color-purple-light);
+}
+
+.version, .copyright {
+    margin-top: 10px;
+}
+
+/* =================================================================
+   RESPONSIVIDADE PARA DISPOSITIVOS MÓVEIS
+   ================================================================= */
+
+@media (max-width: 1024px) {
+    .main-content {
+        width: 95%;
+    }
+
+    /* 3. Seção “Planos e Valores” */
+    .plans-grid {
+        grid-template-columns: 1fr; /* Coluna única em tablets */
+    }
+
+    .featured-plan {
+        transform: scale(1.02); /* Reduz o destaque em telas menores */
+    }
+
+    .featured-plan:hover {
+        transform: scale(1.02) translateY(-5px);
+    }
+
+    /* 5. Seção de Formulário de Contato e 6. Contato Corporativo */
+    .contact-section {
+        grid-template-columns: 1fr; /* Coluna única em tablets */
+    }
+
+    .contact-form-card, .corporate-contact-card {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Estilos Globais */
+    h2 {
+        font-size: 1.7rem;
+        margin-bottom: 30px;
+    }
+
+    /* Cabeçalho Fixo */
+    .simple-header {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 20px;
+    }
+
+    .simple-header nav {
+        margin-top: 10px;
+    }
+
+    .simple-header nav a {
+        margin: 0 10px;
+    }
+
+    /* 1. Cabeçalho da Página (Hero Section) */
+    .hero-section h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-section .subtitle {
+        font-size: 1rem;
+    }
+
+    /* 2. Seção de Benefícios */
+    .benefits-grid {
+        grid-template-columns: 1fr; /* Coluna única em smartphones */
+    }
+
+    /* 4. Seção “Por que escolher o EstudeX?” */
+    .why-choose-grid {
+        grid-template-columns: 1fr; /* Coluna única em smartphones */
+    }
+
+    .reason-item {
+        padding: 10px;
+    }
+
+    /* 5. Formulário */
+    .contact-form-card, .corporate-contact-card {
+        padding: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 20px 0;
+    }
+
+    .hero-section h1 {
+        font-size: 1.8rem;
+    }
+
+    .icon-hero {
+        font-size: 2.5rem;
+    }
+
+    .cta-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}

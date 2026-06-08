@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudeX | Redações dos Alunos</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../CSS/professor-redacoes.css">
+    <link rel="stylesheet" href="../../perfil/CSS/professorSidebar.css">
+</head>
+
+<body>
+
+    <section class="user-dashboard">
+        <!-- SIDEBAR - COM SUBMENU -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+                <span class="logo-text">EstudeX <span class="professor-badge">Prof</span></span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="../../perfil/HTML/professorPerfil.html" class="nav-item" id="nav-perfil"><i
+                                class="fas fa-user"></i> <span>Perfil</span></a></li>
+                    <li><a href="../../atividades/HTML/atividades.html" class="nav-item" id="nav-atividades"><i
+                                class="fas fa-tasks"></i> <span>Atividades</span></a></li>
+                      <li><a href="../../redacao/HTML/professor-redacoes.html" class="nav-item active"><i
+                                class="fas fa-pen-fancy"></i> <span>Redações</span></a></li>
+                    <li><a href="../../comunicados_professor/HTML/meusComunicados.html" class="nav-item"
+                            id="nav-comunicados"><i class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                    <li><a href="../../duvidas/HTML/duvidas.html" class="nav-item" id="nav-duvidas"><i
+                                class="fas fa-question-circle"></i> <span>Dúvidas</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../../Login/HTML/login.html" class="nav-item" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="dashboard-content">
+            <!-- CABEÇALHO -->
+            <div class="header-top">
+                <h1 class="page-title"><i class="fas fa-pen-fancy"></i> Corrigir Redações</h1>
+                <div class="notifications-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+            </div>
+
+            <!-- CARD DE VISÃO GERAL -->
+            <div class="welcome-card">
+                <div class="welcome-content">
+                    <h2 class="welcome-title">Correção de Redações</h2>
+                    <p class="welcome-description">
+                        Aqui você encontra todas as redações enviadas pelos alunos. Selecione uma redação para
+                        corrigir, atribuir nota e deixar comentários. As redações são geradas com temas de IA
+                        e seguem o modelo ENEM.
+                    </p>
+                </div>
+                <div class="welcome-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+            </div>
+
+            <!-- FILTROS -->
+            <div class="filters-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Buscar por aluno ou título..."
+                        onkeyup="filtrarRedacoes()">
+                </div>
+                <select id="statusFilter" class="filter-select" onchange="filtrarRedacoes()">
+                    <option value="todos">Todas as redações</option>
+                    <option value="pendente">Pendentes</option>
+                    <option value="corrigida">Corrigidas</option>
+                </select>
+                <select id="turmaFilter" class="filter-select" onchange="filtrarRedacoes()">
+                    <option value="todas">Todas as turmas</option>
+                </select>
+            </div>
+
+            <!-- LISTA DE REDAÇÕES -->
+            <div class="redacoes-container" id="redacoesContainer">
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-pulse"></i>
+                    <p>Carregando redações...</p>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    <!-- MODAL DE CORREÇÃO -->
+    <div id="correcaoModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2><i class="fas fa-pen-fancy"></i> Corrigir Redação</h2>
+                <span class="close-modal" id="closeModalBtn">&times;</span>
+            </div>
+
+            <div class="modal-body">
+                <div class="info-redacao">
+                    <div class="info-row">
+                        <span class="info-label">Aluno:</span>
+                        <span class="info-value" id="modalAluno">--</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Turma:</span>
+                        <span class="info-value" id="modalTurma">--</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Tema:</span>
+                        <span class="info-value" id="modalTema">--</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Título:</span>
+                        <span class="info-value" id="modalTitulo">--</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Data:</span>
+                        <span class="info-value" id="modalData">--</span>
+                    </div>
+                </div>
+
+                <div class="redacao-aluno">
+                    <h4><i class="fas fa-file-alt"></i> Redação do Aluno</h4>
+                    <div class="redacao-texto" id="modalTexto"></div>
+                </div>
+
+                <div class="correcao-area">
+                    <h4><i class="fas fa-star"></i> Correção</h4>
+
+                   <div class="form-group">
+    <label><i class="fas fa-chart-line"></i> Nota (0 a 1000)</label>
+    <input type="number" id="notaInput" min="0" max="1000" step="1" placeholder="Ex: 750" value="">
+    <small><i class="fas fa-info-circle"></i> Digite a nota da redação (0 a 1000)</small>
+</div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-comment-dots"></i> Comentários / Observações</label>
+                        <textarea id="comentarioInput" rows="4"
+                            placeholder="Escreva aqui seus comentários sobre a redação..."></textarea>
+                    </div>
+
+                    <div class="competencias">
+                        <label><i class="fas fa-check-circle"></i> Competências Avaliadas</label>
+                        <div class="competencias-grid">
+                            <div class="competencia-item">
+                                <span>C1 - Domínio da norma culta</span>
+                                <select class="nota-competencia" data-competencia="1">
+                                    <option>--</option>
+                                    <option>40</option>
+                                    <option>80</option>
+                                    <option>120</option>
+                                    <option>160</option>
+                                    <option>200</option>
+                                </select>
+                            </div>
+                            <div class="competencia-item">
+                                <span>C2 - Compreensão do tema</span>
+                                <select class="nota-competencia" data-competencia="2">
+                                    <option>--</option>
+                                    <option>40</option>
+                                    <option>80</option>
+                                    <option>120</option>
+                                    <option>160</option>
+                                    <option>200</option>
+                                </select>
+                            </div>
+                            <div class="competencia-item">
+                                <span>C3 - Argumentação</span>
+                                <select class="nota-competencia" data-competencia="3">
+                                    <option>--</option>
+                                    <option>40</option>
+                                    <option>80</option>
+                                    <option>120</option>
+                                    <option>160</option>
+                                    <option>200</option>
+                                </select>
+                            </div>
+                            <div class="competencia-item">
+                                <span>C4 - Coesão e coerência</span>
+                                <select class="nota-competencia" data-competencia="4">
+                                    <option>--</option>
+                                    <option>40</option>
+                                    <option>80</option>
+                                    <option>120</option>
+                                    <option>160</option>
+                                    <option>200</option>
+                                </select>
+                            </div>
+                            <div class="competencia-item">
+                                <span>C5 - Proposta de intervenção</span>
+                                <select class="nota-competencia" data-competencia="5">
+                                    <option>--</option>
+                                    <option>40</option>
+                                    <option>80</option>
+                                    <option>120</option>
+                                    <option>160</option>
+                                    <option>200</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-cancelar" id="cancelarBtn">Cancelar</button>
+                <button class="btn-salvar" id="salvarCorrecaoBtn">
+                    <i class="fas fa-save"></i> Salvar Correção
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+    <i id="toast-icon" class="fas fa-circle-check"></i>
+    <span id="toast-msg"></span>
+</div>
+
+    <script src="../JS/professor-redacoes.js"></script>
+    <script src="../../perfil/JS/menuSideBar.js"></script>
+
+</body>
+
+</html>

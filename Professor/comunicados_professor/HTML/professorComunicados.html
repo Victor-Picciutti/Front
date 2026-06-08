@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Comunicado - EstudeX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/home.css">
+    <link rel="stylesheet" href="../CSS/professorComunicados.css">
+    <link rel="stylesheet" href="../../perfil/CSS/professorSidebar.css">
+     <link rel="stylesheet" href="../../../global/CSS/theme.css">
+
+</head>
+
+<body>
+    <div class="user-dashboard">
+        <!-- SIDEBAR -->
+        <div class="sidebar professor-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+                <span class="logo-text">EstudeX <span class="professor-badge">Prof</span></span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="../../perfil/HTML/professorPerfil.html" class="nav-item"><i class="fas fa-user"></i>
+                            <span>Perfil</span></a></li>
+                    <li><a href="../../atividades/HTML/atividades.html" class="nav-item"><i class="fas fa-tasks"></i>
+                            <span>Atividades</span></a></li>
+                    <li><a href="../../redacao/HTML/criarRedacao.html" class="nav-item"><i class="fas fa-pen-fancy"></i> 
+                        <span>Redações</span></a></li>
+                    <li><a href="../../comunicados_professor/HTML/professorComunicados.html" class="nav-item active"><i
+                                class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                    <li><a href="../../atividades/HTML/duvidas.html" class="nav-item"><i
+                                class="fas fa-question-circle"></i> <span>Dúvidas</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../../Login/HTML/login.html" class="nav-item logout" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="dashboard-content">
+            <div class="header-top">
+                <div class="page-title">
+                    <i class="fas fa-bullhorn"></i>
+                    <h1>Criar Comunicado</h1>
+                </div>
+            </div>
+
+            <div class="comunicados-container-wide">
+                <div class="instruction-card">
+                    <div class="instruction-header">
+                        <i class="fas fa-plus-circle"></i>
+                        <h2>Criar Novo Comunicado</h2>
+                    </div>
+                    <p>Preencha os dados abaixo para enviar um comunicado para seus alunos</p>
+                </div>
+
+                <div class="form-card">
+                    <form id="form-comunicado">
+                        <div class="section-subtitle">
+                            <i class="fas fa-info-circle"></i> Informações Básicas
+                        </div>
+
+                        <!-- LINHA 1: Título + Turma -->
+                        <div class="form-row">
+                            <div class="form-group flex-2">
+                                <label class="field-label">Título do Comunicado *</label>
+                                <input type="text" id="titulo" class="input-field"
+                                    placeholder="Ex: Aviso importante sobre a prova" maxlength="100" required>
+                                <span class="char-count"><span id="titulo-count">0</span>/100</span>
+                            </div>
+
+                            <div class="form-group flex-1">
+                                <label class="field-label">Série / Turma *</label>
+                                <div class="custom-select" id="customSelectTurma">
+                                    <div class="custom-select-trigger">
+                                        <span id="customSelectTurmaText">Selecione a turma...</span>
+                                        <span class="custom-select-arrow">▼</span>
+                                    </div>
+                                    <div class="custom-select-options" id="customSelectTurmaOptions"></div>
+                                </div>
+                                <input type="hidden" id="turma-select">
+                            </div>
+                        </div>
+
+                        <!-- LINHA 2: Disciplina -->
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label class="field-label">
+                                    <i class="fas fa-book" style="color:var(--primary-color, #BB86FC)"></i>
+                                    Disciplina
+                                    <span style="font-weight:300; font-size:0.8rem; opacity:0.6;">(opcional — padrão:
+                                        Geral)</span>
+                                </label>
+                                <div class="custom-select" id="customSelectDisciplina">
+                                    <div class="custom-select-trigger">
+                                        <span id="customSelectDisciplinaText">Geral</span>
+                                        <span class="custom-select-arrow">▼</span>
+                                    </div>
+                                    <div class="custom-select-options" id="customSelectDisciplinaOptions"></div>
+                                </div>
+                                <input type="hidden" id="disciplina-select">
+                            </div>
+                        </div>
+
+                        <!-- Conteúdo -->
+                        <div class="form-group">
+                            <label class="field-label">Conteúdo do Comunicado *</label>
+                            <textarea id="conteudo" class="input-field textarea-large"
+                                placeholder="Digite o conteúdo do comunicado..." maxlength="2000" required></textarea>
+                            <span class="char-count"><span id="conteudo-count">0</span>/255</span>
+                        </div>
+
+                        <!-- Botões -->
+                        <div class="form-actions-row">
+                            <a href="meusComunicados.html" class="btn btn-secondary-outline">
+                                <i class="fas fa-list-ul"></i> Meus Comunicados
+                            </a>
+                            <button type="submit" class="btn btn-primary-neon">
+                                <i class="fas fa-paper-plane"></i> Criar Comunicado
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast">
+        <i class="fas fa-circle-check" id="toast-icon"></i>
+        <span id="toast-msg"></span>
+    </div>
+
+    <script src="../JS/professorComunicados.js"></script>
+    <script src="../../perfil/JS/menuSideBar.js"></script>
+    <script src="../../../global/JS/theme.js"></script>
+</body>
+
+</html>

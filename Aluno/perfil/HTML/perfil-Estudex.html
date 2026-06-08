@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudeX | Meu Perfil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/perfil.css">
+</head>
+
+<body>
+    <section class="user-dashboard">
+
+        <!-- SIDEBAR -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+                <span class="logo-text">EstudeX</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="../../../Home/HTML/home-Estudex.html" class="nav-item" id="nav-home"><i
+                                class="fas fa-home"></i> <span>Home</span></a></li>
+                    <li><a href="../../../Aluno/perfil/HTML/perfil-Estudex.html" class="nav-item active"
+                            id="nav-perfil"><i class="fas fa-user"></i> <span>Perfil</span></a></li>
+                    <li><a href="../../../Aluno/duvidas/HTML/duvidas-Estudex.html" class="nav-item" id="nav-duvidas"><i
+                                class="fas fa-question-circle"></i> <span>Dúvidas</span></a></li>
+                    <li><a href="../../../Aluno/atividade/HTML/atividades-Estudex.html" class="nav-item"
+                            id="nav-atividades"><i class="fas fa-tasks"></i> <span>Atividades</span></a></li>
+                    <li><a href="../../comunicados_aluno/HTML/alunoComunicados.html" class="nav-item"><i
+                                class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                    <li><a href="../../../Aluno/desempenho/HTML/desempenho-Estudex.html" class="nav-item"
+                            id="nav-desempenho"><i class="fas fa-chart-line"></i> <span>Desempenho</span></a></li>
+                    <li><a href="../../../Aluno/enem/HTML/enem.html" class="nav-item" id="nav-enem"><i
+                                class="fas fa-book"></i> <span>Enem</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="../../../Login/HTML/login.html" class="nav-item" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="dashboard-content">
+
+            <!-- Header do Perfil -->
+            <div class="profile-header">
+                <div class="profile-avatar-area">
+                    <div class="avatar-wrapper">
+                        <img src="https://ui-avatars.com/api/?background=BB86FC&color=121212&bold=true&size=120&name=U"
+                            alt="Avatar" class="avatar-profile" id="avatarImg">
+                        <button class="edit-avatar-btn" id="editAvatarBtn">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    <div class="profile-info">
+                        <h1 id="nomeAluno">Carregando...</h1>
+                        <p class="instituicao"><i class="fas fa-graduation-cap"></i> <span
+                                id="serieAluno">Carregando...</span></p>
+                        <p class="xp-info"><i class="fas fa-star"></i> XP Total: <strong id="xpTotal">0</strong></p>
+                        <div class="profile-level">
+                            <span>Nível</span>
+                            <div class="level-bar">
+                                <div class="level-fill" id="levelFill" style="width: 0%"></div>
+                            </div>
+                            <span class="level-text" id="nivelAtual">Iniciante</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sobre Mim -->
+            <div class="about-section-full">
+                <div class="card about-card-full">
+                    <div class="card-header">
+                        <h3><i class="fas fa-user-astronaut"></i> Sobre Mim</h3>
+                        <button class="edit-bio-btn" id="editBioBtn">
+                            <i class="fas fa-pencil-alt"></i> Editar
+                        </button>
+                    </div>
+                    <div class="bio-content">
+                        <p id="bioTexto" class="bio-text">Clique em editar para adicionar uma bio sobre você, seus
+                            objetivos e conquistas!</p>
+                        <div class="bio-edit-area" id="bioEditArea" style="display: none;">
+                            <textarea id="bioTextarea" rows="4" placeholder="Escreva sua bio aqui..."></textarea>
+                            <div class="bio-actions">
+                                <button class="btn-save-bio" id="saveBioBtn">Salvar</button>
+                                <button class="btn-cancel-bio" id="cancelBioBtn">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tags-container" id="tagsContainer">
+                        <span class="tag"><i class="fas fa-hashtag"></i> Estudante</span>
+                        <span class="tag"><i class="fas fa-hashtag"></i> Aprendiz</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Selos e Conquistas + Estatísticas -->
+            <div class="two-columns-grid">
+
+                <!-- Selos e Conquistas -->
+                <div class="card achievements-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-medal"></i> Selos e Conquistas</h3>
+                        <button class="btn-ver-todos" id="viewAchievementsBtn">
+                            Ver Todos <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="achievements-grid" id="achievementsGrid"></div>
+                </div>
+
+                <!-- Estatísticas Rápidas -->
+                <div class="card stats-quick-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-pie"></i> Estatísticas Rápidas</h3>
+                    </div>
+                    <div class="stats-list">
+                        <div class="stat-item">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="stat-details">
+                                <span class="stat-label">Atividades Concluídas</span>
+                                <strong class="stat-number" id="atividadesConcluidas">0</strong>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-percent"></i>
+                            <div class="stat-details">
+                                <span class="stat-label">Taxa de Acerto</span>
+                                <strong class="stat-number" id="taxaAcerto">0%</strong>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-trophy"></i>
+                            <div class="stat-details">
+                                <span class="stat-label">Melhor Sequência</span>
+                                <strong class="stat-number" id="melhorSequencia">0</strong>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <div class="stat-details">
+                                <span class="stat-label">Total de Pontos</span>
+                                <strong class="stat-number" id="totalPontos">0</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </section>
+
+    <!-- MODAL DE CONQUISTAS -->
+    <div id="achievementsModal"
+        style="display:none; position:fixed; z-index:2000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.85);">
+        <div
+            style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:16px; width:90%; max-width:800px; max-height:85vh; overflow:hidden; margin:5% auto; display:flex; flex-direction:column;">
+            <div
+                style="display:flex; justify-content:space-between; align-items:center; padding:20px 25px; border-bottom:1px solid var(--border-color);">
+                <h2 style="font-family:var(--font-futuristic); color:var(--primary-color); font-size:1.2rem;">
+                    <i class="fas fa-medal" style="color:var(--secondary-color); margin-right:8px;"></i>Todas as
+                    Conquistas
+                </h2>
+                <button class="close-modal"
+                    style="background:none; border:none; color:var(--text-muted); font-size:2rem; cursor:pointer;">&times;</button>
+            </div>
+            <div style="overflow-y:auto; padding:20px; flex:1;">
+                <div id="achievementsFullGrid" style="display:grid; grid-template-columns:repeat(4, 1fr); gap:15px;">
+                </div>
+            </div>
+            <div id="achievementsPaginacao"
+                style="display:flex; justify-content:center; align-items:center; gap:15px; padding:15px; border-top:1px solid var(--border-color);">
+            </div>
+        </div>
+    </div>
+
+    <script src="../JS/perfil.js"></script>
+    <script src="../JS/menuSideBar.js"></script>
+</body>
+
+</html>

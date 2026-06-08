@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudeX | Como funciona o ENEM?</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../CSS/como-funciona-enem.css">
+    <link rel="stylesheet" href="../CSS/enem.css">
+   <link rel="stylesheet" href="../../../global/CSS/theme.css">
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+ <section class="user-dashboard">
+        <!-- SIDEBAR (Menu Lateral) -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+                <span class="logo-text">EstudeX</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="../../../Home/HTML/home-Estudex.html" class="nav-item"><i class="fas fa-home"></i> <span>Home</span></a></li>
+                    <li><a href="../../../Aluno/perfil/HTML/perfil-Estudex.html" class="nav-item"><i class="fas fa-user"></i> <span>Perfil</span></a></li>
+                    <li><a href="../../../Aluno/duvidas/HTML/duvidas-Estudex.html" class="nav-item"><i class="fas fa-question-circle"></i> <span>Dúvidas</span></a></li>
+                    <li><a href="../../../Aluno/atividade/HTML/atividades-Estudex.html" class="nav-item"><i class="fas fa-tasks"></i> <span>Atividades</span></a></li>
+                      <li><a href="../../comunicados_aluno/HTML/alunoComunicados.html" class="nav-item"><i class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                    <li><a href="../../../Aluno/desempenho/HTML/desempenho-Estudex.html" class="nav-item"><i class="fas fa-chart-line"></i> <span>Desempenho</span></a></li>
+                    <li><a href="../../../Aluno/enem/HTML/enem.html" class="nav-item"><i class="fas fa-book"></i> <span>Enem</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+            <a href="../../../Login/HTML/login.html" class="nav-item" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sair</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="enem-container">
+
+            <!-- Cabeçalho da página -->
+            <div class="enem-card header-card">
+                <h1 class="page-title">
+                    <i class="fas fa-question-circle"></i> Como funciona o ENEM?
+                </h1>
+                <p class="page-subtitle">
+                    Entenda tudo sobre o Exame Nacional do Ensino Médio
+                </p>
+            </div>
+
+            <!-- Card 1: O que é o ENEM? -->
+            <div class="enem-card info-card">
+                <div class="card-header-with-number">
+                    <div class="card-number">1️⃣</div>
+                    <h2 class="card-title-light">O que é o ENEM?</h2>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h3><i class="fas fa-graduation-cap"></i> Explicação simples</h3>
+                        <p>O ENEM (Exame Nacional do Ensino Médio) é a principal porta de entrada para o ensino superior no Brasil. Criado em 1998, o exame avalia o desempenho dos estudantes ao final da educação básica e abre portas para universidades públicas e privadas.</p>
+                    </div>
+
+                    <div class="info-item">
+                        <h3><i class="fas fa-bullseye"></i> Objetivo do exame</h3>
+                        <p>Avaliar a qualidade do ensino médio no país e servir como mecanismo de acesso à educação superior, seja através de vagas em universidades públicas ou bolsas de estudo em instituições privadas.</p>
+                    </div>
+
+                    <div class="info-item">
+                        <h3><i class="fas fa-users"></i> Quem pode fazer</h3>
+                        <p>Estudantes que já concluíram ou estão concluindo o ensino médio. Também é permitida a participação de pessoas que não concluíram (como treineiros) para autoavaliação, mas sem direito a vagas.</p>
+                    </div>
+
+                    <div class="info-item">
+                        <h3><i class="fas fa-university"></i> Para que serve</h3>
+                        <p>O ENEM é usado como critério de seleção para diversos programas educacionais federais, abrindo oportunidades em todo o país.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Programas de acesso -->
+            <div class="enem-card programs-card">
+                <div class="card-header-with-number">
+                    <div class="card-number">2️⃣</div>
+                    <h2 class="card-title-light">Programas de acesso</h2>
+                </div>
+                
+                <div class="programs-grid">
+                    <!-- SISU -->
+                    <div class="program-item">
+                        <div class="program-header">
+                            <i class="fas fa-university"></i>
+                            <h3>SISU</h3>
+                            <span class="program-badge">Sistema de Seleção Unificada</span>
+                        </div>
+                        <p>Utiliza a nota do ENEM para selecionar candidatos a vagas em universidades públicas federais, estaduais e institutos federais de todo o Brasil.</p>
+                        <ul class="program-features">
+                            <li><i class="fas fa-check"></i> Mais de 200 mil vagas anuais</li>
+                            <li><i class="fas fa-check"></i> Universidades públicas</li>
+                            <li><i class="fas fa-check"></i> Duas edições por ano</li>
+                        </ul>
+                    </div>
+
+                    <!-- PROUNI -->
+                    <div class="program-item">
+                        <div class="program-header">
+                            <i class="fas fa-percent"></i>
+                            <h3>PROUNI</h3>
+                            <span class="program-badge">Programa Universidade para Todos</span>
+                        </div>
+                        <p>Oferece bolsas de estudo integrais e parciais em universidades privadas para estudantes de baixa renda, com base na nota do ENEM.</p>
+                        <ul class="program-features">
+                            <li><i class="fas fa-check"></i> Bolsas integrais (100%) e parciais (50%)</li>
+                            <li><i class="fas fa-check"></i> Instituições particulares</li>
+                            <li><i class="fas fa-check"></i> Critério de renda familiar</li>
+                        </ul>
+                    </div>
+
+                    <!-- FIES -->
+                    <div class="program-item">
+                        <div class="program-header">
+                            <i class="fas fa-credit-card"></i>
+                            <h3>FIES</h3>
+                            <span class="program-badge">Fundo de Financiamento Estudantil</span>
+                        </div>
+                        <p>Financia a graduação em universidades privadas com juros baixos. O pagamento começa após a conclusão do curso.</p>
+                        <ul class="program-features">
+                            <li><i class="fas fa-check"></i> Financiamento de até 100% do curso</li>
+                            <li><i class="fas fa-check"></i> Juros reduzidos</li>
+                            <li><i class="fas fa-check"></i> Pagamento pós-graduação</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Estrutura da prova -->
+            <div class="enem-card structure-card">
+                <div class="card-header-with-number">
+                    <div class="card-number">3️⃣</div>
+                    <h2 class="card-title-light">Estrutura da prova</h2>
+                </div>
+                
+                <div class="structure-grid">
+                    <div class="structure-item">
+                        <span class="day-badge">Dia 1</span>
+                        <ul>
+                            <li><i class="fas fa-language"></i> Linguagens (45 questões)</li>
+                            <li><i class="fas fa-pen"></i> Redação</li>
+                            <li><i class="fas fa-calculator"></i> Ciências Humanas (45 questões)</li>
+                            <li class="total"><strong>Total: 90 questões + redação</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="structure-item">
+                        <span class="day-badge">Dia 2</span>
+                        <ul>
+                            <li><i class="fas fa-flask"></i> Ciências da Natureza (45 questões)</li>
+                            <li><i class="fas fa-square-root-alt"></i> Matemática (45 questões)</li>
+                            <li class="total"><strong>Total: 90 questões</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <p>A prova tem duração de 5h30 no primeiro dia e 5h no segundo dia. A redação deve ser dissertativa-argumentativa com até 30 linhas.</p>
+                </div>
+            </div>
+
+            <!-- Card 4: Dicas importantes -->
+            <div class="enem-card tips-card">
+                <div class="card-header-with-number">
+                    <div class="card-number">4️⃣</div>
+                    <h2 class="card-title-light">Dicas importantes</h2>
+                </div>
+                
+                <div class="tips-grid">
+                    <div class="tip-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h4>Datas</h4>
+                        <p>Geralmente realizado em dois domingos consecutivos de novembro. Fique atento ao calendário oficial do INEP.</p>
+                    </div>
+
+                    <div class="tip-item">
+                        <i class="fas fa-id-card"></i>
+                        <h4>Documentos</h4>
+                        <p>Leve documento oficial com foto (RG, CNH ou passaporte) e caneta esferográfica preta em material transparente.</p>
+                    </div>
+
+                    <div class="tip-item">
+                        <i class="fas fa-clock"></i>
+                        <h4>Chegue cedo</h4>
+                        <p>Os portões abrem às 12h e fecham às 13h (horário de Brasília). Não esqueça de verificar seu local de prova com antecedência.</p>
+                    </div>
+
+                    <div class="tip-item">
+                        <i class="fas fa-redo-alt"></i>
+                        <h4>Reaplicação</h4>
+                        <p>Em caso de problemas logísticos ou doenças, é possível solicitar reaplicação da prova em até 5 dias úteis após o exame.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Como se preparar -->
+            <div class="enem-card prepare-card">
+                <div class="card-header-with-number">
+                    <div class="card-number">5️⃣</div>
+                    <h2 class="card-title-light">Como se preparar</h2>
+                </div>
+                
+                <div class="prepare-grid">
+                    <a href="redacao.html" class="prepare-item">
+                        <i class="fas fa-pen-fancy"></i>
+                        <h4>Praticar redação</h4>
+                        <p>Escreva pelo menos 2 redações por semana</p>
+                    </a>
+
+                    <a href="questoes.html" class="prepare-item">
+                        <i class="fas fa-tasks"></i>
+                        <h4>Resolver questões</h4>
+                        <p>Faça exercícios de edições anteriores</p>
+                    </a>
+
+                    <a href="cronograma.html" class="prepare-item">
+                        <i class="fas fa-calendar-check"></i>
+                        <h4>Criar cronograma</h4>
+                        <p>Organize seus estudos por área</p>
+                    </a>
+
+                    <a href="simulados.html" class="prepare-item">
+                        <i class="fas fa-stopwatch"></i>
+                        <h4>Simulados</h4>
+                        <p>Treine o tempo de prova</p>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script src="../JS/como-funciona-enem.js"></script>
+<script src="../JS/menuSideBar.js"></script>
+<script src="../../../global/JS/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudeX | Histórico de Redações</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../CSS/historico.enem.css">
+</head>
+<body>
+
+<section class="user-dashboard">
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+            <span class="logo-text">EstudeX</span>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="../../../Home/HTML/home-Estudex.html" class="nav-item"><i class="fas fa-home"></i> <span>Home</span></a></li>
+                <li><a href="../../../Aluno/perfil/HTML/perfil-Estudex.html" class="nav-item"><i class="fas fa-user"></i> <span>Perfil</span></a></li>
+                <li><a href="../../../Aluno/duvidas/HTML/duvidas-Estudex.html" class="nav-item"><i class="fas fa-question-circle"></i> <span>Dúvidas</span></a></li>
+                <li><a href="../../../Aluno/atividade/HTML/atividades-Estudex.html" class="nav-item"><i class="fas fa-tasks"></i> <span>Atividades</span></a></li>
+                <li><a href="../../../Aluno/comunicados/HTML/comunicados.html" class="nav-item"><i class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                <li><a href="../../../Aluno/desempenho/HTML/desempenho-Estudex.html" class="nav-item"><i class="fas fa-chart-line"></i> <span>Desempenho</span></a></li>
+                <li><a href="../../../Aluno/enem/HTML/enem.html" class="nav-item"><i class="fas fa-book"></i> <span>Enem</span></a></li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sair</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="dashboard-content">
+        <!-- CABEÇALHO -->
+        <div class="header-top">
+            <h1 class="page-title"><i class="fas fa-history"></i> Histórico de Redações</h1>
+            <div class="notifications-icon" id="notificationsIcon">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">2</span>
+            </div>
+        </div>
+
+        <!-- Botão Voltar -->
+        <a href="enem.html" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Voltar para Central do ENEM
+        </a>
+
+        <!-- CARDS DE ESTATÍSTICAS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📝</div>
+                <div class="stat-info">
+                    <span class="stat-label">Total de Redações</span>
+                    <strong class="stat-value" id="totalRedacoes">0</strong>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-info">
+                    <span class="stat-label">Corrigidas</span>
+                    <strong class="stat-value" id="corrigidas">0</strong>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-info">
+                    <span class="stat-label">Aguardando Correção</span>
+                    <strong class="stat-value" id="aguardando">0</strong>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-info">
+                    <span class="stat-label">Nota Média</span>
+                    <strong class="stat-value" id="mediaNotas">0</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRÁFICO DE DESEMPENHO -->
+        <div class="card chart-card">
+            <div class="card-header">
+                <h3><i class="fas fa-chart-line"></i> Evolução do Desempenho</h3>
+                <div class="chart-filters">
+                    <button class="filter-btn active" data-period="6">6 meses</button>
+                    <button class="filter-btn" data-period="12">12 meses</button>
+                    <button class="filter-btn" data-period="all">Todas</button>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="desempenhoChart"></canvas>
+            </div>
+            <div class="chart-stats">
+                <div class="chart-stat-item">
+                    <span class="stat-label">Melhor Nota</span>
+                    <strong class="stat-value" id="melhorNota">--</strong>
+                </div>
+                <div class="chart-stat-item">
+                    <span class="stat-label">Pior Nota</span>
+                    <strong class="stat-value" id="piorNota">--</strong>
+                </div>
+                <div class="chart-stat-item">
+                    <span class="stat-label">Média do Período</span>
+                    <strong class="stat-value" id="mediaPeriodo">--</strong>
+                </div>
+                <div class="chart-stat-item">
+                    <span class="stat-label">Evolução</span>
+                    <strong class="stat-value" id="evolucao">0%</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- LISTA DE REDAÇÕES -->
+        <div class="card historico-card">
+            <div class="card-header">
+                <h3><i class="fas fa-list"></i> Minhas Redações</h3>
+                <button class="btn-refresh" id="refreshHistorico">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+            <div id="redacoesList" class="redacoes-list">
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-pulse"></i>
+                    <p>Carregando suas redações...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</section>
+
+<!-- MODAL DE DETALHES -->
+<div id="redacaoModal" class="modal">
+    <div class="modal-content modal-redacao">
+        <div class="modal-header">
+            <h2><i class="fas fa-file-alt"></i> Detalhes da Redação</h2>
+            <span class="close-modal" id="closeModalBtn">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="detalhe-item">
+                <label><i class="fas fa-heading"></i> Título</label>
+                <p id="modalTitulo">---</p>
+            </div>
+            <div class="detalhe-item">
+                <label><i class="fas fa-tag"></i> Tema</label>
+                <p id="modalTema">---</p>
+            </div>
+            <div class="detalhe-item">
+                <label><i class="fas fa-calendar"></i> Data de Envio</label>
+                <p id="modalData">---</p>
+            </div>
+            <div class="detalhe-item">
+                <label><i class="fas fa-star"></i> Nota</label>
+                <p id="modalNota">---</p>
+            </div>
+            <div class="detalhe-item">
+                <label><i class="fas fa-comment"></i> Comentários do Professor</label>
+                <p id="modalComentario">---</p>
+            </div>
+            <div class="detalhe-item">
+                <label><i class="fas fa-align-left"></i> Conteúdo da Redação</label>
+                <div class="redacao-conteudo" id="modalConteudo"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-fechar" id="fecharModalBtn">Fechar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="../JS/historico-enem.js"></script>
+<script src="../JS/menuSideBar.js"></script>
+
+</body>
+</html>

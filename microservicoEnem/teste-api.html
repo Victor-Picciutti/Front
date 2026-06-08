@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste Microserviço ENEM</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #121212; color: #fff; }
+        button { padding: 10px 20px; margin: 10px; cursor: pointer; background: #BB86FC; border: none; border-radius: 5px; }
+        pre { background: #1E1E1E; padding: 15px; border-radius: 8px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Teste do Microserviço ENEM</h1>
+    
+    <button onclick="testarTema()">📝 Gerar Tema</button>
+    <button onclick="testarDicas()">💡 Gerar Dicas</button>
+    <button onclick="testarHealth()">❤️ Health Check</button>
+    
+    <h3>Resultado:</h3>
+    <pre id="resultado">Clique em um botão para testar...</pre>
+
+    <script>
+        const API_URL = 'http://localhost:3001/api/redacao';
+        
+        async function testarTema() {
+            const res = await fetch(`${API_URL}/tema`);
+            const data = await res.json();
+            document.getElementById('resultado').innerHTML = JSON.stringify(data, null, 2);
+        }
+        
+        async function testarDicas() {
+            const res = await fetch(`${API_URL}/dicas`);
+            const data = await res.json();
+            document.getElementById('resultado').innerHTML = JSON.stringify(data, null, 2);
+        }
+        
+        async function testarHealth() {
+            const res = await fetch(`${API_URL}/health`);
+            const data = await res.json();
+            document.getElementById('resultado').innerHTML = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+</html>

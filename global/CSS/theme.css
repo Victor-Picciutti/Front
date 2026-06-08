@@ -1,0 +1,277 @@
+
+*,
+*::before,
+*::after {
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    fill 0.35s ease,
+    stroke 0.35s ease,
+    opacity 0.35s ease;
+}
+
+/* --------------------------------------------------------------------------
+   2. TEMA ESCURO — Padrão (:root)
+      Mantém os nomes de variáveis já usados no projeto +
+      adiciona variáveis complementares que estavam hardcoded.
+   -------------------------------------------------------------------------- */
+:root {
+  /* ── Accent / Identidade visual ───────────────────────────────────────── */
+  --primary-color:     #BB86FC;          /* Roxo neon — já usado no projeto */
+  --secondary-color:   #a21fa2;          /* Rosa neon — já usado no projeto */
+  --accent-color:      #FF3D00;          /* Laranja neon — alertas           */
+  --primary-accent:    #BB86FC;          /* Alias usado nos themes.css       */
+  --secondary-accent:  #a21fa2;          /* Alias usado nos themes.css       */
+
+  /* ── Backgrounds ──────────────────────────────────────────────────────── */
+  --bg-dark:           #121212;          /* body — já usado no projeto       */
+  --bg-primary:        #0d0d0f;          /* variante mais escura             */
+  --bg-secondary:      #1a1a1d;          /* usada nos themes.css locais      */
+  --bg-card:           #1E1E1E;          /* cards — já usado no projeto      */
+  --bg-sidebar:        #0D0D0D;          /* sidebar (estava hardcoded)       */
+  --bg-input:          rgba(187,134,252,0.08); /* inputs (estava hardcoded)  */
+  --bg-hover:          #1A1A1A;          /* hover de nav-item (hardcoded)    */
+  --bg-active:         rgba(187,134,252,0.15); /* estado ativo               */
+  --bg-overlay:        rgba(0,0,0,0.6);
+
+  /* ── Textos ───────────────────────────────────────────────────────────── */
+  --text-primary:      #ffffff;          /* alias para themes.css            */
+  --text-light:        #E0E0E0;          /* já usado no projeto              */
+  --text-secondary:    #cccccc;          /* alias para themes.css            */
+  --text-muted:        #9E9E9E;          /* já usado no projeto              */
+  --text-dark:         #5A4A7A;          /* texto sobre fundo claro lilás    */
+  --text-on-accent:    #121212;          /* texto sobre o botão accent       */
+
+  /* ── Bordas ───────────────────────────────────────────────────────────── */
+  --border-color:      rgba(187,134,252,0.2); /* já usado no projeto        */
+  --border-strong:     #262626;          /* alias para themes.css            */
+  --border-focus:      #BB86FC;
+
+  /* ── Sombras ──────────────────────────────────────────────────────────── */
+  --shadow-color:      rgba(0,0,0,0.5);  /* já usado no projeto              */
+  --shadow-neon:       0 0 10px var(--primary-color);
+  --shadow-sm:         0 4px 15px var(--shadow-color);
+  --shadow-md:         0 8px 25px rgba(187,134,252,0.15);
+
+  /* ── Status / Semântica ───────────────────────────────────────────────── */
+  --status-completed:  #00E676;
+  --status-pending:    #FFC107;
+  --status-excellent:  #00E676;
+  --status-good:       #4FC3F7;
+  --status-average:    #FFC107;
+  --priority-high:     #FF3D00;
+  --priority-medium:   #FFC107;
+  --priority-low:      #00E676;
+  --color-success:     #00E676;
+  --color-error:       #ff4646;
+  --color-google:      #EA4335;
+  --color-microsoft:   #0078D4;
+
+  /* ── Cards claros (welcome card etc.) ────────────────────────────────── */
+  --bg-light-card:     #2a1a3e;          /* escuro lilás para manter contraste */
+  --card-gradient-from:#2a1a3e;
+  --card-gradient-to:  #1e1228;
+
+  /* ── Tipografia ───────────────────────────────────────────────────────── */
+  --font-futuristic:   'Orbitron', sans-serif;
+  --font-main:         'Poppins', sans-serif;
+
+  /* ── Scrollbar ────────────────────────────────────────────────────────── */
+  --scrollbar-thumb:   #3a3a3a;
+  --scrollbar-track:   #1e1e1e;
+
+  /* ── Radius ───────────────────────────────────────────────────────────── */
+  --border-radius:     15px;
+  --radius-sm:         5px;
+  --radius-md:         8px;
+  --radius-lg:         12px;
+  --radius-xl:         16px;
+  --radius-full:       9999px;
+  --sidebar-width:     250px;
+
+  /* ── Aparências extras (compatibilidade com themes.css) ──────────────── */
+  --theme-icon: "☀️";  /* ícone exibido no botão quando tema = escuro */
+}
+
+/* --------------------------------------------------------------------------
+   3. TEMA CLARO — html.light
+      Sobrescreve apenas o que muda. Estrutura e layout não precisam mudar.
+   -------------------------------------------------------------------------- */
+html.light {
+  /* ── Accent ───────────────────────────────────────────────────────────── */
+  --primary-color:     #7B3FF2;
+  --secondary-color:   #a21fa2;
+  --accent-color:      #e03000;
+  --primary-accent:    #7B3FF2;
+  --secondary-accent:  #a21fa2;
+
+  /* ── Backgrounds ──────────────────────────────────────────────────────── */
+  --bg-dark:           #f2f2f7;
+  --bg-primary:        #f2f2f7;
+  --bg-secondary:      #ffffff;
+  --bg-card:           #ffffff;
+  --bg-sidebar:        #f0f0f0;
+  --bg-input:          #ffffff;
+  --bg-hover:          #e8e8e8;
+  --bg-active:         rgba(123,63,242,0.1);
+  --bg-overlay:        rgba(0,0,0,0.3);
+
+  /* ── Textos ───────────────────────────────────────────────────────────── */
+  --text-primary:      #1a1a1a;
+  --text-light:        #1a1a1a;
+  --text-secondary:    #444444;
+  --text-muted:        #777777;
+  --text-dark:         #3a2a5a;
+  --text-on-accent:    #ffffff;
+
+  /* ── Bordas ───────────────────────────────────────────────────────────── */
+  --border-color:      #d6d6d6;
+  --border-strong:     #cccccc;
+  --border-focus:      #7B3FF2;
+
+  /* ── Sombras ──────────────────────────────────────────────────────────── */
+  --shadow-color:      rgba(0,0,0,0.12);
+  --shadow-neon:       0 0 10px rgba(123,63,242,0.3);
+  --shadow-sm:         0 4px 15px rgba(0,0,0,0.08);
+  --shadow-md:         0 8px 25px rgba(123,63,242,0.12);
+
+  /* ── Cards claros ─────────────────────────────────────────────────────── */
+  --bg-light-card:     #F3E8FF;
+  --card-gradient-from:#F3E8FF;
+  --card-gradient-to:  #EDD5FF;
+
+  /* ── Scrollbar ────────────────────────────────────────────────────────── */
+  --scrollbar-thumb:   #cccccc;
+  --scrollbar-track:   #f0f0f0;
+
+  /* ── Ícone do botão ───────────────────────────────────────────────────── */
+  --theme-icon: "🌙";
+}
+
+/* --------------------------------------------------------------------------
+   4. APARÊNCIAS (mantidas para compatibilidade com código existente)
+   -------------------------------------------------------------------------- */
+html.theme-neon {
+  --primary-color:    #BB86FC;
+  --secondary-color:  #a21fa2;
+  --primary-accent:   #BB86FC;
+  --secondary-accent: #a21fa2;
+}
+html.theme-darkpro {
+  --primary-color:    #6a6a6a;
+  --secondary-color:  #444444;
+  --primary-accent:   #6a6a6a;
+  --secondary-accent: #444444;
+}
+html.theme-azuldev {
+  --primary-color:    #0088ff;
+  --secondary-color:  #00d4ff;
+  --primary-accent:   #0088ff;
+  --secondary-accent: #00d4ff;
+}
+
+/* --------------------------------------------------------------------------
+   5. SUPORTE A prefers-color-scheme
+      Usado apenas quando NÃO há preferência salva pelo usuário.
+      O theme.js adiciona data-theme-set="true" quando o usuário escolhe.
+   -------------------------------------------------------------------------- */
+@media (prefers-color-scheme: light) {
+  html:not([data-theme-set]) {
+    --primary-color:    #7B3FF2;
+    --secondary-color:  #a21fa2;
+    --primary-accent:   #7B3FF2;
+    --secondary-accent: #a21fa2;
+    --bg-dark:          #f2f2f7;
+    --bg-primary:       #f2f2f7;
+    --bg-secondary:     #ffffff;
+    --bg-card:          #ffffff;
+    --bg-sidebar:       #f0f0f0;
+    --bg-input:         #ffffff;
+    --bg-hover:         #e8e8e8;
+    --text-primary:     #1a1a1a;
+    --text-light:       #1a1a1a;
+    --text-secondary:   #444444;
+    --text-muted:       #777777;
+    --border-color:     #d6d6d6;
+    --border-strong:    #cccccc;
+    --shadow-color:     rgba(0,0,0,0.12);
+    --bg-light-card:    #F3E8FF;
+    --scrollbar-thumb:  #cccccc;
+    --scrollbar-track:  #f0f0f0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. ESTILOS GLOBAIS BASE
+   -------------------------------------------------------------------------- */
+html {
+  color-scheme: dark;
+}
+html.light {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  font-family: var(--font-main);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+a:hover {
+  color: var(--secondary-color);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: var(--radius-full); }
+::selection { background-color: rgba(187,134,252,0.2); color: var(--text-light); }
+
+/* --------------------------------------------------------------------------
+   7. SIDEBAR GLOBAL — Substitui o #0D0D0D hardcoded
+   -------------------------------------------------------------------------- */
+.sidebar {
+  background-color: var(--bg-sidebar) !important;
+}
+
+.nav-item:hover {
+  background-color: var(--bg-hover) !important;
+}
+
+/* --------------------------------------------------------------------------
+   8. BOTÃO TOGGLE — Injetado automaticamente pelo theme.js
+   -------------------------------------------------------------------------- */
+#theme-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-secondary);
+  color: var(--text-light);
+  box-shadow: var(--shadow-sm);
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+#theme-toggle:hover {
+  background-color: var(--bg-hover);
+  box-shadow: var(--shadow-neon);
+  transform: scale(1.08);
+}
+#theme-toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(187,134,252,0.5);
+}

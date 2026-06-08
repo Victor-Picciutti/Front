@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudeX | Atividades</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/atividade.css">
+         <link rel="stylesheet" href="../../../global/CSS/theme.css">
+</head>
+
+<body>
+
+    <section class="user-dashboard">
+        <!-- SIDEBAR -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+                <span class="logo-text">EstudeX</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="../../../Home/HTML/home-Estudex.html" class="nav-item"><i class="fas fa-home"></i>
+                            <span>Home</span></a></li>
+                    <li><a href="../../../Aluno/perfil/HTML/perfil-Estudex.html" class="nav-item"><i
+                                class="fas fa-user"></i> <span>Perfil</span></a></li>
+                    <li><a href="../../../Aluno/duvidas/HTML/duvidas-Estudex.html" class="nav-item"><i
+                                class="fas fa-question-circle"></i> <span>Dúvidas</span></a></li>
+                    <li><a href="../../../Aluno/atividade/HTML/atividades-Estudex.html" class="nav-item active"><i
+                                class="fas fa-tasks"></i> <span>Atividades</span></a></li>
+                    <li><a href="../../comunicados_aluno/HTML/alunoComunicados.html" class="nav-item"><i
+                                class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                    <li><a href="../../../Aluno/desempenho/HTML/desempenho-Estudex.html" class="nav-item"><i
+                                class="fas fa-chart-line"></i> <span>Desempenho</span></a></li>
+                    <li><a href="../../../Aluno/enem/HTML/enem.html" class="nav-item"><i class="fas fa-book"></i>
+                            <span>Enem</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../../Login/HTML/login.html" class="nav-item" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="dashboard-content" id="dashboardContent">
+            <div class="page-title">
+                <i class="fas fa-tasks"></i>
+                <h1>Minhas Atividades</h1>
+            </div>
+
+            <!-- Stats do Aluno -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Atividades</span>
+                        <strong class="stat-value" id="totalAtividades">0</strong>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Concluídas</span>
+                        <strong class="stat-value" id="atividadesConcluidas">0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filters-container">
+                <!-- Busca -->
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchAtividade" placeholder="Buscar atividades...">
+                </div>
+
+                <!-- Filtro Status -->
+                <div class="custom-select" id="filterSelectStatus" style="width:170px; flex-shrink:0;">
+                    <div class="custom-select-trigger">
+                        <span id="filterStatusText">Todas</span>
+                        <span class="custom-select-arrow">▼</span>
+                    </div>
+                    <div class="custom-select-options" id="filterStatusOptions"></div>
+                </div>
+                <input type="hidden" id="statusFilter">
+
+                <!-- Filtro Dificuldade -->
+                <div class="custom-select" id="filterSelectDificuldade" style="width:180px; flex-shrink:0;">
+                    <div class="custom-select-trigger">
+                        <span id="filterDificuldadeText">Dificuldade</span>
+                        <span class="custom-select-arrow">▼</span>
+                    </div>
+                    <div class="custom-select-options" id="filterDificuldadeOptions"></div>
+                </div>
+                <input type="hidden" id="dificuldadeFilter">
+
+                <!-- Filtro Disciplina -->
+                <div class="custom-select" id="filterSelectDisciplina" style="width:190px; flex-shrink:0;">
+                    <div class="custom-select-trigger">
+                        <span id="filterDisciplinaText">Disciplina</span>
+                        <span class="custom-select-arrow">▼</span>
+                    </div>
+                    <div class="custom-select-options" id="filterDisciplinaOptions"></div>
+                </div>
+                <input type="hidden" id="disciplinaFilter">
+            </div>
+
+            <!-- Lista de Atividades -->
+            <div id="atividadesList" class="atividades-grid">
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-pulse"></i>
+                    <p>Carregando atividades...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal para Responder Atividade -->
+    <div id="modalAtividade" class="modal">
+        <div class="modal-content modal-large">
+
+            <div class="modal-header">
+                <h2>
+                    <i class="fas fa-edit"></i>
+                    <span id="modalTitulo">Responder Atividade</span>
+                </h2>
+                <span class="close" onclick="closeModalAtividade()">&times;</span>
+            </div>
+
+            <!-- INFORMAÇÕES DA ATIVIDADE -->
+            <div id="modalInfoAtividade"></div>
+
+            <!-- PERGUNTAS -->
+            <div id="perguntasContainer" class="perguntas-container"></div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+                <button class="btn-submit" onclick="enviarRespostas()">
+                    <i class="fas fa-paper-plane"></i>
+                    Enviar Respostas
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../JS/atividades.js"></script>
+    <script src="../JS/menuSideBar.js"></script>
+       <script src="../../../global/JS/theme.js"></script>
+
+</body>
+
+</html>

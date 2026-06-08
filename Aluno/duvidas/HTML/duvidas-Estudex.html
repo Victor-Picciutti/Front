@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<!--teste-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudeX | Minhas Dúvidas</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../CSS/duvidas.css">
+         <link rel="stylesheet" href="../../../global/CSS/theme.css">
+</head>
+
+<body>
+
+    <section class="user-dashboard">
+        <!-- SIDEBAR (Menu Lateral) -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+                <span class="logo-text">EstudeX</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="../../../Home/HTML/home-Estudex.html" class="nav-item" id="nav-home"><i
+                                class="fas fa-home"></i> <span>Home</span></a></li>
+                    <li><a href="../../../Aluno/perfil/HTML/perfil-Estudex.html" class="nav-item" id="nav-perfil"><i
+                                class="fas fa-user"></i> <span>Perfil</span></a></li>
+                    <li><a href="../../../Aluno/duvidas/HTML/duvidas-Estudex.html" class="nav-item active"
+                            id="nav-duvidas"><i class="fas fa-question-circle"></i> <span>Dúvidas</span></a></li>
+                    <li><a href="../../../Aluno/atividade/HTML/atividades-Estudex.html" class="nav-item"
+                            id="nav-atividades"><i class="fas fa-tasks"></i> <span>Atividades</span></a></li>
+                    <li><a href="../../comunicados_aluno/HTML/alunoComunicados.html" class="nav-item"><i class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                    <li><a href="../../../Aluno/desempenho/HTML/desempenho-Estudex.html" class="nav-item"
+                            id="nav-desempenho"><i class="fas fa-chart-line"></i> <span>Desempenho</span></a></li>
+                    <li><a href="../../../Aluno/enem/HTML/enem.html" class="nav-item" id="nav-enem"><i
+                                class="fas fa-book"></i> <span>Enem</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../../Login/HTML/login.html" class="nav-item" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="dashboard-content">
+            <div class="page-title">
+                <i class="fas fa-question-circle"></i>
+                <h1>Minhas Dúvidas</h1>
+            </div>
+
+            <!-- Área do Aluno - Cards de Informação -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-icon">📖</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Série</span>
+                        <strong class="stat-value" id="serieAluno">Carregando...</strong>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">❓</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Minhas Dúvidas</span>
+                        <strong class="stat-value" id="totalMinhasDuvidas">0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barra de Ação -->
+            <div class="action-bar">
+                <button class="btn-primary" onclick="openModal()">
+                    <i class="fas fa-plus"></i> Nova Dúvida
+                </button>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filters-container">
+                <!-- Busca -->
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchDuvida" placeholder="Buscar minhas dúvidas...">
+                </div>
+
+                <!-- Filtro Disciplina — custom select padrão comunicados -->
+                <div class="custom-select" id="filterSelectDisciplina" style="width:220px; flex-shrink:0;">
+                    <div class="custom-select-trigger">
+                        <span id="filterDisciplinaText">Todas as disciplinas</span>
+                        <span class="custom-select-arrow">▼</span>
+                    </div>
+                    <div class="custom-select-options" id="filterDisciplinaOptions"></div>
+                </div>
+                <input type="hidden" id="disciplinaFilter">
+
+                <!-- Filtro Status — custom select padrão comunicados -->
+                <div class="custom-select" id="filterSelectStatus" style="width:180px; flex-shrink:0;">
+                    <div class="custom-select-trigger">
+                        <span id="filterStatusText">Todos os status</span>
+                        <span class="custom-select-arrow">▼</span>
+                    </div>
+                    <div class="custom-select-options" id="filterStatusOptions"></div>
+                </div>
+                <input type="hidden" id="statusFilter">
+            </div>
+
+            <!-- Lista de Dúvidas -->
+            <div id="duvidasList" class="duvidas-grid">
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-pulse"></i>
+                    <p>Carregando suas dúvidas...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Nova Dúvida -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-question-circle"></i> Nova Dúvida</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="duvidaForm" onsubmit="submitDuvida(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Título:</label>
+                    <input type="text" id="titulo" required placeholder="Ex: Dúvida sobre Bhaskara">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-book"></i> Disciplina:</label>
+                    <div class="custom-select-wrapper">
+                        <div class="custom-select" id="customSelectDisciplina">
+                            <div class="custom-select-trigger">
+                                <span id="customSelectText">Selecione uma disciplina</span>
+                                <span class="custom-select-arrow">▼</span>
+                            </div>
+                            <div class="custom-select-options" id="customSelectOptions"></div>
+                        </div>
+                        <input type="hidden" id="disciplina">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-align-left"></i> Descrição:</label>
+                    <textarea id="descricao" rows="4" required
+                        placeholder="Descreva sua dúvida em detalhes..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-paper-plane"></i> Enviar Dúvida
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Dúvida -->
+    <div id="modalEditar" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-pencil-alt"></i> Editar Dúvida</h2>
+                <span class="close" onclick="fecharModalEditar()">&times;</span>
+            </div>
+            <form id="editarForm" onsubmit="salvarEdicao(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Título:</label>
+                    <input type="text" id="editTitulo" required placeholder="Título da dúvida">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-book"></i> Disciplina:</label>
+                    <div class="custom-select-wrapper">
+                        <div class="custom-select" id="customSelectEditDisciplina">
+                            <div class="custom-select-trigger">
+                                <span id="customSelectEditText">Selecione uma disciplina</span>
+                                <span class="custom-select-arrow">▼</span>
+                            </div>
+                            <div class="custom-select-options" id="customSelectEditOptions"></div>
+                        </div>
+                        <input type="hidden" id="editDisciplina">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-align-left"></i> Descrição:</label>
+                    <textarea id="editDescricao" rows="4" required placeholder="Descreva sua dúvida..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Salvar alterações
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Confirmar Delete -->
+    <div id="modalConfirmDelete" class="modal">
+        <div class="modal-content" style="max-width: 400px; text-align: center;">
+            <div style="font-size: 48px; margin-bottom: 16px;">🗑️</div>
+            <h2 style="margin-bottom: 8px;">Excluir dúvida?</h2>
+            <p style="color: #9ca3af; margin-bottom: 24px;">Essa ação não pode ser desfeita.</p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button onclick="fecharConfirmDelete()" class="btn-primary"
+                    style="background: transparent; border: 1px solid #3f3f5a;">Cancelar</button>
+                <button id="btnConfirmarDelete" onclick="confirmarDelete()" class="btn-primary"
+                    style="background: #dc2626;">
+                    <i class="fas fa-trash"></i> Sim, excluir
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Resposta -->
+    <div id="modalResposta" class="modal" style="display:none;">
+        <div style="display:flex; align-items:center; justify-content:center; width:100%; height:100%;">
+            <div class="modal-content" style="max-width:500px; width:90%;">
+                <div class="modal-header" style="background: var(--primary-color); border-radius: 8px 8px 0 0;">
+                    <h2 style="color:#fff; display:flex; align-items:center; gap:8px;">
+                        <i class="fas fa-comment-dots"></i>
+                        <span id="modalRespostaTitulo"></span>
+                    </h2>
+                    <span class="close" onclick="fecharModalResposta()" style="color:#fff;">&times;</span>
+                </div>
+                <div style="padding: 24px;">
+                    <div style="display:flex; gap:16px; font-size:0.85rem; color:#666; margin-bottom:16px;">
+                        <span><i class="fas fa-user-tie"></i> <strong id="modalRespostaProfessor"></strong></span>
+                        <span><i class="far fa-calendar-alt"></i> <span id="modalRespostaData"></span></span>
+                    </div>
+                    <div style="background:#f5f5f5; border-radius:8px; padding:16px; font-size:0.95rem; line-height:1.6;">
+                        <p id="modalRespostaConteudo" style="margin:0; color:#1a1a1a;"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../JS/duvidas.js"></script>
+    <script src="../JS/menuSideBar.js"></script>
+    <script src="../../../global/JS/theme.js"></script>
+
+</body>
+
+</html>

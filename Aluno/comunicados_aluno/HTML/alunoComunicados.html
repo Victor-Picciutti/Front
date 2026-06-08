@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunicados - EstudeX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/home.css">
+    <link rel="stylesheet" href="../CSS/alunoComunicados.css">
+       <link rel="stylesheet" href="../../../global/CSS/theme.css">
+</head>
+
+<body>
+    <div class="user-dashboard">
+        <!-- SIDEBAR -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+                <span class="logo-text">EstudeX</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="../../../Home/HTML/home-Estudex.html" class="nav-item"><i class="fas fa-home"></i>
+                            <span>Home</span></a></li>
+                    <li><a href="../../../Aluno/perfil/HTML/perfil-Estudex.html" class="nav-item"><i
+                                class="fas fa-user"></i> <span>Perfil</span></a></li>
+                    <li><a href="../../../Aluno/duvidas/HTML/duvidas-Estudex.html" class="nav-item"><i
+                                class="fas fa-question-circle"></i> <span>Dúvidas</span></a></li>
+                    <li><a href="../../../Aluno/atividade/HTML/atividades-Estudex.html" class="nav-item"><i
+                                class="fas fa-tasks"></i> <span>Atividades</span></a></li>
+                    <li><a href="../../../Aluno/comunicados/HTML/alunoComunicados.html" class="nav-item active"><i
+                                class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                    <li><a href="../../../Aluno/desempenho/HTML/desempenho-Estudex.html" class="nav-item"><i
+                                class="fas fa-chart-line"></i> <span>Desempenho</span></a></li>
+                    <li><a href="../../../Aluno/enem/HTML/enem.html" class="nav-item"><i class="fas fa-book"></i>
+                            <span>Enem</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../../../Login/HTML/login.html" class="nav-item" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="dashboard-content" id="dashboardContent">
+            <!-- HEADER -->
+            <div class="header-top">
+                <div class="page-title">
+                    <i class="fas fa-bullhorn"></i>
+                    <h1>Comunicados</h1>
+                </div>
+            </div>
+
+            <!-- FILTROS -->
+            <div class="filtros-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Buscar comunicado...">
+                </div>
+                <div class="custom-select" id="customSelectDisciplina" style="width:220px; flex-shrink:0;">
+                    <div class="custom-select-trigger">
+                        <span id="customSelectDisciplinaText">Todas as Disciplinas</span>
+                        <span class="custom-select-arrow">▼</span>
+                    </div>
+                    <div class="custom-select-options" id="customSelectDisciplinaOptions"></div>
+                </div>
+                <input type="hidden" id="filter-materia">
+            </div>
+
+            <!-- LISTA DE COMUNICADOS -->
+            <div class="comunicados-container">
+                <div class="comunicados-list" id="comunicados-list">
+                    <!-- Preenchido via JS -->
+                </div>
+
+                <div class="empty-state" id="empty-state" style="display: none;">
+                    <i class="fas fa-inbox"></i>
+                    <h2>Nenhum comunicado</h2>
+                    <p>Você não tem comunicados no momento. Volte mais tarde!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE DETALHES -->
+    <div class="modal" id="modal-comunicado">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-titulo"></h2>
+                <button class="close-modal" onclick="fecharModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="comunicado-info">
+                    <div class="info-item">
+                        <span class="info-label">Professor:</span>
+                        <span class="info-value" id="modal-professor"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Matéria:</span>
+                        <span class="info-value" id="modal-materia"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Data:</span>
+                        <span class="info-value" id="modal-data"></span>
+                    </div>
+                </div>
+                <div class="comunicado-conteudo-full" id="modal-conteudo"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../JS/alunoComunicados.js"></script>
+    <script src="../JS/menuSideBar.js"></script>
+     <script src="../../../global/JS/theme.js"></script>
+</body>
+
+</html>

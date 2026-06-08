@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudeX | Professor - Minhas Atividades</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="../CSS/themes.css">
+    <link rel="stylesheet" href="../../../global/CSS/theme.css">
+    <link rel="stylesheet" href="../CSS/minhasAtividades.css">
+    <link rel="stylesheet" href="../../perfil/CSS/professorSidebar.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar professor-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+            <span class="logo-text">EstudeX <span class="professor-badge">Prof</span></span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="../../perfil/HTML/professorPerfil.html" class="nav-item"><i class="fas fa-user"></i>
+                        <span>Perfil</span></a></li>
+                <li><a href="../../atividades/HTML/atividades.html" class="nav-item active"><i class="fas fa-tasks"></i>
+                        <span>Atividades</span></a></li>
+                <li><a href="../../redacao/HTML/criarRedacao.html" class="nav-item"><i class="fas fa-pen-fancy"></i> 
+                    <span>Redações</span></a></li>
+                <li><a href="../../comunicados_professor/HTML/professorComunicados.html" class="nav-item"><i
+                            class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+                <li><a href="../../atividades/HTML/duvidas.html" class="nav-item"><i class="fas fa-question-circle"></i>
+                        <span>Dúvidas</span></a></li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="../../../Login/HTML/login.html" class="nav-item" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sair</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="dashboard-content">
+
+        <div class="page-title">
+            <i class="fas fa-tasks"></i>
+            <h1>Minhas Atividades</h1>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon">📋</div>
+                <div class="stat-info">
+                    <span class="stat-label">Total de Atividades</span>
+                    <strong class="stat-value" id="totalAtividades">0</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchAtividade" placeholder="Buscar atividades..."
+                    onkeyup="filtrarAtividades()">
+            </div>
+        </div>
+
+        <div id="atividadesList" class="atividades-grid">
+            <div class="loading-state">
+                <i class="fas fa-spinner fa-pulse"></i>
+                <p>Carregando atividades...</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal Confirmar Delete -->
+    <div id="modalConfirmDelete" class="modal" style="display:none; align-items:center; justify-content:center;">
+        <div class="modal-content" style="max-width: 400px; text-align: center; padding: 30px;">
+            <div style="font-size: 48px; margin-bottom: 16px;">🗑️</div>
+            <h2 style="margin-bottom: 8px; font-family: var(--font-futuristic); color: var(--primary-color);">Excluir
+                atividade?</h2>
+            <p style="color: #9ca3af; margin-bottom: 24px;">Essa ação não pode ser desfeita.</p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button onclick="fecharConfirmDelete()" class="btn-primary"
+                    style="background: transparent; border: 1px solid #3f3f5a; color: var(--text-light);">Cancelar</button>
+                <button id="btnConfirmarDelete" onclick="confirmarDelete()" class="btn-primary"
+                    style="background: #dc2626;">
+                    <i class="fas fa-trash"></i> Sim, excluir
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <i class="fas fa-circle-check" id="toast-icon"></i>
+        <span id="toast-msg"></span>
+    </div>
+
+    <!-- Modal Respostas da Atividade -->
+    <div id="modalRespostas" class="modal" style="display:none; align-items:center; justify-content:center;">
+        <div class="modal-content" style="max-width: 700px; width: 90%; padding: 30px;">
+
+            <!-- Cabeçalho -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h2 style="font-family: var(--font-futuristic); color: var(--primary-color); font-size:1.1rem;">
+                    <i class="fas fa-chart-bar"></i> Respostas da Atividade
+                </h2>
+                <button onclick="fecharModalRespostas()"
+                    style="background:transparent; border:none; color:#9ca3af; font-size:1.4rem; cursor:pointer;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Nome da atividade + filtro -->
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+                <p id="modalRespostasTitulo" style="color:#9ca3af; font-size:0.9rem; margin:0;"></p>
+                <select id="filtroSerie" onchange="aplicarFiltroSerie()" style="
+                    background: #252538;
+                    border: 1px solid rgba(187,134,252,0.3);
+                    border-radius: 10px;
+                    color: #E0E0E0;
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 0.82rem;
+                    padding: 7px 32px 7px 12px;
+                    cursor: pointer;
+                    outline: none;
+                    appearance: none;
+                    -webkit-appearance: none;
+                    background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23BB86FC%22 stroke-width=%222%22%3E%3Cpolyline points=%226 9 12 15 18 9%22%3E%3C/polyline%3E%3C/svg%3E');
+                    background-repeat: no-repeat;
+                    background-position: right 10px center;
+                    min-width: 160px;
+                    flex-shrink: 0;
+                ">
+                    <option value="">Todas as turmas</option>
+                </select>
+            </div>
+
+            <!-- Tabela -->
+            <div id="modalRespostasBody"></div>
+
+        </div>
+    </div>
+
+    <script src="../JS/minhasAtividades.js"></script>
+    <script src="../../perfil/JS/menuSideBar.js"></script>
+    <script src="../../../global/JS/theme.js"></script>
+
+</body>
+
+</html>

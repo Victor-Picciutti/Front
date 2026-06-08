@@ -1,0 +1,42 @@
+/* ======== TEMA ESCURO (PADRÃO) ======== */
+:root {
+    --bg-primary: #0d0d0f;
+    --bg-secondary: #1a1a1d;
+    --bg-card: #151516;
+    --border-color: #262626;
+
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-muted: #888888;
+
+    --primary-accent: #BB86FC;
+    --secondary-accent: #a21fa2;
+}
+
+/* ======== TEMA CLARO ======== */
+html.light {
+    --bg-primary: #f2f2f7;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --border-color: #d6d6d6;
+
+    --text-primary: #1a1a1a;
+    --text-secondary: #444444;
+    --text-muted: #777777;
+}
+
+/* ======== APARÊNCIAS ======== */
+html.theme-neon {
+    --primary-accent: #BB86FC;
+    --secondary-accent: #a21fa2;
+}
+
+html.theme-darkpro {
+    --primary-accent: #444;
+    --secondary-accent: #222;
+}
+
+html.theme-azuldev {
+    --primary-accent: #0088ff;
+    --secondary-accent: #00d4ff;
+}

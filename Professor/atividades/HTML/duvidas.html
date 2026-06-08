@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EstudeX – Dúvidas dos Alunos</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../CSS/home.css">
+  <link rel="stylesheet" href="../CSS/duvidas.css">
+  <link rel="stylesheet" href="../../perfil/CSS/professorSidebar.css">
+   <link rel="stylesheet" href="../../../global/CSS/theme.css">
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
+      <span class="logo-text">EstudeX <span class="professor-badge">Prof</span></span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a href="../../perfil/HTML/professorPerfil.html" class="nav-item"><i class="fas fa-user"></i>
+            <span>Perfil</span></a></li>
+        <li><a href="../../atividades/HTML/atividades.html" class="nav-item"><i class="fas fa-tasks"></i>
+            <span>Atividades</span></a></li>
+         <li><a href="../../redacao/HTML/criarRedacao.html" class="nav-item"><i class="fas fa-pen-fancy"></i> 
+          <span>Redações</span></a></li>
+        <li><a href="../../comunicados_professor/HTML/professorComunicados.html" class="nav-item"><i
+              class="fas fa-bullhorn"></i> <span>Comunicados</span></a></li>
+        <li><a href="../../atividades/HTML/duvidas.html" class="nav-item active"><i class="fas fa-question-circle"></i>
+            <span>Dúvidas</span></a></li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="../../../Login/HTML/login.html" class="nav-item logout" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i><span>Sair</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="dashboard-content">
+
+    <!-- HEADER DA PÁGINA -->
+    <div class="header-top">
+      <div class="page-title">
+        <i class="fas fa-comments"></i>
+        <h1>Dúvidas dos Alunos</h1>
+      </div>
+      <div class="header-actions">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="search-input" placeholder="Buscar dúvida...">
+        </div>
+        <div class="filter-box">
+          <select id="filter-disciplina" class="filter-select">
+            <option value="">Todas as Disciplinas</option>
+            <!-- Preenchido via JS -->
+          </select>
+          <select id="filter-turma" class="filter-select">
+            <option value="">Todas as Turmas</option>
+            <!-- Preenchido via JS -->
+          </select>
+          <select id="filter-status" class="filter-select">
+            <option value="">Todos os Status</option>
+            <option value="pendente">Pendente</option>
+            <option value="respondida">Respondida</option>
+
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESTATÍSTICAS RÁPIDAS -->
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Pendentes</span>
+          <span class="stat-value" id="stat-pendentes">0</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Respondidas</span>
+          <span class="stat-value" id="stat-respondidas">0</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-inbox"></i>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Total</span>
+          <span class="stat-value" id="stat-total">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRID DE DÚVIDAS -->
+    <div class="duvidas-container">
+      <div class="duvidas-grid" id="duvidas-grid">
+        <!-- As dúvidas serão carregadas aqui via JavaScript -->
+      </div>
+    </div>
+
+    <!-- MENSAGEM VAZIA -->
+    <div class="empty-state" id="empty-state" style="display: none;">
+      <i class="fas fa-inbox"></i>
+      <h2>Nenhuma dúvida encontrada</h2>
+      <p>Não há dúvidas para exibir no momento. Volte mais tarde!</p>
+    </div>
+
+  </main>
+
+  <!-- MODAL DE RESPOSTA -->
+  <div class="modal" id="modal-resposta">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>
+          <i class="fas fa-reply"></i>
+          Responder Dúvida
+        </h2>
+        <button class="close-modal" onclick="fecharModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Informações da dúvida -->
+        <div class="duvida-info">
+          <div class="duvida-aluno">
+            <span class="label">Aluno:</span>
+            <span class="value" id="modal-aluno">-</span>
+          </div>
+          <div class="duvida-disciplina">
+            <span class="label">Disciplina:</span>
+            <span class="value" id="modal-disciplina">-</span>
+          </div>
+          <div class="duvida-data">
+            <span class="label">Data:</span>
+            <span class="value" id="modal-data">-</span>
+          </div>
+        </div>
+
+        <!-- Descrição da dúvida -->
+        <div class="form-group">
+          <label class="field-label">Dúvida do Aluno</label>
+          <div class="duvida-descricao" id="modal-descricao">-</div>
+        </div>
+
+        <!-- Resposta do professor -->
+        <div class="form-group">
+          <label class="field-label" for="modal-resposta-text">Sua Resposta <span class="required">*</span></label>
+          <textarea id="modal-resposta-text" class="input-field" placeholder="Digite sua resposta aqui..."></textarea>
+          <p class="input-hint">Máximo de 2000 caracteres</p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="fecharModal()">
+          <i class="fas fa-times"></i> Cancelar
+        </button>
+        <button class="btn btn-primary" onclick="enviarResposta()">
+          <i class="fas fa-paper-plane"></i> Enviar Resposta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <i class="fas fa-circle-check" id="toast-icon"></i>
+    <span id="toast-msg"></span>
+  </div>
+
+  <script src="../JS/duvidas.js"></script>
+  <script src="../../perfil/JS/menuSideBar.js"></script>
+  <script src="../../../global/JS/theme.js"></script>
+</body>
+
+</html>

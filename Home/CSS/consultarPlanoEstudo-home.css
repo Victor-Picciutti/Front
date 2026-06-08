@@ -1,0 +1,251 @@
+/* ========== PLANO-ESTUDO.CSS - ESTILOS ESPECÍFICOS ========== */
+
+/* Informações do Aluno */
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info-label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    min-width: 80px;
+}
+
+.info-value {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Lista de Atividades */
+.atividades-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.atividade-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: rgba(187, 134, 252, 0.05);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.atividade-item:hover {
+    background-color: rgba(187, 134, 252, 0.1);
+    transform: translateX(5px);
+}
+
+.atividade-info {
+    flex: 1;
+}
+
+.atividade-titulo {
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 5px;
+}
+
+.atividade-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.atividade-meta i {
+    margin-right: 4px;
+    color: var(--secondary-color);
+}
+
+.dificuldade-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.dificuldade-Fácil {
+    background-color: rgba(0, 230, 118, 0.2);
+    color: #00E676;
+}
+
+.dificuldade-Médio {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #FFC107;
+}
+
+.dificuldade-Difícil {
+    background-color: rgba(255, 61, 0, 0.2);
+    color: #FF3D00;
+}
+
+/* Card Footer */
+.card-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.btn-view-all {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-view-all:hover {
+    color: var(--secondary-color);
+    gap: 12px;
+}
+
+/* Agenda Container */
+.agenda-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.agenda-dia {
+    background-color: rgba(187, 134, 252, 0.05);
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.dia-nome {
+    font-family: var(--font-futuristic);
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.agenda-atividade {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.agenda-atividade i {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+}
+
+.agenda-atividade span {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.agenda-horario {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Recomendações */
+.recomendacoes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.recomendacao-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px;
+    background-color: rgba(187, 134, 252, 0.05);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.recomendacao-item:hover {
+    background-color: rgba(187, 134, 252, 0.1);
+}
+
+.recomendacao-item i {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    margin-top: 2px;
+}
+
+.recomendacao-text {
+    flex: 1;
+}
+
+.recomendacao-text strong {
+    display: block;
+    color: var(--text-light);
+    margin-bottom: 5px;
+}
+
+.recomendacao-text p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Scrollbar personalizada */
+.atividades-list::-webkit-scrollbar,
+.agenda-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+.atividades-list::-webkit-scrollbar-track,
+.agenda-container::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+    border-radius: 10px;
+}
+
+.atividades-list::-webkit-scrollbar-thumb,
+.agenda-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+/* Loading e Empty States */
+.loading-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+}
+
+.loading-state i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--text-muted);
+}

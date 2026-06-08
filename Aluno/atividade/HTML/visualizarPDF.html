@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudeX | Material de Apoio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/atividade.css">
+    <link rel="stylesheet" href="../CSS/visualizarPDF.css">
+</head>
+
+<body>
+
+    <!-- Botão Voltar — canto superior esquerdo -->
+    <a href="atividades-Estudex.html" class="btn-voltar">
+        <i class="fas fa-arrow-left"></i> Voltar
+    </a>
+
+    <!-- PDF ocupa toda a tela -->
+    <div class="pdf-viewer" id="pdfViewer">
+        <div class="loading-pdf">
+            <i class="fas fa-spinner fa-pulse"></i>
+            <p>Carregando material...</p>
+        </div>
+    </div>
+
+    <!-- Botão Ir para atividade — canto inferior direito -->
+    <button class="btn-ir-atividade" id="btnIrAtividade">
+        Ir para atividade <i class="fas fa-arrow-right"></i>
+    </button>
+
+    <script src="../JS/visualizarPDF.js"></script>
+</body>
+
+</html>
