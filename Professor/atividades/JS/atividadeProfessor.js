@@ -136,15 +136,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 const item = document.createElement('div');
                 item.className = 'custom-select-item';
                 if (opt.value === selectEl.value) item.classList.add('active');
-                item.textContent = opt.text;
-                item.dataset.value = opt.value;
 
-                item.addEventListener('click', () => {
-                    selectEl.value = opt.value;
-                    selected.innerHTML = `<span>${opt.text}</span><i class="fas fa-chevron-down"></i>`;
-                    wrapper.classList.remove('open');
-                    selectEl.dispatchEvent(new Event('change'));
-                });
+                // Opção desabilitada (ex: Simulado)
+                if (opt.disabled && opt.value !== '') {
+                    item.innerHTML = `<span>${opt.text}</span><span class="opt-soon">em uma versão futura</span>`;
+                    item.classList.add('disabled');
+                    item.style.cssText = 'opacity: 0.45; cursor: not-allowed; display: flex; justify-content: space-between; align-items: center;';
+                } else {
+                    item.textContent = opt.text;
+                    item.dataset.value = opt.value;
+                    item.addEventListener('click', () => {
+                        selectEl.value = opt.value;
+                        selected.innerHTML = `<span>${opt.text}</span><i class="fas fa-chevron-down"></i>`;
+                        wrapper.classList.remove('open');
+                        selectEl.dispatchEvent(new Event('change'));
+                    });
+                }
 
                 list.appendChild(item);
             });
@@ -200,7 +207,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // =========================================
     // MODAL MATERIAL DE APOIO
     // =========================================
-
     document.getElementById("btnSimMaterial").addEventListener("click", function () {
         document.getElementById("uploadArea").style.display = "block";
         this.style.display = "none";
@@ -278,3 +284,136 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+
+
+// =========================================
+// PAGINAÇÃO — minhasAtividades (professor)
+// Segue o mesmo padrão da tela do aluno
+// =========================================
+
+const ITENS_POR_PAGINA_PROF = 12;
+let paginaAtualProf = 1;
+let todasAtividadesProf = [];
+
+/**
+ * Chame esta função após carregar as atividades do professor
+ * da API para inicializar a listagem com paginação.
+ * Exemplo de uso no seu JS de minhasAtividades:
+ *
+ *   const res = await fetch(`${API_URL}/atividades`);
+ *   const todas = await res.json();
+ *   inicializarPaginacaoProfessor(todas);
+ */
+function inicializarPaginacaoProfessor(atividades) {
+    // Mais recentes primeiro
+    todasAtividadesProf = [...atividades].sort((a, b) => b.idAtividade - a.idAtividade);
+    paginaAtualProf = 1;
+    renderizarAtividadesProfessor();
+}
+
+function renderizarAtividadesProfessor(filtradas) {
+    const lista = filtradas ?? todasAtividadesProf;
+    const container = document.getElementById('atividadesList');
+    if (!container) return;
+
+    if (lista.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <p>Nenhuma atividade encontrada.</p>
+            </div>
+        `;
+        renderizarPaginacaoProfessor(0);
+        return;
+    }
+
+    const totalPaginas = Math.ceil(lista.length / ITENS_POR_PAGINA_PROF);
+    if (paginaAtualProf > totalPaginas) paginaAtualProf = 1;
+
+    const inicio = (paginaAtualProf - 1) * ITENS_POR_PAGINA_PROF;
+    const paginada = lista.slice(inicio, inicio + ITENS_POR_PAGINA_PROF);
+
+    container.innerHTML = paginada.map(atividade => `
+        <div class="atividade-card">
+            <h3>
+                <i class="fas fa-file-alt" style="color: var(--primary-color); margin-right: 8px;"></i>
+                ${escapeHtmlProf(atividade.titulo || 'Sem título')}
+            </h3>
+            <div class="info">
+                <span><i class="fas fa-calendar-alt"></i> ${formatarDataProf(atividade.dataCriacao)}</span>
+                <span class="pontuacao"><i class="fas fa-star"></i> ${atividade.pontuacaoMaxima || 0} pts</span>
+            </div>
+            <div class="info">
+                <span><i class="fas fa-chart-line"></i> ${atividade.nivelDificuldade?.nome || 'Não definido'}</span>
+                <span><i class="fas fa-book"></i> ${atividade.disciplina?.nome || 'Não definida'}</span>
+            </div>
+        </div>
+    `).join('');
+
+    renderizarPaginacaoProfessor(totalPaginas);
+}
+
+function renderizarPaginacaoProfessor(totalPaginas) {
+    let paginacaoEl = document.getElementById('paginacaoProf');
+    if (!paginacaoEl) {
+        paginacaoEl = document.createElement('div');
+        paginacaoEl.id = 'paginacaoProf';
+        const container = document.getElementById('atividadesList');
+        if (container) container.insertAdjacentElement('afterend', paginacaoEl);
+    }
+
+    if (totalPaginas <= 1) { paginacaoEl.innerHTML = ''; return; }
+
+    const btnStyle = (dis) => `
+        background: ${dis ? 'rgba(187,134,252,0.1)' : 'linear-gradient(135deg, #BB86FC, #a21fa2)'};
+        color: ${dis ? 'var(--text-muted)' : '#000'};
+        border: none; padding: 10px 20px; border-radius: 30px;
+        cursor: ${dis ? 'not-allowed' : 'pointer'};
+        font-weight: 700; font-size: 0.75rem;
+        transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px;
+    `;
+
+    paginacaoEl.innerHTML = `
+        <div style="display:flex; justify-content:center; align-items:center; gap:15px; margin-top:30px;">
+            <button onclick="mudarPaginaProf(${paginaAtualProf - 1})"
+                ${paginaAtualProf === 1 ? 'disabled' : ''}
+                style="${btnStyle(paginaAtualProf === 1)}">
+                <i class="fas fa-chevron-left"></i> Anterior
+            </button>
+            <span style="color:var(--text-muted); font-size:0.9rem;">
+                Página <strong style="color:#BB86FC;">${paginaAtualProf}</strong>
+                de <strong style="color:#BB86FC;">${totalPaginas}</strong>
+            </span>
+            <button onclick="mudarPaginaProf(${paginaAtualProf + 1})"
+                ${paginaAtualProf === totalPaginas ? 'disabled' : ''}
+                style="${btnStyle(paginaAtualProf === totalPaginas)}">
+                Próxima <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    `;
+}
+
+function mudarPaginaProf(novaPagina) {
+    paginaAtualProf = novaPagina;
+    renderizarAtividadesProfessor();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// =========================================
+// UTILITÁRIOS
+// =========================================
+function formatarDataProf(dataString) {
+    if (!dataString) return 'Data não disponível';
+    try {
+        const data = new Date(dataString);
+        if (isNaN(data.getTime())) return dataString;
+        return data.toLocaleDateString('pt-BR');
+    } catch { return dataString; }
+}
+
+function escapeHtmlProf(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
