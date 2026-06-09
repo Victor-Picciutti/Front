@@ -163,7 +163,7 @@ function renderizarDuvidas() {
                 </div>
                 <span class="duvida-status ${duvida.status}">
                     <i class="fas fa-${duvida.respondida ? 'check-circle' : 'clock'}"></i>
-                    ${duvida.status === 'respondida' ? 'Respondida' : duvida.status === 'Pendente' ? 'Pendente' : 'Pendente'}
+                    ${duvida.status === 'respondida' ? 'Respondida' : 'Pendente'}
                 </span>
             </div>
             <h3 class="duvida-titulo">${duvida.titulo}</h3>
@@ -186,10 +186,14 @@ function renderizarDuvidas() {
 
 // ============================================================
 //  ABRIR MODAL
+//  — Registra no localStorage que o professor está analisando
 // ============================================================
 function abrirModal(id) {
     duvidasAtual = duvidasLista.find(d => d.id === id);
     if (!duvidasAtual) return;
+
+    // Sinaliza para o lado do aluno que esta dúvida está sendo analisada
+    localStorage.setItem('professorAnalisando', id);
 
     document.getElementById('modal-aluno').textContent = duvidasAtual.aluno;
     document.getElementById('modal-disciplina').textContent = `${duvidasAtual.disciplina} (${duvidasAtual.turma})`;
@@ -229,8 +233,12 @@ function abrirModal(id) {
 
 // ============================================================
 //  FECHAR MODAL
+//  — Remove o registro do localStorage ao sair
 // ============================================================
 function fecharModal() {
+    // Libera a dúvida para edição pelo aluno
+    localStorage.removeItem('professorAnalisando');
+
     document.getElementById('modal-resposta').classList.remove('show');
     document.body.style.overflow = 'auto';
     duvidasAtual = null;
@@ -238,12 +246,6 @@ function fecharModal() {
 
 // ============================================================
 //  ENVIAR RESPOSTA
-//  - Endpoint correto: POST /respostasDuvidas
-//  - Body alinhado com a entidade RespostaDuvida:
-//      { idDuvida, conteudoResposta, momento, utilizador: { id } }
-//
-//  ATENÇÃO: a entidade RespostaDuvida precisa ter um campo
-//  "idDuvida" como FK para a entidade Duvida (ver nota abaixo).
 // ============================================================
 async function enviarResposta() {
     if (!duvidasAtual) return;
@@ -272,7 +274,6 @@ async function enviarResposta() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                // FK para a dúvida — veja nota sobre a entidade abaixo
                 idDuvida: duvidasAtual.id,
                 conteudoResposta: conteudoResposta,
                 momento: new Date().toISOString(),
@@ -291,8 +292,8 @@ async function enviarResposta() {
         }
 
         showToast('Resposta enviada com sucesso!', 'success');
-        fecharModal();
-        filtrarDuvidas();  // re-renderiza respeitando filtros ativos
+        fecharModal(); // já remove o localStorage internamente
+        filtrarDuvidas();
         atualizarEstatisticas();
 
     } catch (err) {
@@ -302,7 +303,6 @@ async function enviarResposta() {
         setLoading(btn, false, '<i class="fas fa-paper-plane"></i> Enviar Resposta');
     }
 }
-
 
 // ============================================================
 //  ATUALIZAR ESTATÍSTICAS
