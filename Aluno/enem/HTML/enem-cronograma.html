@@ -69,16 +69,6 @@
                     <div class="card-number">⏰</div>
                     <h2 class="card-title-light">Próximos Eventos</h2>
                 </div>
-                
-                <div class="filtros-evento">
-                    <button class="filtro-btn ativo" data-filtro="todos">Todos</button>
-                    <button class="filtro-btn" data-filtro="inscricao">Inscrições</button>
-                    <button class="filtro-btn" data-filtro="prova">Provas</button>
-                    <button class="filtro-btn" data-filtro="resultado">Resultados</button>
-                    <button class="filtro-btn" data-filtro="sisu">SISU</button>
-                    <button class="filtro-btn" data-filtro="prouni">ProUni</button>
-                    <button class="filtro-btn" data-filtro="fies">FIES</button>
-                </div>
 
                 <div class="eventos-grid" id="eventos-lista">
                     <!-- Eventos serão carregados via JavaScript -->
@@ -189,83 +179,50 @@
                                 <td><i class="fas fa-pen-to-square"></i> Inscrições ENEM</td>
                                 <td>15/02 a 15/03/2026</td>
                                 <td>Período de inscrição</td>
-                                <td><span class="status-badge aberto">Em breve</span></td>
+
                             </tr>
                             <tr>
                                 <td><i class="fas fa-pencil"></i> 1º dia de prova</td>
                                 <td>01/11/2026</td>
                                 <td>Linguagens, Redação e Humanas</td>
-                                <td><span class="status-badge agendado">Agendado</span></td>
+
                             </tr>
                             <tr>
                                 <td><i class="fas fa-calculator"></i> 2º dia de prova</td>
                                 <td>08/11/2026</td>
                                 <td>Matemática e Natureza</td>
-                                <td><span class="status-badge agendado">Agendado</span></td>
+
                             </tr>
                             <tr>
                                 <td><i class="fas fa-star"></i> Resultado</td>
                                 <td>15/01/2027</td>
                                 <td>Divulgação das notas</td>
-                                <td><span class="status-badge agendado">Agendado</span></td>
+
                             </tr>
                             <tr>
                                 <td><i class="fas fa-university"></i> SISU</td>
                                 <td>19 a 22/01/2027</td>
                                 <td>Inscrições SISU</td>
-                                <td><span class="status-badge agendado">Agendado</span></td>
+
                             </tr>
                             <tr>
                                 <td><i class="fas fa-percent"></i> ProUni</td>
                                 <td>03 a 07/02/2027</td>
                                 <td>Inscrições ProUni</td>
-                                <td><span class="status-badge agendado">Agendado</span></td>
+
                             </tr>
                             <tr>
                                 <td><i class="fas fa-credit-card"></i> FIES</td>
                                 <td>03 a 07/02/2027</td>
                                 <td>Inscrições FIES</td>
-                                <td><span class="status-badge agendado">Agendado</span></td>
+
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- CARD 4: LEMBRETES E NOTIFICAÇÕES -->
-            <div class="enem-card lembretes-card">
-                <div class="card-header-with-number">
-                    <div class="card-number">🔔</div>
-                    <h2 class="card-title-light">Lembretes Ativos</h2>
-                </div>
-
-                <div class="lembretes-grid" id="lembretes-lista">
-                    <!-- Lembretes serão carregados via JavaScript -->
-                    <div class="loading-spinner">
-                        <i class="fas fa-spinner fa-spin"></i> Carregando lembretes...
-                    </div>
-                </div>
-
-                <div class="lembrete-config">
-                    <h3><i class="fas fa-bell"></i> Configurar Lembretes</h3>
-                    <div class="config-opcoes">
-                        <label class="config-item">
-                            <input type="checkbox" checked> Receber lembretes por email
-                        </label>
-                        <label class="config-item">
-                            <input type="checkbox" checked> Notificações no navegador
-                        </label>
-                        <label class="config-item">
-                            <input type="checkbox"> Lembrar 7 dias antes
-                        </label>
-                        <label class="config-item">
-                            <input type="checkbox" checked> Lembrar 1 dia antes
-                        </label>
-                    </div>
-                    <button class="btn-salvar-config">Salvar preferências</button>
-                </div>
-            </div>
-
+        
             <!-- CARD 5: DICAS BASEADAS NO CRONOGRAMA -->
             <div class="enem-card dicas-cronograma-card">
                 <div class="card-header-with-number">

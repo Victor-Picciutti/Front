@@ -183,16 +183,6 @@ class EnemCronograma {
         });
     }
 
-    getTextoDiasRestantes(dias) {
-        if (dias > 0) {
-            return `⏳ Faltam ${dias} ${dias === 1 ? 'dia' : 'dias'}`;
-        } else if (dias === 0) {
-            return '🔔 É hoje!';
-        } else {
-            return '✅ Evento realizado';
-        }
-    }
-
     initAccordion() {
         const dicaHeaders = document.querySelectorAll('.dica-header');
         
