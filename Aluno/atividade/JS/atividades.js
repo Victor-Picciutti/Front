@@ -205,7 +205,7 @@ function renderizarAtividades() {
     const filtroDificuldade = document.getElementById('dificuldadeFilter')?.value || '';
     const filtroDisciplina  = document.getElementById('disciplinaFilter')?.value  || '';
 
-    let atividadesFiltradas = [...todasAtividades];
+    let atividadesFiltradas = [...todasAtividades].sort((a, b) => b.idAtividade - a.idAtividade);
 
     if (filtroStatus === 'pendente') {
         atividadesFiltradas = atividadesFiltradas.filter(a => !isAtividadeConcluida(a.idAtividade));

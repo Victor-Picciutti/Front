@@ -40,14 +40,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // ============================================================
 //  UTILITÁRIO: montar um custom select genérico
-//  Parâmetros:
-//    wrapperId   — id do div.custom-select
-//    optionsId   — id do div.custom-select-options
-//    textId      — id do span que exibe o label atual
-//    hiddenId    — id do input hidden que guarda o valor
-//    items       — [{ value, label }]
-//    placeholder — texto inicial (value = '')
-//    onChange    — callback(value) disparado ao selecionar
 // ============================================================
 function montarCustomSelect({ wrapperId, optionsId, textId, hiddenId, items, placeholder, onChange }) {
     const wrapper = document.getElementById(wrapperId);
@@ -206,7 +198,7 @@ async function carregarMinhasDuvidas() {
 }
 
 // ============================================================
-//  POPULAR FILTRO DE DISCIPLINAS (custom select padrão)
+//  POPULAR FILTRO DE DISCIPLINAS
 // ============================================================
 function popularFiltroDisciplinas() {
     const idsVistos = new Set();
@@ -232,7 +224,7 @@ function popularFiltroDisciplinas() {
 }
 
 // ============================================================
-//  INICIALIZAR FILTRO DE STATUS (custom select padrão)
+//  INICIALIZAR FILTRO DE STATUS
 // ============================================================
 function inicializarFiltroStatus() {
     montarCustomSelect({
@@ -289,7 +281,7 @@ function renderizarDuvidas(duvidas) {
             <div class="card-actions">
                 ${status !== 'Respondida' ? `
                 <button class="btn-card-action btn-editar" title="Editar dúvida"
-                    onclick="event.stopPropagation(); abrirModalEditar(${duvida.idDuvida}, '${escapeHtml(titulo)}', '${duvida.disciplina?.id}', '${escapeHtml(descricao)}')">
+                    onclick="event.stopPropagation(); tentarEditarDuvida(${duvida.idDuvida}, '${escapeHtml(titulo)}', '${duvida.disciplina?.id}', '${escapeHtml(descricao)}')">
                     <i class="fas fa-pencil-alt"></i>
                 </button>` : ''}
                 <button class="btn-card-action btn-deletar" title="Excluir dúvida"
@@ -423,7 +415,6 @@ async function submitDuvida(event) {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
         document.getElementById('duvidaForm').reset();
-        // Resetar texto do custom select do modal
         document.getElementById('customSelectText').textContent = 'Selecione uma disciplina';
         document.getElementById('disciplina').value = '';
         closeModal();
@@ -522,8 +513,94 @@ async function confirmarDelete() {
 }
 
 // ============================================================
-//  EDITAR
+//  EDITAR — INTERCEPTAÇÃO (verifica professor analisando)
 // ============================================================
+
+/**
+ * Chamado pelo botão de editar no card.
+ * Antes de abrir o modal, verifica se um professor está
+ * analisando esta dúvida no momento (via localStorage).
+ */
+function tentarEditarDuvida(id, titulo, disciplinaId, descricao) {
+    const idAnalisando = localStorage.getItem('professorAnalisando');
+
+    if (idAnalisando && parseInt(idAnalisando) === id) {
+        mostrarToastProfessorAnalisando();
+        return;
+    }
+
+    abrirModalEditar(id, titulo, disciplinaId, descricao);
+}
+
+/**
+ * Exibe um toast no canto inferior direito informando que
+ * um professor está analisando a dúvida neste momento.
+ */
+function mostrarToastProfessorAnalisando() {
+    // Evita empilhar toasts duplicados
+    if (document.getElementById('toast-professor-analisando')) return;
+
+    const toast = document.createElement('div');
+    toast.id = 'toast-professor-analisando';
+    toast.innerHTML = `
+        <i class="fas fa-chalkboard-teacher"></i>
+        <div>
+            <strong>Professor analisando</strong>
+            <p>Um professor está revisando sua dúvida agora. Tente editar mais tarde.</p>
+        </div>
+    `;
+    toast.style.cssText = `
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        z-index: 9999;
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        background: #1e1e1e;
+        border: 1px solid rgba(187, 134, 252, 0.35);
+        border-left: 4px solid #BB86FC;
+        border-radius: 12px;
+        padding: 16px 20px;
+        max-width: 320px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        animation: slideInRight 0.35s ease;
+        color: #E0E0E0;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.88rem;
+        line-height: 1.4;
+    `;
+
+    toast.querySelector('i').style.cssText = `
+        color: #BB86FC;
+        font-size: 1.4rem;
+        margin-top: 2px;
+        flex-shrink: 0;
+    `;
+    toast.querySelector('strong').style.cssText = `
+        display: block;
+        font-size: 0.9rem;
+        color: #BB86FC;
+        margin-bottom: 4px;
+    `;
+    toast.querySelector('p').style.cssText = `
+        font-size: 0.8rem;
+        color: #9E9E9E;
+        margin: 0;
+        line-height: 1.4;
+    `;
+
+    document.body.appendChild(toast);
+
+    // Remove após 4 segundos com fade out
+    setTimeout(() => {
+        toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
+
 async function abrirModalEditar(id, titulo, disciplinaId, descricao) {
     duvidaIdParaEditar = id;
 
@@ -561,7 +638,6 @@ async function abrirModalEditar(id, titulo, disciplinaId, descricao) {
 
     // Trigger de abertura
     const trigger = wrapper.querySelector('.custom-select-trigger');
-    // Remove listener antigo para não duplicar
     const novoTrigger = trigger.cloneNode(true);
     trigger.parentNode.replaceChild(novoTrigger, trigger);
 

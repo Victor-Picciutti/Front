@@ -596,3 +596,9 @@ body {
     .custom-select { min-width: unset; width: 100%; }
     .page-title h1 { font-size: 1.5rem; }
 }
+
+/* ========== PAGINAÇÃO ========== */
+#paginacaoProf {
+    margin-top: 30px;
+    padding-bottom: 20px;
+}
