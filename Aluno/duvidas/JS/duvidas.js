@@ -286,7 +286,7 @@ function renderizarDuvidas(duvidas) {
                 </button>` : ''}
                 <button class="btn-card-action btn-deletar" title="Excluir dúvida"
                     onclick="event.stopPropagation(); tentarDeletarDuvida(${duvida.idDuvida})"
-                    <i class="fas fa-times"></i>
+                    <i class="fas fa-xmark"></i>
                 </button>
             </div>
             <h3>
