@@ -285,7 +285,7 @@ function renderizarDuvidas(duvidas) {
                     <i class="fas fa-pencil-alt"></i>
                 </button>` : ''}
                 <button class="btn-card-action btn-deletar" title="Excluir dúvida"
-                    onclick="event.stopPropagation(); deletarDuvida(${duvida.idDuvida})">
+                    onclick="event.stopPropagation(); tentarDeletarDuvida(${duvida.idDuvida})"
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -530,6 +530,17 @@ function tentarEditarDuvida(id, titulo, disciplinaId, descricao) {
     }
 
     abrirModalEditar(id, titulo, disciplinaId, descricao);
+}
+
+function tentarDeletarDuvida(id) {
+    const idAnalisando = localStorage.getItem('professorAnalisando');
+
+    if (idAnalisando && parseInt(idAnalisando) === id) {
+        mostrarToastProfessorAnalisando();
+        return;
+    }
+
+    deletarDuvida(id);
 }
 
 /**
