@@ -544,7 +544,7 @@ body {
 }
 
 .btn-editar  { background: #7c3aed; color: #fff; }
-.btn-deletar { background: #dc2626; color: #fff; }
+.btn-deletar { background: #dc2626; color: #fff !important; }
 .btn-editar:hover,
 .btn-deletar:hover { transform: scale(1.12); }
 
