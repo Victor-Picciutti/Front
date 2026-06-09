@@ -64,8 +64,8 @@ function montarCustomSelect({ wrapperId, optionsId, textId, hiddenId, items, pla
     trigger.addEventListener('click', (e) => {
         e.stopPropagation();
         const rect = trigger.getBoundingClientRect();
-        optionsContainer.style.top   = (rect.bottom + 4) + 'px';
-        optionsContainer.style.left  = rect.left + 'px';
+        optionsContainer.style.top = (rect.bottom + 4) + 'px';
+        optionsContainer.style.left = rect.left + 'px';
         optionsContainer.style.width = rect.width + 'px';
         wrapper.classList.toggle('open');
     });
@@ -120,8 +120,8 @@ async function carregarDisciplinas() {
 
         // ── Modal Nova Dúvida ──
         const trigger = document.querySelector('#customSelectDisciplina .custom-select-trigger');
-        const wrapper  = document.getElementById('customSelectDisciplina');
-        const options  = document.getElementById('customSelectOptions');
+        const wrapper = document.getElementById('customSelectDisciplina');
+        const options = document.getElementById('customSelectOptions');
 
         trigger.addEventListener('click', () => {
             if (options.children.length === 0) {
@@ -132,8 +132,8 @@ async function carregarDisciplinas() {
                 });
             }
             const rect = trigger.getBoundingClientRect();
-            options.style.top   = (rect.bottom + 4) + 'px';
-            options.style.left  = rect.left + 'px';
+            options.style.top = (rect.bottom + 4) + 'px';
+            options.style.left = rect.left + 'px';
             options.style.width = rect.width + 'px';
             wrapper.classList.toggle('open');
         });
@@ -213,13 +213,13 @@ function popularFiltroDisciplinas() {
     });
 
     montarCustomSelect({
-        wrapperId:  'filterSelectDisciplina',
-        optionsId:  'filterDisciplinaOptions',
-        textId:     'filterDisciplinaText',
-        hiddenId:   'disciplinaFilter',
-        items:      disciplinasUnicas.map(d => ({ value: String(d.id), label: d.nome })),
+        wrapperId: 'filterSelectDisciplina',
+        optionsId: 'filterDisciplinaOptions',
+        textId: 'filterDisciplinaText',
+        hiddenId: 'disciplinaFilter',
+        items: disciplinasUnicas.map(d => ({ value: String(d.id), label: d.nome })),
         placeholder: 'Todas as disciplinas',
-        onChange:   () => { paginaAtual = 1; filterDuvidas(); }
+        onChange: () => { paginaAtual = 1; filterDuvidas(); }
     });
 }
 
@@ -228,16 +228,16 @@ function popularFiltroDisciplinas() {
 // ============================================================
 function inicializarFiltroStatus() {
     montarCustomSelect({
-        wrapperId:  'filterSelectStatus',
-        optionsId:  'filterStatusOptions',
-        textId:     'filterStatusText',
-        hiddenId:   'statusFilter',
+        wrapperId: 'filterSelectStatus',
+        optionsId: 'filterStatusOptions',
+        textId: 'filterStatusText',
+        hiddenId: 'statusFilter',
         items: [
-            { value: 'Aberta',     label: 'Aberta' },
+            { value: 'Aberta', label: 'Aberta' },
             { value: 'Respondida', label: 'Respondida' },
         ],
         placeholder: 'Todos os status',
-        onChange:   () => { paginaAtual = 1; filterDuvidas(); }
+        onChange: () => { paginaAtual = 1; filterDuvidas(); }
     });
 }
 
@@ -265,13 +265,13 @@ function renderizarDuvidas(duvidas) {
     const totalPaginas = Math.ceil(duvidas.length / ITENS_POR_PAGINA);
     if (paginaAtual > totalPaginas) paginaAtual = 1;
 
-    const inicio   = (paginaAtual - 1) * ITENS_POR_PAGINA;
+    const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
     const paginada = duvidas.slice(inicio, inicio + ITENS_POR_PAGINA);
 
     container.innerHTML = paginada.map(duvida => {
-        const titulo     = duvida.titulo    || 'Sem título';
-        const descricao  = duvida.descricao || 'Sem descrição';
-        const status     = duvida.statusDuvida || 'Aberta';
+        const titulo = duvida.titulo || 'Sem título';
+        const descricao = duvida.descricao || 'Sem descrição';
+        const status = duvida.statusDuvida || 'Aberta';
         const disciplina = duvida.disciplina?.nome || 'Sem disciplina';
 
         return `
@@ -285,9 +285,9 @@ function renderizarDuvidas(duvidas) {
                     <i class="fas fa-pencil-alt"></i>
                 </button>` : ''}
                 <button class="btn-card-action btn-deletar" title="Excluir dúvida"
-                    onclick="event.stopPropagation(); tentarDeletarDuvida(${duvida.idDuvida})"
-                    <i class="fas fa-times"></i>
-                </button>
+    onclick="event.stopPropagation(); tentarDeletarDuvida(${duvida.idDuvida})">
+    <i class="fas fa-times"></i>
+</button>
             </div>
             <h3>
                 <i class="fas fa-question-circle" style="color: var(--primary-color); margin-right: 8px;"></i>
@@ -354,8 +354,8 @@ function mudarPagina(novaPagina) {
 //  FILTROS
 // ============================================================
 function filterDuvidas() {
-    const searchTerm       = document.getElementById('searchDuvida')?.value.toLowerCase() || '';
-    const statusFilter     = document.getElementById('statusFilter')?.value || '';
+    const searchTerm = document.getElementById('searchDuvida')?.value.toLowerCase() || '';
+    const statusFilter = document.getElementById('statusFilter')?.value || '';
     const disciplinaFilter = document.getElementById('disciplinaFilter')?.value || '';
 
     let filtradas = [...todasDuvidas];
@@ -384,7 +384,7 @@ function filterDuvidas() {
 async function submitDuvida(event) {
     event.preventDefault();
 
-    const titulo    = document.getElementById('titulo').value.trim();
+    const titulo = document.getElementById('titulo').value.trim();
     const descricao = document.getElementById('descricao').value.trim();
     const idDisciplinaSelecionada = document.getElementById('disciplina').value;
 
@@ -452,9 +452,9 @@ function abrirModalResposta(idDuvida) {
 
     const duvida = todasDuvidas.find(d => d.idDuvida === idDuvida);
 
-    document.getElementById('modalRespostaTitulo').textContent    = duvida?.titulo || 'Dúvida';
-    document.getElementById('modalRespostaConteudo').textContent  = resposta.conteudoResposta || 'Sem conteúdo.';
-    document.getElementById('modalRespostaData').textContent      = formatarData(resposta.momento);
+    document.getElementById('modalRespostaTitulo').textContent = duvida?.titulo || 'Dúvida';
+    document.getElementById('modalRespostaConteudo').textContent = resposta.conteudoResposta || 'Sem conteúdo.';
+    document.getElementById('modalRespostaData').textContent = formatarData(resposta.momento);
     document.getElementById('modalRespostaProfessor').textContent = resposta.utilizador?.nome || 'Professor';
 
     const modal = document.getElementById('modalResposta');
@@ -615,11 +615,11 @@ function mostrarToastProfessorAnalisando() {
 async function abrirModalEditar(id, titulo, disciplinaId, descricao) {
     duvidaIdParaEditar = id;
 
-    document.getElementById('editTitulo').value    = titulo;
+    document.getElementById('editTitulo').value = titulo;
     document.getElementById('editDescricao').value = descricao;
     document.getElementById('editDisciplina').value = disciplinaId;
 
-    const wrapper          = document.getElementById('customSelectEditDisciplina');
+    const wrapper = document.getElementById('customSelectEditDisciplina');
     const optionsContainer = document.getElementById('customSelectEditOptions');
 
     // Carrega disciplinas se ainda não carregou
@@ -654,8 +654,8 @@ async function abrirModalEditar(id, titulo, disciplinaId, descricao) {
 
     novoTrigger.addEventListener('click', () => {
         const rect = novoTrigger.getBoundingClientRect();
-        optionsContainer.style.top   = (rect.bottom + 4) + 'px';
-        optionsContainer.style.left  = rect.left + 'px';
+        optionsContainer.style.top = (rect.bottom + 4) + 'px';
+        optionsContainer.style.left = rect.left + 'px';
         optionsContainer.style.width = rect.width + 'px';
         wrapper.classList.toggle('open');
     });
@@ -677,8 +677,8 @@ async function salvarEdicao(event) {
     event.preventDefault();
     if (!duvidaIdParaEditar) return;
 
-    const titulo       = document.getElementById('editTitulo').value.trim();
-    const descricao    = document.getElementById('editDescricao').value.trim();
+    const titulo = document.getElementById('editTitulo').value.trim();
+    const descricao = document.getElementById('editDescricao').value.trim();
     const disciplinaId = document.getElementById('editDisciplina').value;
 
     const submitBtn = document.querySelector('#editarForm .btn-submit');
@@ -744,7 +744,7 @@ function formatarData(dataString) {
         const data = new Date(dataString);
         if (isNaN(data.getTime())) return dataString;
         return data.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) + ' ' +
-               data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' });
+            data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' });
     } catch { return dataString; }
 }
 
@@ -778,9 +778,9 @@ function inicializarSidebar() {
 function inicializarFechamentoModais() {
     window.onclick = function (event) {
         if (event.target === document.getElementById('modalConfirmDelete')) fecharConfirmDelete();
-        if (event.target === document.getElementById('modalEditar'))        fecharModalEditar();
-        if (event.target === document.getElementById('modal'))              closeModal();
-        if (event.target === document.getElementById('modalResposta'))      fecharModalResposta();
+        if (event.target === document.getElementById('modalEditar')) fecharModalEditar();
+        if (event.target === document.getElementById('modal')) closeModal();
+        if (event.target === document.getElementById('modalResposta')) fecharModalResposta();
     };
 }
 
