@@ -5,19 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EstudeX | Enviar Redação</title>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
-    <!-- CSS -->
     <link rel="stylesheet" href="../CSS/enviar.redacao.css">
+    <style>
+        .tipo-option.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+            filter: grayscale(1);
+        }
+        .versao-futura-tag {
+            font-size: 0.7rem;
+            color: #666;
+            font-style: italic;
+            margin-left: 8px;
+            white-space: nowrap;
+        }
+    </style>
 </head>
 <body>
 
 <section class="user-dashboard">
-    <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <i class="fas fa-bars menu-icon" id="menu-toggle"></i>
@@ -44,9 +56,7 @@
         </div>
     </div>
 
-    <!-- CONTEÚDO PRINCIPAL -->
     <main class="dashboard-content">
-        <!-- CABEÇALHO -->
         <div class="header-top">
             <h1 class="page-title"><i class="fas fa-pen-fancy"></i> Enviar Redação</h1>
             <div class="notifications-icon" id="notificationsIcon">
@@ -55,12 +65,10 @@
             </div>
         </div>
 
-        <!-- Botão Voltar -->
         <a href="enem.html" class="btn-back">
             <i class="fas fa-arrow-left"></i> Voltar para Central do ENEM
         </a>
 
-        <!-- SELEÇÃO DE TIPO DE REDAÇÃO -->
         <div class="tipo-redacao-card">
             <div class="tipo-redacao-header">
                 <h3><i class="fas fa-cog"></i> Escolha o tipo de redação</h3>
@@ -74,10 +82,12 @@
                     </div>
                     <div class="radio-custom"></div>
                 </div>
-                <div class="tipo-option" id="optionIA" onclick="selecionarTipo('ia')">
+
+                <!-- IA desabilitada — versão futura -->
+                <div class="tipo-option disabled" id="optionIA">
                     <i class="fas fa-robot"></i>
                     <div class="tipo-info">
-                        <strong>Redação com IA</strong>
+                        <strong>Redação com IA <span class="versao-futura-tag">— versão futura</span></strong>
                         <span>Gere um tema aleatório e pratique!</span>
                     </div>
                     <div class="radio-custom"></div>
@@ -85,16 +95,13 @@
             </div>
         </div>
 
-        <!-- GRID PRINCIPAL -->
         <div class="redacao-grid">
-            <!-- CARD: ENVIAR REDAÇÃO -->
             <div class="card redacao-form-card">
                 <div class="card-header">
                     <h3><i class="fas fa-upload"></i> Enviar Nova Redação</h3>
                 </div>
                 
                 <div class="tema-container" id="temaContainer">
-                    <!-- Tema Professor (Cards de propostas) -->
                     <div id="temaProfessorArea" style="display: none;">
                         <div class="tema-semana">
                             <div class="tema-titulo">
@@ -119,7 +126,6 @@
                         </div>
                     </div>
                     
-                    <!-- Tema IA -->
                     <div id="temaIArea" style="display: none;">
                         <div class="tema-semana" id="temaSemana">
                             <div class="tema-titulo">
@@ -155,7 +161,6 @@
                 </form>
             </div>
 
-            <!-- CARD: DICAS PARA REDAÇÃO -->
             <div class="card dicas-card">
                 <div class="card-header">
                     <h3><i class="fas fa-lightbulb"></i> Dicas para uma Redação Nota 1000</h3>
@@ -171,7 +176,6 @@
             </div>
         </div>
 
-        <!-- CARD: HISTÓRICO DE REDAÇÕES -->
         <div class="card historico-card">
             <div class="card-header">
                 <h3><i class="fas fa-history"></i> Histórico de Redações</h3>
@@ -184,7 +188,6 @@
     </main>
 </section>
 
-<!-- Modal de Notificações -->
 <div id="notificationsModal" class="modal">
     <div class="modal-content modal-notifications">
         <div class="modal-header">
@@ -209,3 +212,35 @@
 
 </body>
 </html>
+
+<!-- Modal Detalhes da Redação -->
+<div id="modalDetalhesRedacao" class="modal-redacao-detalhe">
+    <div class="modal-redacao-detalhe-content">
+        <div class="modal-redacao-detalhe-header">
+            <h2><i class="fas fa-file-alt"></i> Detalhes da Redação</h2>
+            <button class="modal-redacao-detalhe-close" onclick="fecharModalDetalhes()">&times;</button>
+        </div>
+        <div class="modal-redacao-detalhe-body">
+            <div class="detalhe-row">
+                <label><i class="fas fa-tag"></i> Título</label>
+                <p id="detalhe-titulo">--</p>
+            </div>
+            <div class="detalhe-row">
+                <label><i class="fas fa-lightbulb"></i> Tema</label>
+                <p id="detalhe-tema">--</p>
+            </div>
+            <div class="detalhe-row">
+                <label><i class="fas fa-align-left"></i> Redação</label>
+                <div class="detalhe-texto-redacao" id="detalhe-texto">--</div>
+            </div>
+            <div id="detalhe-correcao" class="detalhe-correcao-box" style="display:none;">
+                <h4><i class="fas fa-check-circle"></i> Correção do Professor</h4>
+                <div class="detalhe-nota" id="detalhe-nota">--<span>/1000</span></div>
+                <div class="detalhe-row" id="detalhe-comentarios-row" style="margin-bottom:0;">
+                    <label><i class="fas fa-comment-dots"></i> Comentário</label>
+                    <p id="detalhe-comentarios">--</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,16 +1,14 @@
-// enviar-redacao.js - Página do Aluno para Envio de Redações
+// enviar-redacao.js
 
-// ========== CONFIGURAÇÕES ==========
 const MICRO_API_URL = 'http://localhost:3001/api/redacao';
-const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
-const ID_ALUNO_LOGADO = 1; // Miguel Santana
+const API_URL = 'http://localhost:8080';
+//const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
+const ID_ALUNO_LOGADO = 1;
 
-// Variáveis globais
 let tipoSelecionado = null;
 let temaAtual = null;
 let propostasProfessor = [];
 
-// ========== INICIALIZAÇÃO ==========
 document.addEventListener('DOMContentLoaded', async () => {
     await carregarPropostasProfessor();
     await carregarHistoricoRedacoes();
@@ -18,16 +16,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     inicializarNotificacoes();
 });
 
-// ========== CARREGAR PROPOSTAS DO PROFESSOR ==========
 async function carregarPropostasProfessor() {
     try {
         const response = await fetch(`${API_URL}/redacoes`);
-
         if (response.ok) {
             const todasRedacoes = await response.json();
-            // Filtrar propostas do professor (aluno.id = 6)
-            propostasProfessor = todasRedacoes.filter(red => red.aluno?.id === 6);
-            console.log('Propostas do professor:', propostasProfessor);
+            const propostas = todasRedacoes.filter(red => red.aluno?.id === 6);
+            
+            // Pega só a última proposta publicada (maior idRedacao)
+            if (propostas.length > 0) {
+                const ultima = propostas.reduce((prev, curr) => 
+                    curr.idRedacao > prev.idRedacao ? curr : prev
+                );
+                propostasProfessor = [ultima];
+            } else {
+                propostasProfessor = [];
+            }
         }
     } catch (error) {
         console.error('Erro ao carregar propostas:', error);
@@ -35,7 +39,6 @@ async function carregarPropostasProfessor() {
     }
 }
 
-// ========== SELECIONAR TIPO ==========
 function selecionarTipo(tipo) {
     tipoSelecionado = tipo;
 
@@ -72,20 +75,17 @@ function selecionarTipo(tipo) {
     }
 }
 
-// ========== CARREGAR PROPOSTAS COMO CARDS ==========
 function carregarPropostasCards() {
     const propostasContainer = document.getElementById('propostasList');
-
     propostasContainer.innerHTML = propostasProfessor.map(prop => `
         <div class="proposta-card" onclick="selecionarPropostaCard(${prop.idRedacao})" data-id="${prop.idRedacao}">
             <div class="proposta-header">
                 <span class="proposta-titulo">${escapeHtml(prop.titulo)}</span>
-                <span class="proposta-data"><i class="fas fa-calendar-alt"></i> ${formatarData(prop.dataEntrega) || 'Data a definir'}</span>
             </div>
             <div class="proposta-tema">
-                <i class="fas fa-quote-left" style="font-size: 0.7rem; opacity: 0.5; margin-right: 5px;"></i>
+                <i class="fas fa-quote-left" style="font-size:0.7rem;opacity:0.5;margin-right:5px;"></i>
                 ${escapeHtml(prop.tema)}
-                <i class="fas fa-quote-right" style="font-size: 0.7rem; opacity: 0.5; margin-left: 5px;"></i>
+                <i class="fas fa-quote-right" style="font-size:0.7rem;opacity:0.5;margin-left:5px;"></i>
             </div>
             <div class="proposta-footer">
                 <span><i class="fas fa-clock"></i> Proposta pelo professor</span>
@@ -101,49 +101,32 @@ function selecionarPropostaCard(idRedacao) {
     const proposta = propostasProfessor.find(p => p.idRedacao == idRedacao);
     if (!proposta) return;
 
-    // Remover seleção de outros cards
-    document.querySelectorAll('.proposta-card').forEach(card => {
-        card.classList.remove('selected');
-    });
-
-    // Marcar card como selecionado
+    document.querySelectorAll('.proposta-card').forEach(card => card.classList.remove('selected'));
     const cardSelecionado = document.querySelector(`.proposta-card[data-id="${idRedacao}"]`);
-    if (cardSelecionado) {
-        cardSelecionado.classList.add('selected');
-    }
+    if (cardSelecionado) cardSelecionado.classList.add('selected');
 
     temaAtual = proposta.tema;
 
-    // Mostrar área de tema selecionado
     const temaSelecionadoArea = document.getElementById('temaSelecionadoArea');
     const temaSelecionadoTexto = document.getElementById('temaSelecionadoTexto');
-    const propostaDataEntrega = document.getElementById('propostaDataEntrega');
 
     temaSelecionadoTexto.innerHTML = `<i class="fas fa-tag"></i> ${escapeHtml(proposta.tema)}`;
-    propostaDataEntrega.textContent = formatarData(proposta.dataEntrega) || 'Data a definir';
+    document.getElementById('propostaDataEntrega').textContent = 'A definir';
     temaSelecionadoArea.style.display = 'block';
-
-    // Preencher título automaticamente
     document.getElementById('titulo').value = proposta.titulo;
-
-    // Scroll suave até o tema selecionado
     temaSelecionadoArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
     mostrarNotificacao('✅ Tema selecionado! Agora escreva sua redação.', 'success');
 }
 
-// ========== CARREGAR TEMA IA ==========
 async function carregarTemaIA() {
     const temaContainer = document.getElementById('temaSemana');
-
     temaContainer.innerHTML = `
         <div class="tema-titulo"><i class="fas fa-spinner fa-pulse"></i> Gerando tema com IA...</div>
-        <div class="tema-conteudo" style="text-align: center;">Aguarde...</div>
+        <div class="tema-conteudo" style="text-align:center;">Aguarde...</div>
     `;
 
     try {
         const response = await fetch(`${MICRO_API_URL}/tema-surpresa`);
-
         if (response.ok) {
             const data = await response.json();
             if (data.sucesso) {
@@ -151,7 +134,7 @@ async function carregarTemaIA() {
                 temaContainer.innerHTML = `
                     <div class="tema-titulo"><i class="fas fa-magic"></i> Tema da Redação (Gerado por IA)</div>
                     <div class="tema-conteudo">${escapeHtml(data.tema)}</div>
-                    <div class="tema-actions" style="margin-top: 15px;">
+                    <div style="margin-top:15px;">
                         <button onclick="carregarTemaIA()" class="btn-novo-tema">
                             <i class="fas fa-dice"></i> Gerar novo tema
                         </button>
@@ -160,28 +143,20 @@ async function carregarTemaIA() {
                 return;
             }
         }
-
-        temaAtual = "Os desafios da educação brasileira no século XXI";
-        temaContainer.innerHTML = `
-            <div class="tema-titulo"><i class="fas fa-star"></i> Tema da Redação</div>
-            <div class="tema-conteudo">${temaAtual}</div>
-            <button onclick="carregarTemaIA()" class="btn-novo-tema" style="margin-top: 15px;">
-                <i class="fas fa-sync-alt"></i> Gerar tema com IA
-            </button>
-        `;
+        throw new Error('Sem resposta da IA');
     } catch (error) {
         temaAtual = "Os desafios da educação brasileira no século XXI";
         temaContainer.innerHTML = `
             <div class="tema-titulo"><i class="fas fa-exclamation-triangle"></i> Erro de conexão</div>
             <div class="tema-conteudo">${temaAtual}</div>
-            <button onclick="carregarTemaIA()" class="btn-novo-tema" style="margin-top: 15px;">
+            <button onclick="carregarTemaIA()" class="btn-novo-tema" style="margin-top:15px;">
                 <i class="fas fa-sync-alt"></i> Tentar novamente
             </button>
         `;
     }
 }
 
-// ========== CARREGAR HISTÓRICO DO ALUNO ==========
+// ========== HISTÓRICO ==========
 async function carregarHistoricoRedacoes() {
     const container = document.getElementById('historicoList');
 
@@ -190,13 +165,9 @@ async function carregarHistoricoRedacoes() {
         if (!response.ok) throw new Error('Erro ao carregar histórico');
 
         const todasRedacoes = await response.json();
-        // Filtrar redações do aluno logado (id = 1) e que não são do professor (id != 6)
         const minhasRedacoes = todasRedacoes.filter(red =>
-            (red.aluno?.id === ID_ALUNO_LOGADO) &&
-            red.aluno?.id !== 6
+            red.aluno?.id === ID_ALUNO_LOGADO && red.aluno?.id !== 6
         );
-
-        console.log('Minhas redações:', minhasRedacoes);
 
         if (minhasRedacoes.length === 0) {
             container.innerHTML = `
@@ -210,22 +181,20 @@ async function carregarHistoricoRedacoes() {
         }
 
         container.innerHTML = minhasRedacoes.map(red => {
-            const dataEnvio = red.dataEnvio ? new Date(red.dataEnvio).toLocaleDateString('pt-BR') : 'Data não disponível';
             const isCorrigida = red.pontuacaoObtida !== null && red.pontuacaoObtida !== undefined;
             const nota = red.pontuacaoObtida || 0;
 
             return `
-                <div class="redacao-item" onclick="verDetalhesRedacao(${red.idRedacao})">
+                <div class="redacao-item" onclick="abrirModalDetalhes(${red.idRedacao})">
                     <div class="redacao-titulo">
                         <span>${escapeHtml(red.titulo || 'Sem título')}</span>
-                        <span class="redacao-data">${dataEnvio}</span>
                     </div>
                     <div class="redacao-tema-mini">
                         <i class="fas fa-tag"></i> ${escapeHtml((red.tema || '').substring(0, 60))}...
                     </div>
                     <div>
                         <span class="redacao-status ${isCorrigida ? 'status-corrigida' : 'status-pendente'}">
-                            ${isCorrigida ? `✅ Corrigida - Nota: ${nota}/1000` : '⏳ Aguardando correção'}
+                            ${isCorrigida ? `✅ Corrigida — ${nota}/1000` : '⏳ Aguardando correção'}
                         </span>
                     </div>
                     ${red.comentarios && isCorrigida ? `
@@ -248,12 +217,56 @@ async function carregarHistoricoRedacoes() {
     }
 }
 
-// ========== ENVIAR REDAÇÃO (COM ID MANUAL) ==========
+// ========== MODAL DETALHES ==========
+async function abrirModalDetalhes(idRedacao) {
+    const modal = document.getElementById('modalDetalhesRedacao');
+    modal.classList.add('active');
+
+    document.getElementById('detalhe-titulo').textContent = 'Carregando...';
+    document.getElementById('detalhe-tema').textContent = '...';
+    document.getElementById('detalhe-texto').textContent = '...';
+    document.getElementById('detalhe-correcao').style.display = 'none';
+
+    try {
+        const response = await fetch(`${API_URL}/redacoes/${idRedacao}`);
+        if (!response.ok) throw new Error('Erro ao carregar');
+
+        const red = await response.json();
+        const isCorrigida = red.pontuacaoObtida !== null && red.pontuacaoObtida !== undefined;
+
+        document.getElementById('detalhe-titulo').textContent = red.titulo || 'Sem título';
+        document.getElementById('detalhe-tema').textContent = red.tema || 'Sem tema';
+        document.getElementById('detalhe-texto').textContent = red.textoRedacao || 'Sem conteúdo';
+
+        if (isCorrigida) {
+            document.getElementById('detalhe-nota').innerHTML = `${red.pontuacaoObtida}<span>/1000</span>`;
+            document.getElementById('detalhe-comentarios').textContent = red.comentarios || 'Sem comentários';
+            document.getElementById('detalhe-correcao').style.display = 'block';
+        }
+
+    } catch (error) {
+        console.error('Erro:', error);
+        mostrarNotificacao('Erro ao carregar detalhes da redação', 'error');
+        fecharModalDetalhes();
+    }
+}
+
+function fecharModalDetalhes() {
+    document.getElementById('modalDetalhesRedacao').classList.remove('active');
+}
+
+// Fechar ao clicar fora
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('modalDetalhesRedacao');
+    if (e.target === modal) fecharModalDetalhes();
+});
+
+// ========== ENVIAR REDAÇÃO ==========
 async function enviarRedacao(event) {
     event.preventDefault();
 
     if (!tipoSelecionado) {
-        mostrarNotificacao('Por favor, selecione o tipo de redação (Professor ou IA).', 'error');
+        mostrarNotificacao('Por favor, selecione o tipo de redação.', 'error');
         return;
     }
 
@@ -262,72 +275,41 @@ async function enviarRedacao(event) {
     const submitBtn = document.getElementById('submitBtn');
     const originalText = submitBtn.innerHTML;
 
-    if (!titulo) {
-        mostrarNotificacao('Por favor, insira um título para sua redação.', 'error');
-        return;
-    }
-
-    if (conteudo.length < 100) {
-        mostrarNotificacao('Sua redação deve ter no mínimo 100 caracteres.', 'error');
-        return;
-    }
-
-    if (!temaAtual) {
-        mostrarNotificacao('Aguarde o tema ser carregado.', 'error');
-        return;
-    }
+    if (!titulo) { mostrarNotificacao('Por favor, insira um título para sua redação.', 'error'); return; }
+    if (conteudo.length < 100) { mostrarNotificacao('Sua redação deve ter no mínimo 100 caracteres.', 'error'); return; }
+    if (!temaAtual) { mostrarNotificacao('Aguarde o tema ser carregado.', 'error'); return; }
 
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Enviando...';
     submitBtn.disabled = true;
 
     try {
         const redacaoData = {
-            aluno: {
-                id: ID_ALUNO_LOGADO
-            },
+            aluno: { id: ID_ALUNO_LOGADO },
             tema: temaAtual,
             titulo: titulo,
             textoRedacao: conteudo
         };
 
-        console.log('Enviando dados:', redacaoData);
-
         const response = await fetch(`${API_URL}/redacoes`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(redacaoData)
         });
 
         const responseText = await response.text();
-        console.log('Resposta:', response.status, responseText);
-
-        if (!response.ok) {
-            throw new Error(responseText || 'Erro ao enviar redação');
-        }
+        if (!response.ok) throw new Error(responseText || 'Erro ao enviar redação');
 
         mostrarNotificacao('✅ Redação enviada com sucesso! Aguarde a correção do professor.', 'success');
 
-        // Limpar formulário
         document.getElementById('titulo').value = '';
         document.getElementById('conteudo').value = '';
-
-        // Limpar seleção de proposta
-        document.querySelectorAll('.proposta-card').forEach(card => {
-            card.classList.remove('selected');
-        });
+        document.querySelectorAll('.proposta-card').forEach(card => card.classList.remove('selected'));
         const temaSelecionadoArea = document.getElementById('temaSelecionadoArea');
         if (temaSelecionadoArea) temaSelecionadoArea.style.display = 'none';
 
-        // Se for IA, gerar novo tema
-        if (tipoSelecionado === 'ia') {
-            await carregarTemaIA();
-        } else {
-            temaAtual = null;
-        }
+        if (tipoSelecionado === 'ia') await carregarTemaIA();
+        else temaAtual = null;
 
-        // Recarregar histórico
         await carregarHistoricoRedacoes();
 
     } catch (error) {
@@ -339,39 +321,6 @@ async function enviarRedacao(event) {
     }
 }
 
-// ========== VER DETALHES DA REDAÇÃO ==========
-async function verDetalhesRedacao(idRedacao) {
-    try {
-        const response = await fetch(`${API_URL}/redacoes/${idRedacao}`);
-        if (!response.ok) throw new Error('Erro ao carregar detalhes');
-
-        const redacao = await response.json();
-        const dataEnvio = redacao.dataEnvio ? new Date(redacao.dataEnvio).toLocaleDateString('pt-BR') : 'Data não disponível';
-        const isCorrigida = redacao.pontuacaoObtida !== null && redacao.pontuacaoObtida !== undefined;
-
-        let mensagem = `📝 ${redacao.titulo}\n\n`;
-        mensagem += `📅 Enviado: ${dataEnvio}\n`;
-        mensagem += `📌 Tema: ${redacao.tema}\n\n`;
-        mensagem += `📄 Conteúdo:\n${redacao.textoRedacao}\n\n`;
-
-        if (isCorrigida) {
-            mensagem += `⭐ NOTA: ${redacao.pontuacaoObtida}/1000\n\n`;
-            if (redacao.comentarios) {
-                mensagem += `💬 COMENTÁRIOS DO PROFESSOR:\n${redacao.comentarios}`;
-            }
-        } else {
-            mensagem += `⏳ Status: Aguardando correção do professor.`;
-        }
-
-        alert(mensagem);
-
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarNotificacao('Erro ao carregar detalhes da redação', 'error');
-    }
-}
-
-// ========== LIMPAR FORMULÁRIO ==========
 function limparFormulario() {
     if (confirm('Tem certeza que deseja limpar o formulário? Todo o texto será perdido.')) {
         document.getElementById('titulo').value = '';
@@ -380,7 +329,6 @@ function limparFormulario() {
     }
 }
 
-// ========== NOTIFICAÇÕES ==========
 function inicializarNotificacoes() {
     const notificationIcon = document.getElementById('notificationsIcon');
     const modal = document.getElementById('notificationsModal');
@@ -393,92 +341,45 @@ function inicializarNotificacoes() {
             if (badge) badge.style.display = 'none';
         });
     }
-
-    if (closeModal && modal) {
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-    }
-
-    window.addEventListener('click', (e) => {
-        if (modal && e.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
+    if (closeModal && modal) closeModal.addEventListener('click', () => modal.style.display = 'none');
+    window.addEventListener('click', (e) => { if (modal && e.target === modal) modal.style.display = 'none'; });
 }
 
 function mostrarNotificacao(message, type) {
     const notification = document.createElement('div');
-    notification.className = `notification-toast notification-${type}`;
     notification.innerHTML = `
         <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
         <span>${message}</span>
     `;
     notification.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: ${type === 'success' ? 'rgba(0, 230, 118, 0.2)' : type === 'error' ? 'rgba(255, 61, 0, 0.2)' : 'rgba(187, 134, 252, 0.2)'};
-        border: 1px solid ${type === 'success' ? '#00E676' : type === 'error' ? '#FF3D00' : '#BB86FC'};
-        color: ${type === 'success' ? '#00E676' : type === 'error' ? '#FF3D00' : '#BB86FC'};
-        padding: 12px 20px;
-        border-radius: 8px;
-        z-index: 3000;
-        animation: slideInRight 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        position:fixed;bottom:20px;right:20px;
+        background-color:${type === 'success' ? 'rgba(0,230,118,0.2)' : type === 'error' ? 'rgba(255,61,0,0.2)' : 'rgba(187,134,252,0.2)'};
+        border:1px solid ${type === 'success' ? '#00E676' : type === 'error' ? '#FF3D00' : '#BB86FC'};
+        color:${type === 'success' ? '#00E676' : type === 'error' ? '#FF3D00' : '#BB86FC'};
+        padding:12px 20px;border-radius:8px;z-index:3000;
+        animation:slideInRight 0.3s ease;display:flex;align-items:center;gap:10px;
     `;
     document.body.appendChild(notification);
-
     setTimeout(() => {
         notification.style.animation = 'fadeOut 0.3s ease';
         setTimeout(() => notification.remove(), 300);
     }, 4000);
 }
 
-// ========== EVENTOS ==========
 function inicializarEventos() {
-    const form = document.getElementById('redacaoForm');
-    if (form) {
-        form.addEventListener('submit', enviarRedacao);
-    }
-
-    const clearBtn = document.getElementById('clearBtn');
-    if (clearBtn) {
-        clearBtn.addEventListener('click', limparFormulario);
-    }
-
-    const refreshBtn = document.getElementById('refreshHistorico');
-    if (refreshBtn) {
-        refreshBtn.addEventListener('click', () => {
-            carregarHistoricoRedacoes();
-            mostrarNotificacao('Histórico atualizado!', 'info');
-        });
-    }
-
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            if (confirm('Deseja realmente sair?')) {
-                localStorage.clear();
-                window.location.href = '../../../Login/HTML/login.html';
-            }
-        });
-    }
-}
-
-// ========== FUNÇÕES UTILITÁRIAS ==========
-function formatarData(dataString) {
-    if (!dataString) return 'Data não disponível';
-    try {
-        const data = new Date(dataString);
-        if (isNaN(data.getTime())) return dataString;
-        return data.toLocaleDateString('pt-BR');
-    } catch {
-        return dataString;
-    }
+    document.getElementById('redacaoForm')?.addEventListener('submit', enviarRedacao);
+    document.getElementById('clearBtn')?.addEventListener('click', limparFormulario);
+    document.getElementById('refreshHistorico')?.addEventListener('click', () => {
+        carregarHistoricoRedacoes();
+        mostrarNotificacao('Histórico atualizado!', 'info');
+    });
+    document.getElementById('logoutBtn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('Deseja realmente sair?')) {
+            localStorage.clear();
+            window.location.href = '../../../Login/HTML/login.html';
+        }
+    });
 }
 
 function escapeHtml(text) {
@@ -488,51 +389,15 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Adicionar estilos para animações
 const style = document.createElement('style');
 style.textContent = `
-    @keyframes slideInRight {
-        from { opacity: 0; transform: translateX(100%); }
-        to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes fadeOut {
-        from { opacity: 1; transform: translateX(0); }
-        to { opacity: 0; transform: translateX(100%); }
-    }
-    .redacao-tema-mini {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        margin: 5px 0;
-    }
-    .redacao-tema-mini i {
-        color: var(--primary-color);
-        margin-right: 4px;
-    }
-    .proposta-select {
-        width: 100%;
-        padding: 12px;
-        background-color: #252525;
-        border: 1px solid var(--border-color);
-        border-radius: 10px;
-        color: var(--text-light);
-        margin-bottom: 15px;
-        cursor: pointer;
-    }
-    .proposta-select:focus {
-        outline: none;
-        border-color: var(--primary-color);
-    }
-    .proposta-tema {
-        margin-top: 10px;
-        padding: 10px;
-        background: rgba(187, 134, 252, 0.05);
-        border-radius: 8px;
-    }
+    @keyframes slideInRight { from{opacity:0;transform:translateX(100%)} to{opacity:1;transform:translateX(0)} }
+    @keyframes fadeOut { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(100%)} }
 `;
 document.head.appendChild(style);
 
-// Expor funções globalmente
 window.selecionarTipo = selecionarTipo;
 window.carregarTemaIA = carregarTemaIA;
 window.selecionarPropostaCard = selecionarPropostaCard;
-window.verDetalhesRedacao = verDetalhesRedacao;
+window.abrirModalDetalhes = abrirModalDetalhes;
+window.fecharModalDetalhes = fecharModalDetalhes;

@@ -1,6 +1,7 @@
 // professor-redacoes.js - Correção de Redações
 
-const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
+const API_URL = 'http://localhost:8080';
+//const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
 const ID_PROFESSOR_LOGADO = 6;
 
 let todasRedacoes = [];
@@ -68,8 +69,8 @@ function renderizarRedacoes(redacoes) {
                     <i class="fas fa-tag"></i> ${escapeHtml(red.tema || 'Tema não definido')}
                 </div>
                 <div class="redacao-titulo">
-                    <i class="fas fa-heading"></i> ${escapeHtml(red.titulo || 'Sem título')}
-                </div>
+    ${escapeHtml(red.titulo || 'Sem título')}
+</div>
                 <div class="redacao-preview">
                     ${escapeHtml((red.textoRedacao || '').substring(0, 200))}
                 </div>
@@ -124,6 +125,36 @@ async function abrirModalCorrecao(idRedacao) {
 
         document.getElementById('notaInput').value = redacaoAtual.pontuacaoObtida || '';
         document.getElementById('comentarioInput').value = redacaoAtual.comentarios || '';
+
+        const isCorrigida = redacaoAtual.pontuacaoObtida !== null && redacaoAtual.pontuacaoObtida !== undefined;
+        const modalFooter = document.querySelector('.modal-footer');
+
+        if (isCorrigida) {
+            // Desabilita os campos
+            document.getElementById('notaInput').disabled = true;
+            document.getElementById('comentarioInput').disabled = true;
+            // Esconde o botão salvar e mostra aviso
+            modalFooter.innerHTML = `
+        <p style="color:#FF3D00; font-size:0.85rem; display:flex; align-items:center; gap:8px;">
+            <i class="fas fa-lock"></i> Esta redação já foi corrigida e não pode ser alterada.
+        </p>
+        <button class="btn-cancelar" id="cancelarBtn">Fechar</button>
+    `;
+            document.getElementById('cancelarBtn').onclick = fecharModal;
+        } else {
+            // Garante que os campos estejam habilitados
+            document.getElementById('notaInput').disabled = false;
+            document.getElementById('comentarioInput').disabled = false;
+            // Restaura o footer padrão
+            modalFooter.innerHTML = `
+        <button class="btn-cancelar" id="cancelarBtn">Cancelar</button>
+        <button class="btn-salvar" id="salvarCorrecaoBtn">
+            <i class="fas fa-save"></i> Salvar Correção
+        </button>
+    `;
+            document.getElementById('cancelarBtn').onclick = fecharModal;
+            document.getElementById('salvarCorrecaoBtn').onclick = salvarCorrecao;
+        }
 
         document.querySelectorAll('.nota-competencia').forEach(select => {
             select.value = '--';
@@ -263,18 +294,6 @@ function inicializarEventos() {
         };
     }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const competenciasDiv = document.querySelector('.competencias');
-    if (competenciasDiv && !document.getElementById('calcularCompetencias')) {
-        const btnCalcular = document.createElement('button');
-        btnCalcular.id = 'calcularCompetencias';
-        btnCalcular.className = 'btn-calcular-competencias';
-        btnCalcular.innerHTML = '<i class="fas fa-calculator"></i> Calcular nota pelas competências';
-        competenciasDiv.appendChild(btnCalcular);
-        btnCalcular.addEventListener('click', calcularNotaPorCompetencias);
-    }
-});
 
 window.filtrarRedacoes = filtrarRedacoes;
 window.abrirModalCorrecao = abrirModalCorrecao;

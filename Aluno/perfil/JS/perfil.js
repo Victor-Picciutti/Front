@@ -1,7 +1,8 @@
 // perfil.js - Página de Perfil do Aluno
 
 // ========== CONFIGURAÇÕES ==========
-const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
+const API_URL = 'http://localhost:8080';
+//const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
 const params = new URLSearchParams(window.location.search);
 const ID_ALUNO_LOGADO = parseInt(params.get('id')) || 1;
 
