@@ -383,8 +383,11 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 25px;
+    /* FIX: alinha os cards pelo topo para não distorcer alturas */
+    align-items: start;
 }
 
+/* FIX 1: cards com altura igual usando flexbox + footer sempre no fundo */
 .redacao-card {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -394,6 +397,8 @@ body {
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    /* FIX: garante altura igual em todos os cards da linha */
+    height: 100%;
 }
 
 .redacao-card:hover {
@@ -427,6 +432,8 @@ body {
     justify-content: center;
     font-weight: bold;
     color: var(--bg-dark);
+    /* FIX: evita que o avatar encolha */
+    flex-shrink: 0;
 }
 
 .aluno-nome {
@@ -439,6 +446,8 @@ body {
     border-radius: 20px;
     font-size: 0.7rem;
     font-weight: 600;
+    /* FIX: evita que o badge quebre de linha sozinho */
+    white-space: nowrap;
 }
 
 .status-pendente {
@@ -455,6 +464,9 @@ body {
     font-size: 0.85rem;
     color: var(--primary-color);
     margin-bottom: 10px;
+    /* FIX 2: texto longo não sai da div */
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .redacao-tema i {
@@ -465,15 +477,29 @@ body {
     font-weight: 600;
     color: var(--text-light);
     margin-bottom: 10px;
+    /* FIX 2: texto longo não sai da div */
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
+/* FIX 2: preview ocupa o espaço restante, empurrando o footer para baixo */
 .redacao-preview {
     font-size: 0.85rem;
     color: var(--text-muted);
     margin-bottom: 15px;
     line-height: 1.4;
+    flex: 1;
+    /* FIX 2: texto longo não sai da div */
+    word-break: break-word;
+    overflow-wrap: break-word;
+    /* limita a 3 linhas com reticências */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
+/* FIX 1: footer sempre no fundo do card */
 .card-footer-redacao {
     display: flex;
     justify-content: space-between;
@@ -484,6 +510,8 @@ body {
     color: var(--text-muted);
     flex-wrap: wrap;
     gap: 8px;
+    /* FIX: impede o footer de subir */
+    margin-top: auto;
 }
 
 .redacao-nota {
@@ -558,22 +586,27 @@ body {
 
 .info-row {
     display: flex;
+    align-items: baseline;
     margin-bottom: 8px;
-    flex-wrap: wrap;
     gap: 5px;
 }
 
 .info-label {
-    width: 100px;
+    /* FIX 3: largura fixa para alinhar tudo no mesmo nível */
+    min-width: 70px;
+    width: 70px;
     color: var(--text-muted);
     font-size: 0.85rem;
+    flex-shrink: 0;
 }
 
 .info-value {
     flex: 1;
     color: var(--text-light);
     font-weight: 500;
+    /* FIX 2: texto longo não sai da div */
     word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .redacao-aluno {
@@ -587,13 +620,15 @@ body {
     font-size: 1rem;
 }
 
+/* FIX 2: texto da redação com scroll interno, nunca vaza */
 .redacao-texto {
     background-color: #252525;
     padding: 20px;
     border-radius: 12px;
     line-height: 1.6;
     white-space: pre-wrap;
-    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
     max-height: 300px;
     overflow-y: auto;
 }
@@ -621,7 +656,6 @@ body {
     color: var(--primary-color);
 }
 
-/* Input de nota */
 .nota-input-wrapper {
     position: relative;
 }
@@ -666,7 +700,6 @@ body {
     font-size: 0.75rem;
 }
 
-/* Textarea */
 .form-group textarea {
     width: 100%;
     padding: 12px 15px;
@@ -738,7 +771,6 @@ body {
     border-color: var(--primary-color);
 }
 
-/* Botão calcular competências */
 .btn-calcular-competencias {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     border: none;
@@ -760,7 +792,6 @@ body {
     box-shadow: 0 5px 15px rgba(187, 134, 252, 0.4);
 }
 
-/* Modal Footer */
 .modal-footer {
     display: flex;
     justify-content: flex-end;
@@ -896,12 +927,12 @@ body {
     .redacoes-container {
         grid-template-columns: 1fr;
     }
-    
+
     .welcome-card {
         flex-direction: column;
         text-align: center;
     }
-    
+
     .welcome-icon {
         font-size: 60px;
     }
@@ -911,43 +942,44 @@ body {
     .sidebar {
         transform: translateX(-250px);
     }
-    
+
     .sidebar.active {
         transform: translateX(0);
     }
-    
+
     .dashboard-content {
         margin-left: 0;
         width: 100%;
         padding: 20px;
     }
-    
+
     .page-title {
         font-size: 1.5rem;
     }
-    
+
     .filters-container {
         flex-direction: column;
     }
-    
+
     .competencia-item {
         flex-direction: column;
         gap: 8px;
         align-items: stretch;
     }
-    
+
     .competencia-item select {
         width: 100%;
     }
-    
+
     .info-row {
         flex-direction: column;
     }
-    
+
     .info-label {
         width: 100%;
+        min-width: unset;
     }
-    
+
     .submenu {
         position: static;
         left: auto;
@@ -960,15 +992,15 @@ body {
         padding-left: 30px;
         background-color: transparent;
     }
-    
+
     .nav-item-has-submenu:hover .submenu {
         display: block;
     }
-    
+
     .submenu-arrow {
         display: none;
     }
-    
+
     .toast {
         bottom: 20px;
         right: 20px;
