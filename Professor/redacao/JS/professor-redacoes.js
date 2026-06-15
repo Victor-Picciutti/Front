@@ -1,9 +1,8 @@
-// professor-redacoes.js - Correção de Redações (Versão Simplificada)
+// professor-redacoes.js - Correção de Redações
 
 const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
 const ID_PROFESSOR_LOGADO = 6;
 
-// Variáveis globais
 let todasRedacoes = [];
 let redacaoAtual = null;
 
@@ -13,29 +12,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     inicializarEventos();
 });
 
-// ========== CARREGAR REDAÇÕES DA API ==========
+// ========== CARREGAR REDAÇÕES ==========
 async function carregarRedacoes() {
     const container = document.getElementById('redacoesContainer');
 
     try {
         const response = await fetch(`${API_URL}/redacoes`);
-
-        if (!response.ok) {
-            throw new Error('Erro ao carregar redações');
-        }
+        if (!response.ok) throw new Error('Erro ao carregar redações');
 
         todasRedacoes = await response.json();
 
-        // FIX: campo correto é idUtilizador, não id
-        const redacoesAlunos = todasRedacoes.filter(red => red.aluno?.idUtilizador !== ID_PROFESSOR_LOGADO);
+        const redacoesAlunos = todasRedacoes.filter(red => red.aluno?.id !== ID_PROFESSOR_LOGADO);
 
         if (redacoesAlunos.length === 0) {
             container.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-inbox"></i>
                     <p>Nenhuma redação encontrada.</p>
-                </div>
-            `;
+                </div>`;
             return;
         }
 
@@ -47,8 +41,7 @@ async function carregarRedacoes() {
             <div class="empty-state">
                 <i class="fas fa-exclamation-triangle"></i>
                 <p>Erro ao carregar redações.</p>
-            </div>
-        `;
+            </div>`;
     }
 }
 
@@ -59,12 +52,6 @@ function renderizarRedacoes(redacoes) {
         const nomeAluno = red.aluno?.nome || 'Aluno não identificado';
         const isCorrigida = red.pontuacaoObtida !== null && red.pontuacaoObtida !== undefined;
         const nota = red.pontuacaoObtida || 0;
-
-        // FIX: tenta os dois campos possíveis de data
-        const dataRaw = red.dataEnvio || red.dataCriacao || red.data || null;
-        const dataEnvio = dataRaw
-            ? new Date(dataRaw).toLocaleDateString('pt-BR')
-            : 'Data não disponível';
 
         return `
             <div class="redacao-card" onclick="abrirModalCorrecao(${red.idRedacao})">
@@ -87,11 +74,9 @@ function renderizarRedacoes(redacoes) {
                     ${escapeHtml((red.textoRedacao || '').substring(0, 200))}
                 </div>
                 <div class="card-footer-redacao">
-                    <span><i class="fas fa-calendar"></i> ${dataEnvio}</span>
-                    ${isCorrigida ? `<span class="redacao-nota"><i class="fas fa-star"></i> ${nota}/1000</span>` : ''}
+                    ${isCorrigida ? `<span class="redacao-nota"><i class="fas fa-star"></i> ${nota}/1000</span>` : '<span></span>'}
                 </div>
-            </div>
-        `;
+            </div>`;
     }).join('');
 }
 
@@ -100,8 +85,7 @@ function filtrarRedacoes() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase();
     const statusFilter = document.getElementById('statusFilter').value;
 
-    // FIX: campo correto é idUtilizador
-    let filtradas = todasRedacoes.filter(red => red.aluno?.idUtilizador !== ID_PROFESSOR_LOGADO);
+    let filtradas = todasRedacoes.filter(red => red.aluno?.id !== ID_PROFESSOR_LOGADO);
 
     if (statusFilter !== 'todos') {
         filtradas = filtradas.filter(red => {
@@ -132,24 +116,13 @@ async function abrirModalCorrecao(idRedacao) {
 
         redacaoAtual = await response.json();
 
-        // FIX: tenta os dois campos possíveis de turma
-        const turma = redacaoAtual.turma || redacaoAtual.aluno?.turma || 'Não definida';
-
-        // FIX: tenta os dois campos possíveis de data
-        const dataRaw = redacaoAtual.dataEnvio || redacaoAtual.dataCriacao || redacaoAtual.data || null;
-        const dataFormatada = dataRaw
-            ? new Date(dataRaw).toLocaleDateString('pt-BR')
-            : 'Data não disponível';
-
         document.getElementById('modalAluno').textContent = redacaoAtual.aluno?.nome || 'Não identificado';
-        document.getElementById('modalTurma').textContent = turma;
+        document.getElementById('modalTurma').textContent = redacaoAtual.turma || 'Não definida';
         document.getElementById('modalTema').textContent = redacaoAtual.tema || 'Tema não definido';
         document.getElementById('modalTitulo').textContent = redacaoAtual.titulo || 'Sem título';
-        document.getElementById('modalData').textContent = dataFormatada;
         document.getElementById('modalTexto').textContent = redacaoAtual.textoRedacao || 'Texto não disponível';
 
-        const nota = redacaoAtual.pontuacaoObtida || '';
-        document.getElementById('notaInput').value = nota;
+        document.getElementById('notaInput').value = redacaoAtual.pontuacaoObtida || '';
         document.getElementById('comentarioInput').value = redacaoAtual.comentarios || '';
 
         document.querySelectorAll('.nota-competencia').forEach(select => {
@@ -182,7 +155,7 @@ function calcularNotaPorCompetencias() {
         document.getElementById('notaInput').value = total;
         mostrarToast(`Nota calculada: ${total}/1000`, 'success');
     } else {
-        mostrarToast(`Selecione todas as 5 competências.`, 'info');
+        mostrarToast('Selecione todas as 5 competências.', 'info');
     }
 }
 
@@ -207,21 +180,14 @@ async function salvarCorrecao() {
         const responseNota = await fetch(`${API_URL}/redacoes/${redacaoAtual.idRedacao}/pontuacao?pontuacaoObtida=${nota}`, {
             method: 'PATCH'
         });
-
-        if (!responseNota.ok) {
-            throw new Error('Erro ao salvar nota');
-        }
+        if (!responseNota.ok) throw new Error('Erro ao salvar nota');
 
         const responseComentario = await fetch(`${API_URL}/redacoes/${redacaoAtual.idRedacao}/comentarios?comentarios=${encodeURIComponent(comentario)}`, {
             method: 'PATCH'
         });
-
-        if (!responseComentario.ok) {
-            throw new Error('Erro ao salvar comentários');
-        }
+        if (!responseComentario.ok) throw new Error('Erro ao salvar comentários');
 
         mostrarToast('✅ Redação corrigida com sucesso!', 'success');
-
         redacaoAtual.pontuacaoObtida = nota;
         redacaoAtual.comentarios = comentario;
 
@@ -244,15 +210,6 @@ function fecharModal() {
 }
 
 function mostrarToast(mensagem, tipo = 'success') {
-    const toast = document.getElementById('toast');
-    if (!toast) {
-        const newToast = document.createElement('div');
-        newToast.id = 'toast';
-        newToast.className = 'toast';
-        newToast.innerHTML = `<i id="toast-icon" class="fas fa-circle-check"></i><span id="toast-msg"></span>`;
-        document.body.appendChild(newToast);
-    }
-
     const toastEl = document.getElementById('toast');
     const icon = document.getElementById('toast-icon');
     const msgEl = document.getElementById('toast-msg');
@@ -277,28 +234,17 @@ function mostrarToast(mensagem, tipo = 'success') {
 
 function escapeHtml(text) {
     if (!text) return '';
-    return text.replace(/[&<>]/g, function (m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-    });
+    return text.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
 }
 
 // ========== EVENTOS ==========
 function inicializarEventos() {
-    const btnCalcular = document.getElementById('calcularCompetencias');
-    if (btnCalcular) {
-        btnCalcular.addEventListener('click', calcularNotaPorCompetencias);
-    }
-
     const closeBtn = document.getElementById('closeModalBtn');
     const cancelarBtn = document.getElementById('cancelarBtn');
+    const salvarBtn = document.getElementById('salvarCorrecaoBtn');
 
     if (closeBtn) closeBtn.onclick = fecharModal;
     if (cancelarBtn) cancelarBtn.onclick = fecharModal;
-
-    const salvarBtn = document.getElementById('salvarCorrecaoBtn');
     if (salvarBtn) salvarBtn.onclick = salvarCorrecao;
 
     window.onclick = function (event) {
@@ -330,6 +276,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Expor funções globalmente
 window.filtrarRedacoes = filtrarRedacoes;
 window.abrirModalCorrecao = abrirModalCorrecao;
