@@ -67,7 +67,7 @@ function inicializarCustomSelect(wrapperId, optionsId, hiddenId, textId, opcoes,
 
     trigger.addEventListener('click', () => {
         const rect = trigger.getBoundingClientRect();
-        optionsContainer.style.top  = (rect.bottom + 4) + 'px';
+        optionsContainer.style.top = (rect.bottom + 4) + 'px';
         optionsContainer.style.left = rect.left + 'px';
         optionsContainer.style.width = rect.width + 'px';
         wrapper.classList.toggle('open');
@@ -142,9 +142,9 @@ async function carregarDisciplinas() {
 async function enviarComunicado(e) {
     e.preventDefault();
 
-    const titulo       = document.getElementById('titulo').value.trim();
-    const conteudo     = document.getElementById('conteudo').value.trim();
-    const turmaId      = document.getElementById('turma-select').value;
+    const titulo = document.getElementById('titulo').value.trim();
+    const conteudo = document.getElementById('conteudo').value.trim();
+    const turmaId = document.getElementById('turma-select').value;
     const disciplinaId = document.getElementById('disciplina-select').value;
 
     if (!titulo) {
@@ -195,6 +195,9 @@ async function enviarComunicado(e) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
         });
+
+        const responseText = await res.text();
+        console.log('Resposta do servidor:', responseText);
 
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         mostrarSucesso();
@@ -284,7 +287,7 @@ function setLoading(btn, loading, html) {
 function showToast(msg, tipo) {
     tipo = tipo || 'success';
     const toast = document.getElementById('toast');
-    const icon  = document.getElementById('toast-icon');
+    const icon = document.getElementById('toast-icon');
     document.getElementById('toast-msg').textContent = msg;
 
     toast.className = 'toast';
