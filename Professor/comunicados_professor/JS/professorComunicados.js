@@ -145,7 +145,7 @@ async function enviarComunicado(e) {
     const titulo       = document.getElementById('titulo').value.trim();
     const conteudo     = document.getElementById('conteudo').value.trim();
     const turmaId      = document.getElementById('turma-select').value;
-    const disciplinaId = document.getElementById('disciplina-select').value; // pode ser vazio
+    const disciplinaId = document.getElementById('disciplina-select').value;
 
     if (!titulo) {
         showToast('Digite um título para o comunicado.', 'error');
@@ -168,7 +168,6 @@ async function enviarComunicado(e) {
     try {
         const agora = new Date();
 
-        // Busca o nome do professor
         let nomeProfessor = 'Professor';
         try {
             const resProf = await fetch(`${API_URL}/utilizadores/${ID_PROFESSOR_LOGADO}`);
@@ -185,10 +184,11 @@ async function enviarComunicado(e) {
             descricao: conteudo,
             serie: { id: parseInt(turmaId) },
             utilizadorResponsavel: nomeProfessor,
-            // Se disciplinaId estiver vazio ("Geral"), não envia o campo → fica null no banco
-            ...(disciplinaId ? { disciplina: { id: parseInt(disciplinaId) } } : {}),
+            disciplina: { id: disciplinaId ? parseInt(disciplinaId) : 0 }, // ← ID padrão para "Geral"
             dataEnvio: agora.toISOString().split('T')[0],
         };
+
+        console.log('Body enviado:', JSON.stringify(body, null, 2));
 
         const res = await fetch(`${API_URL}/comunicados`, {
             method: 'POST',
@@ -197,7 +197,6 @@ async function enviarComunicado(e) {
         });
 
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
         mostrarSucesso();
 
     } catch (err) {
