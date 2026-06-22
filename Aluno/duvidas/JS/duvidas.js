@@ -30,9 +30,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     inicializarFiltroStatus();
     inicializarSidebar();
     inicializarFechamentoModais();
+    inicializarAcoesCard(); 
     injetarAnimacoes();
 
-    // Busca em tempo real
     document.getElementById('searchDuvida')?.addEventListener('input', () => {
         paginaAtual = 1;
         filterDuvidas();
@@ -276,32 +276,38 @@ function renderizarDuvidas(duvidas) {
         const disciplina = duvida.disciplina?.nome || 'Sem disciplina';
 
         return `
-        <div class="duvida-card ${status === 'Respondida' ? 'card-respondida' : ''}"
-            id="card-${duvida.idDuvida}"
-            ${status === 'Respondida' ? `onclick="abrirModalResposta(${duvida.idDuvida})"` : ''}>
-            <div class="card-actions">
-                ${status !== 'Respondida' ? `
-                <button class="btn-card-action btn-editar" title="Editar dúvida"
-                    onclick="event.stopPropagation(); tentarEditarDuvida(${duvida.idDuvida}, '${escapeHtml(titulo)}', '${duvida.disciplina?.id}', '${escapeHtml(descricao)}')">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>` : ''}
-                <button class="btn-card-action btn-deletar" title="Excluir dúvida"
-    onclick="event.stopPropagation(); tentarDeletarDuvida(${duvida.idDuvida})">
-    <i class="fas fa-times"></i>
-</button>
-            </div>
-            <h3>
-                <i class="fas fa-question-circle" style="color: var(--primary-color); margin-right: 8px;"></i>
-                ${escapeHtml(titulo)}
-            </h3>
-            <div class="descricao">${escapeHtml(descricao)}</div>
-            <div class="meta">
-                <span><i class="far fa-calendar-alt"></i> ${formatarData(duvida.momento)}</span>
-                <span><i class="fas fa-book"></i> ${escapeHtml(disciplina)}</span>
-                <span class="status-badge ${status}">${status}</span>
-            </div>
-        </div>
-        `;
+<div class="duvida-card ${status === 'Respondida' ? 'card-respondida' : ''}"
+    id="card-${duvida.idDuvida}"
+    data-id-duvida="${duvida.idDuvida}"
+    ${status === 'Respondida' ? `data-action="abrir-resposta"` : ''}>
+    <div class="card-actions">
+        ${status !== 'Respondida' ? `
+        <button class="btn-card-action btn-editar" title="Editar dúvida"
+            data-action="editar"
+            data-id-duvida="${duvida.idDuvida}"
+            data-titulo="${escapeHtml(titulo)}"
+            data-disciplina-id="${duvida.disciplina?.id ?? ''}"
+            data-descricao="${escapeHtml(descricao)}">
+            <i class="fas fa-pencil-alt"></i>
+        </button>` : ''}
+        <button class="btn-card-action btn-deletar" title="Excluir dúvida"
+            data-action="deletar"
+            data-id-duvida="${duvida.idDuvida}">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <h3>
+        <i class="fas fa-question-circle" style="color: var(--primary-color); margin-right: 8px;"></i>
+        ${escapeHtml(titulo)}
+    </h3>
+    <div class="descricao">${escapeHtml(descricao)}</div>
+    <div class="meta">
+        <span><i class="far fa-calendar-alt"></i> ${formatarData(duvida.momento)}</span>
+        <span><i class="fas fa-book"></i> ${escapeHtml(disciplina)}</span>
+        <span class="status-badge ${status}">${status}</span>
+    </div>
+</div>
+`;
     }).join('');
 
     renderizarPaginacao(totalPaginas);
@@ -783,6 +789,26 @@ function inicializarFechamentoModais() {
         if (event.target === document.getElementById('modal')) closeModal();
         if (event.target === document.getElementById('modalResposta')) fecharModalResposta();
     };
+}
+
+function inicializarAcoesCard() {
+    document.getElementById('duvidasList')?.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-action]');
+        if (!btn) return;
+
+        const id = parseInt(btn.dataset.idDuvida);
+        const action = btn.dataset.action;
+
+        if (action === 'abrir-resposta') {
+            abrirModalResposta(id);
+        } else if (action === 'editar') {
+            e.stopPropagation();
+            tentarEditarDuvida(id, btn.dataset.titulo, btn.dataset.disciplinaId, btn.dataset.descricao);
+        } else if (action === 'deletar') {
+            e.stopPropagation();
+            tentarDeletarDuvida(id);
+        }
+    });
 }
 
 function injetarAnimacoes() {

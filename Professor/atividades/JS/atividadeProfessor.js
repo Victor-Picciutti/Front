@@ -2,7 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("👨‍🏫 Página Atividade carregada");
 
-    const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
+    const API_URL = 'http://localhost:8080';
+    //const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
 
     const selectSerie = document.getElementById("serie");
     const selectDificuldade = document.getElementById("dificuldadeQuestao");
@@ -78,14 +79,14 @@ document.addEventListener("DOMContentLoaded", function () {
         return new Promise((resolve, reject) => {
             const request = indexedDB.open("EstudeXDB", 1);
 
-            request.onupgradeneeded = function(e) {
+            request.onupgradeneeded = function (e) {
                 const db = e.target.result;
                 if (!db.objectStoreNames.contains("arquivos")) {
                     db.createObjectStore("arquivos", { keyPath: "id" });
                 }
             };
 
-            request.onsuccess = function(e) {
+            request.onsuccess = function (e) {
                 const db = e.target.result;
                 const tx = db.transaction("arquivos", "readwrite");
                 const store = tx.objectStore("arquivos");
