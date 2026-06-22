@@ -184,14 +184,14 @@ async function enviarComunicado(e) {
             descricao: conteudo,
             serie: { id: parseInt(turmaId) },
             utilizadorResponsavel: nomeProfessor,
-            disciplina: { id: disciplinaId ? parseInt(disciplinaId) : 0 }, // ← ID padrão para "Geral"
             dataEnvio: agora.toISOString().split('T')[0],
         };
 
+        // ✅ Só adiciona disciplina se uma foi selecionada (não "Geral")
         if (disciplinaId) {
             body.disciplina = { id: parseInt(disciplinaId) };
         }
-        
+
         console.log('Body enviado:', JSON.stringify(body, null, 2));
 
         const res = await fetch(`${API_URL}/comunicados`, {
