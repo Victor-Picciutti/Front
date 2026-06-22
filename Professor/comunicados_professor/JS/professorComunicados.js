@@ -188,6 +188,10 @@ async function enviarComunicado(e) {
             dataEnvio: agora.toISOString().split('T')[0],
         };
 
+        if (disciplinaId) {
+            body.disciplina = { id: parseInt(disciplinaId) };
+        }
+        
         console.log('Body enviado:', JSON.stringify(body, null, 2));
 
         const res = await fetch(`${API_URL}/comunicados`, {
