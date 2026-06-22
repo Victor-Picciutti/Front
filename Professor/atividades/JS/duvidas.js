@@ -1,8 +1,8 @@
 // ============================================================
 //  CONFIGURACAO
 // ============================================================
-const API_URL = 'http://localhost:8080';
-//const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
+//const API_URL = 'http://localhost:8080';
+const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
 const ID_PROFESSOR_LOGADO = 6; // substituir pelo ID real apos login
 
 // ============================================================

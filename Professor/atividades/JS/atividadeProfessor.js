@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("👨‍🏫 Página Atividade carregada");
 
-    const API_URL = 'http://localhost:8080';
-    //const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
+    //const API_URL = 'http://localhost:8080';
+    const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
 
     const selectSerie = document.getElementById("serie");
     const selectDificuldade = document.getElementById("dificuldadeQuestao");

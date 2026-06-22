@@ -1,8 +1,8 @@
 // enviar-redacao.js
 
 const MICRO_API_URL = 'http://localhost:3001/api/redacao';
-const API_URL = 'http://localhost:8080';
-//const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
+//const API_URL = 'http://localhost:8080';
+const API_URL = 'https://apiestudex-b0angcajf4fdgugt.eastus2-01.azurewebsites.net';
 const ID_ALUNO_LOGADO = 1;
 
 let tipoSelecionado = null;
